@@ -1,5 +1,5 @@
 import {Document, HookNextFunction, model, Schema} from 'mongoose';
-import * as bcrypt from 'bcrypt';
+import bcrypt from 'bcrypt';
 
 export interface IUser extends Document {
   first_name: string;
@@ -17,7 +17,7 @@ const UserSchema = new Schema(
     last_name: {type: String, required: true, default: 'User'},
     username: {type: String, required: true},
     password: {type: String, required: true, minLength: 5},
-    email: {type: String},
+    email: {type: String, required: true},
     profile_pic: {type: String, required: true, default: 'default'},
     bio: {type: String},
   },
