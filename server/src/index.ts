@@ -1,24 +1,12 @@
-console.log('Try npm run lint/fix!');
+import express from 'express';
+import cors from 'cors';
 
-const longString =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut aliquet diam.';
+const app = express();
 
-const trailing = 'Semicolon';
+app.use(cors());
 
-const why = 'am I tabbed?';
+app.listen(process.env.SERVER_PORT, () => {
+  console.log(`now listening for requests on port ${process.env.SERVER_PORT}`);
+});
 
-export function doSomeStuff(
-  withThis: string,
-  andThat: string,
-  andThose: string[]
-) {
-  //function on one line
-  if (!andThose.length) {
-    return false;
-  }
-  console.log(withThis);
-  console.log(andThat);
-  console.dir(andThose);
-  return;
-}
-// TODO: more examples
+export default app;
