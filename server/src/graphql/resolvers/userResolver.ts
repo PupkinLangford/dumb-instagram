@@ -1,9 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {loginRules, signUpRules} from '../../rules/userRules';
+import {changeNameRules, loginRules, signUpRules} from '../../rules/userRules';
 import User from '../../models/user';
 import {GraphQLError} from 'graphql';
 import jsonwebtoken from 'jsonwebtoken';
 import config from '../../config';
+import {jwtValidate} from '../../middlewares/jwtValidate';
 
 export async function signup(_parent: unknown, args: any) {
   try {
@@ -36,6 +37,22 @@ export async function login(_parent: unknown, args: any) {
       {expiresIn: '3h'}
     );
     return {token, user};
+  } catch (err) {
+    return new GraphQLError(err);
+  }
+}
+
+export async function changeName(_parent: unknown, args: any, {headers}: any) {
+  try {
+    await changeNameRules.validate(args);
+    const {authorization} = headers;
+    const user = jwtValidate(authorization);
+    const {first_name, last_name} = args;
+    return User.findByIdAndUpdate(
+      user.id,
+      {first_name, last_name},
+      {new: true}
+    );
   } catch (err) {
     return new GraphQLError(err);
   }

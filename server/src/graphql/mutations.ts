@@ -1,5 +1,5 @@
 import {GraphQLNonNull, GraphQLObjectType, GraphQLString} from 'graphql';
-import {signup, login} from './resolvers/userResolver';
+import {signup, login, changeName} from './resolvers/userResolver';
 import {UserType, tokenType} from './types';
 
 export const mutation = new GraphQLObjectType({
@@ -22,6 +22,14 @@ export const mutation = new GraphQLObjectType({
         password: {type: new GraphQLNonNull(GraphQLString)},
       },
       resolve: login,
+    },
+    changeName: {
+      type: UserType,
+      args: {
+        first_name: {type: new GraphQLNonNull(GraphQLString)},
+        last_name: {type: new GraphQLNonNull(GraphQLString)},
+      },
+      resolve: changeName,
     },
   },
 });

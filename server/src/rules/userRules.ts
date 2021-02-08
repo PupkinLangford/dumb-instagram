@@ -57,3 +57,8 @@ export const loginRules = yup.object().shape({
       })
     ),
 });
+
+export const changeNameRules = yup.object().shape({
+  first_name: yup.string().trim().required().min(1, 'Name may not be empty'),
+  last_name: yup.string().trim().required().min(1, 'Name may not be empty'),
+});
