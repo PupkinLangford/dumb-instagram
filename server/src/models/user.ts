@@ -8,7 +8,7 @@ export interface IUser extends Document {
   password: string;
   email: string;
   profile_pic: string;
-  bio: string;
+  bio?: string;
 }
 
 const UserSchema = new Schema(

@@ -21,6 +21,7 @@ export const UserType = new GraphQLObjectType({
     email: {type: new GraphQLNonNull(GraphQLString)},
     profile_pic: {type: new GraphQLNonNull(GraphQLString)},
     bio: {type: GraphQLString},
+    full_name: {type: new GraphQLNonNull(GraphQLString)},
   }),
 });
 
@@ -38,6 +39,7 @@ export const PostType = new GraphQLObjectType({
     },
     location: {type: GraphQLString},
     timestamp: {type: GraphQLDateTime},
+    format_date: {type: GraphQLString},
   }),
 });
 
@@ -59,6 +61,7 @@ export const commentType = new GraphQLObjectType({
       },
     },
     timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
+    format_date: {type: GraphQLString},
   }),
 });
 
@@ -79,6 +82,7 @@ export const likeType = new GraphQLObjectType({
       },
     },
     timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
+    format_date: {type: GraphQLString},
   }),
 });
 

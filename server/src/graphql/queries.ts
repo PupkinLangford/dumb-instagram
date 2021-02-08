@@ -1,0 +1,64 @@
+import {GraphQLID, GraphQLList, GraphQLObjectType} from 'graphql';
+import {jwtValidate} from '../middlewares/jwtValidate';
+import {commentType, PostType, UserType} from './types';
+import User from '../models/user';
+import Post from '../models/post';
+import Comment from '../models/comment';
+
+export const queryType = new GraphQLObjectType({
+  name: 'Query',
+  fields: {
+    current_user: {
+      type: UserType,
+      resolve(_parent, _args, {headers}) {
+        const {authorization} = headers;
+        const user = jwtValidate(authorization);
+        return User.findById(user.id);
+      },
+    },
+    user: {
+      type: UserType,
+      args: {id: {type: GraphQLID}},
+      resolve(_parent, args, {headers}) {
+        const {authorization} = headers;
+        jwtValidate(authorization);
+        return User.findById(args.id, '-password');
+      },
+    },
+    users: {
+      type: new GraphQLList(UserType),
+      resolve(_parent, _args, {headers}) {
+        const {authorization} = headers;
+        jwtValidate(authorization);
+        return User.find({}, '-password');
+      },
+    },
+    post: {
+      type: PostType,
+      args: {id: {type: GraphQLID}},
+      resolve(_parent, args, {headers}) {
+        const {authorization} = headers;
+        jwtValidate(authorization);
+        return Post.findById(args.id);
+      },
+    },
+    posts: {
+      type: PostType,
+      args: {id: {type: GraphQLID}},
+      resolve(_parent, _args, {headers}) {
+        const {authorization} = headers;
+        jwtValidate(authorization);
+        return Post.find({});
+      },
+    },
+    comment: {
+      type: commentType,
+      args: {id: {type: GraphQLID}},
+      resolve(_parent, args, {headers}) {
+        const {authorization} = headers;
+        jwtValidate(authorization);
+        return Comment.findById(args.id);
+      },
+    },
+  },
+});

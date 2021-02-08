@@ -1,6 +1,7 @@
-import yup from 'yup';
+import * as yup from 'yup';
 import bcrypt from 'bcrypt';
 import User from '../models/user';
+import {AnySchema} from 'yup';
 
 export const signUpRules = yup.object().shape({
   username: yup
@@ -27,7 +28,6 @@ export const signUpRules = yup.object().shape({
 });
 
 export const loginRules = yup.object().shape({
-  password: yup.string().trim().required().min(5),
   username: yup
     .string()
     .trim()
@@ -38,15 +38,22 @@ export const loginRules = yup.object().shape({
       'Invalid Username or Password',
       async username => {
         const foundUser = await User.findOne({username});
-        if (!foundUser) {
-          return false;
-        } else {
-          const passwordMatch = await bcrypt.compare(
-            yup.ref('password'),
-            foundUser.password
-          );
-          return passwordMatch;
-        }
+        return !!foundUser;
       }
+    ),
+  password: yup
+    .string()
+    .trim()
+    .required()
+    .min(5)
+    .when('username', (username: string, schema: AnySchema) =>
+      schema.test({
+        test: async (password: string) => {
+          const foundUser = await User.findOne({username});
+          const match = await bcrypt.compare(password, foundUser!.password);
+          return match;
+        },
+        message: 'Invalid Username or Password',
+      })
     ),
 });
