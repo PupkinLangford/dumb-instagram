@@ -1,10 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {changeNameRules, loginRules, signUpRules} from '../../rules/userRules';
+import {
+  changeEmailRules,
+  changeNameRules,
+  changePasswordRules,
+  loginRules,
+  signUpRules,
+} from '../../rules/userRules';
 import User from '../../models/user';
 import {GraphQLError} from 'graphql';
 import jsonwebtoken from 'jsonwebtoken';
 import config from '../../config';
 import {jwtValidate} from '../../middlewares/jwtValidate';
+import bcrypt from 'bcrypt';
 
 export async function signup(_parent: unknown, args: any) {
   try {
@@ -34,7 +41,7 @@ export async function login(_parent: unknown, args: any) {
     const token = jsonwebtoken.sign(
       {id: user._id, username: user.username},
       config.jwtSecret,
-      {expiresIn: '3h'}
+      {expiresIn: '3d'}
     );
     return {token, user};
   } catch (err) {
@@ -53,6 +60,33 @@ export async function changeName(_parent: unknown, args: any, {headers}: any) {
       {first_name, last_name},
       {new: true}
     );
+  } catch (err) {
+    return new GraphQLError(err);
+  }
+}
+export async function changeEmail(_parent: unknown, args: any, {headers}: any) {
+  try {
+    await changeEmailRules.validate(args);
+    const {authorization} = headers;
+    const user = jwtValidate(authorization);
+    const {email} = args;
+    return User.findByIdAndUpdate(user.id, {email}, {new: true});
+  } catch (err) {
+    return new GraphQLError(err);
+  }
+}
+
+export async function changePassword(
+  _parent: unknown,
+  args: any,
+  {headers}: any
+) {
+  try {
+    await changePasswordRules.validate(args);
+    const {authorization} = headers;
+    const user = jwtValidate(authorization);
+    const password = await bcrypt.hash(args.password, 10);
+    return User.findByIdAndUpdate(user.id, {password}, {new: true});
   } catch (err) {
     return new GraphQLError(err);
   }

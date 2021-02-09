@@ -24,7 +24,7 @@ export const signUpRules = yup.object().shape({
     .required()
     .min(5)
     .oneOf([yup.ref('password'), null], 'Passwords do not match'),
-  email: yup.string().email().required(),
+  email: yup.string().trim().email().required(),
 });
 
 export const loginRules = yup.object().shape({
@@ -61,4 +61,28 @@ export const loginRules = yup.object().shape({
 export const changeNameRules = yup.object().shape({
   first_name: yup.string().trim().required().min(1, 'Name may not be empty'),
   last_name: yup.string().trim().required().min(1, 'Name may not be empty'),
+});
+
+export const changeEmailRules = yup.object().shape({
+  email: yup.string().trim().email().required(),
+  emailConfirm: yup
+    .string()
+    .trim()
+    .email()
+    .required()
+    .oneOf([yup.ref('email'), null], 'Emails do not match'),
+});
+
+export const changePasswordRules = yup.object().shape({
+  password: yup
+    .string()
+    .trim()
+    .required()
+    .min(5, 'Password must be at least 5 characters'),
+  passwordConfirm: yup
+    .string()
+    .trim()
+    .required()
+    .min(5, 'Password must be at least 5 characters')
+    .oneOf([yup.ref('password'), null], 'Passwords do not match'),
 });
