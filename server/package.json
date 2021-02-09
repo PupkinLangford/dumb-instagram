@@ -12,12 +12,12 @@
   "scripts": {
     "start": "concurrently --kill-others 'npm run tsc:watch' 'npm run dev'",
     "dev": "nodemon build/src/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest src/tests",
     "lint": "gts lint",
     "clean": "gts clean",
     "tsc": "./node_modules/.bin/tsc",
     "tsc:watch": "./node_modules/.bin/tsc -w",
-    "compile": "tsc -p",
+    "compile": "tsc -p .",
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
@@ -26,8 +26,10 @@
   "devDependencies": {
     "@types/node": "^14.11.2",
     "gts": "^3.1.0",
+    "jest": "^26.6.3",
     "nodemon": "^2.0.7",
     "prettier": "^2.2.1",
+    "ts-node": "^9.1.1",
     "tsc": "^1.20150623.0",
     "typescript": "^4.1.3"
   },
