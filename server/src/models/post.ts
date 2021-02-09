@@ -30,4 +30,16 @@ PostSchema.virtual('snippet').get(function (this: IPost) {
   return this.caption.slice(0, 50);
 });
 
+PostSchema.virtual('comments', {
+  ref: 'Comment',
+  foreignField: 'post',
+  localField: '_id',
+});
+
+PostSchema.virtual('likes', {
+  ref: 'Like',
+  foreignField: 'post',
+  localField: '_id',
+});
+
 export default model<IPost>('Post', PostSchema);

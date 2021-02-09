@@ -27,7 +27,7 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
   }),
 });
 
-export const PostType = new GraphQLObjectType({
+export const PostType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Post',
   fields: () => ({
     id: {type: new GraphQLNonNull(GraphQLID)},
@@ -42,6 +42,10 @@ export const PostType = new GraphQLObjectType({
     location: {type: GraphQLString},
     timestamp: {type: GraphQLDateTime},
     format_date: {type: GraphQLString},
+    comments: {
+      type: new GraphQLList(commentType),
+    },
+    likes: {type: new GraphQLList(likeType)},
   }),
 });
 
@@ -52,14 +56,14 @@ export const commentType = new GraphQLObjectType({
     author: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
-        return User.findById(parent._id);
+        return User.findById(parent.author);
       },
     },
     content: {type: new GraphQLNonNull(GraphQLString)},
     post: {
       type: new GraphQLNonNull(PostType),
       resolve(parent) {
-        return Post.findById(parent._id);
+        return Post.findById(parent.post);
       },
     },
     timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
@@ -68,19 +72,19 @@ export const commentType = new GraphQLObjectType({
 });
 
 export const likeType = new GraphQLObjectType({
-  name: 'Comment',
+  name: 'Like',
   fields: () => ({
     id: {type: new GraphQLNonNull(GraphQLID)},
     liker: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
-        return User.findById(parent._id);
+        return User.findById(parent.liker);
       },
     },
     post: {
       type: new GraphQLNonNull(PostType),
       resolve(parent) {
-        return Post.findById(parent._id);
+        return Post.findById(parent.post);
       },
     },
     timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},

@@ -1,4 +1,10 @@
-import {GraphQLNonNull, GraphQLObjectType, GraphQLString} from 'graphql';
+import {
+  GraphQLID,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLString,
+} from 'graphql';
+import {createComment} from './resolvers/commentResolver';
 import {createPost} from './resolvers/postResolver';
 import {
   signup,
@@ -7,7 +13,7 @@ import {
   changeEmail,
   changePassword,
 } from './resolvers/userResolver';
-import {UserType, tokenType, PostType} from './types';
+import {UserType, tokenType, PostType, commentType} from './types';
 
 export const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -62,6 +68,14 @@ export const mutation = new GraphQLObjectType({
         location: {type: GraphQLString},
       },
       resolve: createPost,
+    },
+    createComment: {
+      type: commentType,
+      args: {
+        content: {type: new GraphQLNonNull(GraphQLString)},
+        post_id: {type: new GraphQLNonNull(GraphQLID)},
+      },
+      resolve: createComment,
     },
   },
 });
