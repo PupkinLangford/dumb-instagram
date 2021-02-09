@@ -13,7 +13,7 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, _args, {headers}) {
         const {authorization} = headers;
         const user = jwtValidate(authorization);
-        return User.findById(user.id);
+        return User.findById(user.id).populate('posts');
       },
     },
     user: {
@@ -22,7 +22,7 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
-        return User.findById(args.id, '-password -email');
+        return User.findById(args.id, '-password -email').populate('posts');
       },
     },
     users: {
@@ -30,7 +30,7 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, _args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
-        return User.find({}, '-password -email');
+        return User.find({}, '-password -email').populate('posts');
       },
     },
     post: {
@@ -43,8 +43,7 @@ export const queryType = new GraphQLObjectType({
       },
     },
     posts: {
-      type: PostType,
-      args: {id: {type: GraphQLID}},
+      type: new GraphQLList(PostType),
       resolve(_parent, _args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);

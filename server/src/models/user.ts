@@ -28,6 +28,12 @@ UserSchema.virtual('full_name').get(function (this: IUser) {
   return this.first_name + ' ' + this.last_name;
 });
 
+UserSchema.virtual('posts', {
+  ref: 'Post',
+  foreignField: 'author',
+  localField: '_id',
+});
+
 UserSchema.pre(
   'save',
   async function (this: IUser, next: HookNextFunction): Promise<void> {

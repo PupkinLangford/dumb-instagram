@@ -1,4 +1,5 @@
 import {GraphQLNonNull, GraphQLObjectType, GraphQLString} from 'graphql';
+import {createPost} from './resolvers/postResolver';
 import {
   signup,
   login,
@@ -6,7 +7,7 @@ import {
   changeEmail,
   changePassword,
 } from './resolvers/userResolver';
-import {UserType, tokenType} from './types';
+import {UserType, tokenType, PostType} from './types';
 
 export const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -52,6 +53,15 @@ export const mutation = new GraphQLObjectType({
         passwordConfirm: {type: new GraphQLNonNull(GraphQLString)},
       },
       resolve: changePassword,
+    },
+    createPost: {
+      type: PostType,
+      args: {
+        photo: {type: new GraphQLNonNull(GraphQLString)}, //change to photo once figured out
+        caption: {type: GraphQLString},
+        location: {type: GraphQLString},
+      },
+      resolve: createPost,
     },
   },
 });

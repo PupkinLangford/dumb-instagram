@@ -1,5 +1,6 @@
 import {
   GraphQLID,
+  GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
   GraphQLString,
@@ -8,7 +9,7 @@ import {GraphQLDateTime} from 'graphql-iso-date';
 import User from '../models/user';
 import Post from '../models/post';
 
-export const UserType = new GraphQLObjectType({
+export const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',
   fields: () => ({
     id: {
@@ -22,6 +23,7 @@ export const UserType = new GraphQLObjectType({
     profile_pic: {type: new GraphQLNonNull(GraphQLString)},
     bio: {type: GraphQLString},
     full_name: {type: new GraphQLNonNull(GraphQLString)},
+    posts: {type: new GraphQLList(PostType)},
   }),
 });
 
@@ -34,7 +36,7 @@ export const PostType = new GraphQLObjectType({
     author: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
-        return User.findById(parent._id);
+        return User.findById(parent.author);
       },
     },
     location: {type: GraphQLString},
