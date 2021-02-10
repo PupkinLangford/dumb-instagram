@@ -4,7 +4,11 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql';
-import {createComment} from './resolvers/commentResolver';
+import {
+  createComment,
+  deleteComment,
+  updateComment,
+} from './resolvers/commentResolver';
 import {likePost, unlikePost} from './resolvers/likeResolver';
 import {createPost} from './resolvers/postResolver';
 import {
@@ -77,6 +81,19 @@ export const mutation = new GraphQLObjectType({
         post_id: {type: new GraphQLNonNull(GraphQLID)},
       },
       resolve: createComment,
+    },
+    updateComment: {
+      type: commentType,
+      args: {
+        content: {type: new GraphQLNonNull(GraphQLString)},
+        comment_id: {type: new GraphQLNonNull(GraphQLID)},
+      },
+      resolve: updateComment,
+    },
+    deleteComment: {
+      type: commentType,
+      args: {comment_id: {type: new GraphQLNonNull(GraphQLID)}},
+      resolve: deleteComment,
     },
     likePost: {
       type: likeType,
