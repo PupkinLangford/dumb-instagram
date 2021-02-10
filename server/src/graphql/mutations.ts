@@ -5,6 +5,7 @@ import {
   GraphQLString,
 } from 'graphql';
 import {createComment} from './resolvers/commentResolver';
+import {likePost, unlikePost} from './resolvers/likeResolver';
 import {createPost} from './resolvers/postResolver';
 import {
   signup,
@@ -13,7 +14,7 @@ import {
   changeEmail,
   changePassword,
 } from './resolvers/userResolver';
-import {UserType, tokenType, PostType, commentType} from './types';
+import {UserType, tokenType, PostType, commentType, likeType} from './types';
 
 export const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -76,6 +77,20 @@ export const mutation = new GraphQLObjectType({
         post_id: {type: new GraphQLNonNull(GraphQLID)},
       },
       resolve: createComment,
+    },
+    likePost: {
+      type: likeType,
+      args: {
+        post_id: {type: new GraphQLNonNull(GraphQLID)},
+      },
+      resolve: likePost,
+    },
+    unlikePost: {
+      type: likeType,
+      args: {
+        post_id: {type: new GraphQLNonNull(GraphQLID)},
+      },
+      resolve: unlikePost,
     },
   },
 });

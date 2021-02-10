@@ -39,7 +39,7 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
-        return Post.findById(args.id).populate('comments');
+        return Post.findById(args.id).populate('comments likes');
       },
     },
     posts: {
@@ -47,7 +47,7 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, _args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
-        return Post.find({}).populate('comments');
+        return Post.find({}).populate('comments likes');
       },
     },
     comment: {
