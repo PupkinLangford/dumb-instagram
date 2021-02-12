@@ -47,7 +47,7 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, _args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
-        return Post.find({}).populate('comments likes');
+        return Post.find({}).populate('comments likes').sort('-timestamp');
       },
     },
     comment: {

@@ -91,3 +91,14 @@ export async function changePassword(
     return new GraphQLError(err);
   }
 }
+
+export async function deleteSelf(_parent: any, _args: any, {headers}: any) {
+  try {
+    const {authorization} = headers;
+    const user = jwtValidate(authorization);
+    const foundUser = await User.findById(user.id);
+    return await foundUser!.deleteOne();
+  } catch (err) {
+    return new GraphQLError(err);
+  }
+}

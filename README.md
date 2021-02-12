@@ -12,8 +12,6 @@ A fair use parody of Instagram.
 
 ## Todo
 
-- when querying posts, return most recent first
-- delete user (use pre delete hook in schema to delete all posts and comments)
 - remove 'any' type from resolvers
 - unit tests
 - implement follow/following models

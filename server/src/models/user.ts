@@ -1,5 +1,8 @@
 import {Document, HookNextFunction, model, Schema} from 'mongoose';
 import bcrypt from 'bcrypt';
+import Comment from './comment';
+import Like from './like';
+import Post from './post';
 
 export interface IUser extends Document {
   first_name: string;
@@ -44,6 +47,20 @@ UserSchema.pre(
     const hashedWord = await bcrypt.hash(this.password, 10);
     this.password = hashedWord;
     next();
+  }
+);
+
+UserSchema.pre(
+  'deleteOne',
+  {document: true, query: false},
+  async function (this: IUser, next: HookNextFunction) {
+    const user_id = this._id;
+    await Promise.all([
+      Post.deleteMany({author: user_id}),
+      Comment.deleteMany({author: user_id}),
+      Like.deleteMany({liker: user_id}),
+    ]);
+    return next();
   }
 );
 

@@ -18,6 +18,7 @@ import {
   changeName,
   changeEmail,
   changePassword,
+  deleteSelf,
 } from './resolvers/userResolver';
 import {UserType, tokenType, PostType, commentType, likeType} from './types';
 
@@ -66,6 +67,7 @@ export const mutation = new GraphQLObjectType({
       },
       resolve: changePassword,
     },
+    deleteSelf: {type: UserType, resolve: deleteSelf},
     createPost: {
       type: PostType,
       args: {
