@@ -1,4 +1,5 @@
 import {
+  GraphQLBoolean,
   GraphQLID,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -10,7 +11,7 @@ import {
   updateComment,
 } from './resolvers/commentResolver';
 import {likePost, unlikePost} from './resolvers/likeResolver';
-import {createPost, deletePost} from './resolvers/postResolver';
+import {createPost, deletePost, updatePost} from './resolvers/postResolver';
 import {
   signup,
   login,
@@ -68,11 +69,20 @@ export const mutation = new GraphQLObjectType({
     createPost: {
       type: PostType,
       args: {
-        photo: {type: new GraphQLNonNull(GraphQLString)}, //change to photo once figured out
+        photo: {type: new GraphQLNonNull(GraphQLString)}, //change to photo/file once figured out
         caption: {type: GraphQLString},
         location: {type: GraphQLString},
       },
       resolve: createPost,
+    },
+    updatePost: {
+      type: PostType,
+      args: {
+        post_id: {type: new GraphQLNonNull(GraphQLID)},
+        caption: {type: GraphQLString},
+        location: {type: GraphQLString},
+      },
+      resolve: updatePost,
     },
     deletePost: {
       type: PostType,

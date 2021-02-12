@@ -3,7 +3,6 @@ import Comment from '../../models/comment';
 import {GraphQLError} from 'graphql';
 import {jwtValidate} from '../../middlewares/jwtValidate';
 import {createCommentRules, updateCommentRules} from '../../rules/commentRules';
-import {ObjectId} from 'mongoose';
 
 export async function createComment(
   _parent: unknown,

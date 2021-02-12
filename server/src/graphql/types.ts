@@ -32,7 +32,7 @@ export const PostType: GraphQLObjectType = new GraphQLObjectType({
   fields: () => ({
     id: {type: new GraphQLNonNull(GraphQLID)},
     photo: {type: new GraphQLNonNull(GraphQLString)},
-    caption: {type: new GraphQLNonNull(GraphQLString)},
+    caption: {type: GraphQLString},
     author: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
