@@ -47,9 +47,10 @@ PostSchema.virtual('likes', {
 PostSchema.pre(
   'deleteOne',
   {document: true, query: false},
-  function (this: IPost, next: HookNextFunction) {
-    Comment.deleteMany({post: this._id});
-    Like.deleteMany({post: this._id});
+  async function (this: IPost, next: HookNextFunction) {
+    const post_id = this._id;
+    await Comment.deleteMany({post: post_id});
+    await Like.deleteMany({post: post_id});
     return next();
   }
 );
