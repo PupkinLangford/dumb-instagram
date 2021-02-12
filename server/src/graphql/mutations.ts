@@ -10,7 +10,7 @@ import {
   updateComment,
 } from './resolvers/commentResolver';
 import {likePost, unlikePost} from './resolvers/likeResolver';
-import {createPost} from './resolvers/postResolver';
+import {createPost, deletePost} from './resolvers/postResolver';
 import {
   signup,
   login,
@@ -73,6 +73,11 @@ export const mutation = new GraphQLObjectType({
         location: {type: GraphQLString},
       },
       resolve: createPost,
+    },
+    deletePost: {
+      type: PostType,
+      args: {post_id: {type: new GraphQLNonNull(GraphQLID)}},
+      resolve: deletePost,
     },
     createComment: {
       type: commentType,

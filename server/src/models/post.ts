@@ -1,5 +1,7 @@
 import {DateTime} from 'luxon';
-import {Document, model, Schema} from 'mongoose';
+import {Document, HookNextFunction, model, Schema} from 'mongoose';
+import Comment from './comment';
+import Like from './like';
 
 export interface IPost extends Document {
   photo: string;
@@ -41,5 +43,15 @@ PostSchema.virtual('likes', {
   foreignField: 'post',
   localField: '_id',
 });
+
+PostSchema.pre(
+  'deleteOne',
+  {document: true, query: false},
+  function (this: IPost, next: HookNextFunction) {
+    Comment.deleteMany({post: this._id});
+    Like.deleteMany({post: this._id});
+    return next();
+  }
+);
 
 export default model<IPost>('Post', PostSchema);

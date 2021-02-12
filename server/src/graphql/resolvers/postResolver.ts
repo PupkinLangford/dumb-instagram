@@ -18,3 +18,20 @@ export async function createPost(_parent: unknown, args: any, {headers}: any) {
     return new GraphQLError(err);
   }
 }
+
+export async function deletePost(_parent: any, args: any, {headers}: any) {
+  try {
+    const {authorization} = headers;
+    const user = jwtValidate(authorization);
+    const foundPost = await Post.findById(args.post_id);
+    if (!foundPost) {
+      return new GraphQLError('Post does not exist');
+    }
+    if (user.id !== foundPost.author.toString()) {
+      return new GraphQLError("Cannot delete other user's post");
+    }
+    return await foundPost.deleteOne();
+  } catch (err) {
+    return new GraphQLError(err);
+  }
+}
