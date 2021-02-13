@@ -7,6 +7,7 @@ A fair use parody of Instagram.
 - Typescript
 - MongoDB
 - Express
+- React
 - Node.js
 - GraphQL
 

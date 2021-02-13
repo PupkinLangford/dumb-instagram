@@ -43,7 +43,6 @@ UserSchema.pre(
     if (!this.password) {
       next();
     }
-
     const hashedWord = await bcrypt.hash(this.password, 10);
     this.password = hashedWord;
     next();
@@ -55,11 +54,14 @@ UserSchema.pre(
   {document: true, query: false},
   async function (this: IUser, next: HookNextFunction) {
     const user_id = this._id;
-    await Promise.all([
-      Post.deleteMany({author: user_id}),
+    const [posts] = await Promise.all([
+      Post.find({author: user_id}),
       Comment.deleteMany({author: user_id}),
       Like.deleteMany({liker: user_id}),
     ]);
+    await posts.forEach(post => {
+      post.deleteOne();
+    });
     return next();
   }
 );

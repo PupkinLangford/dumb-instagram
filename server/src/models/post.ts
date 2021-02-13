@@ -49,10 +49,20 @@ PostSchema.pre(
   {document: true, query: false},
   async function (this: IPost, next: HookNextFunction) {
     const post_id = this._id;
-    await Comment.deleteMany({post: post_id});
-    await Like.deleteMany({post: post_id});
+    await Promise.all([
+      Comment.deleteMany({post: post_id}),
+      Like.deleteMany({post: post_id}),
+    ]);
     return next();
   }
 );
+
+PostSchema.post('deleteMany', {document: true, query: true}, async doc => {
+  await console.log(doc);
+  await Promise.all([
+    Comment.deleteMany({post: doc._id}),
+    Like.deleteMany({post: doc._id}),
+  ]);
+});
 
 export default model<IPost>('Post', PostSchema);
