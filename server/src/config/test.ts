@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const config = {
   serverUrl: 'http://localhost',
   serverPort: 5001,

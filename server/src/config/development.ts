@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const config = {
   serverUrl: process.env.SERVER_URL,
   serverPort: process.env.SERVER_PORT,

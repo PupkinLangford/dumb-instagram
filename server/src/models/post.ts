@@ -57,12 +57,4 @@ PostSchema.pre(
   }
 );
 
-PostSchema.post('deleteMany', {document: true, query: true}, async doc => {
-  await console.log(doc);
-  await Promise.all([
-    Comment.deleteMany({post: doc._id}),
-    Like.deleteMany({post: doc._id}),
-  ]);
-});
-
 export default model<IPost>('Post', PostSchema);

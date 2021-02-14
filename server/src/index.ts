@@ -13,7 +13,6 @@ const expressPlayground = require('graphql-playground-middleware-express')
 connectDb();
 
 app.use(cors());
-
 const schema = new GraphQLSchema({
   query: queryType,
   mutation: mutation,

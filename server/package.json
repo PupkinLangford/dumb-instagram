@@ -12,7 +12,7 @@
   "scripts": {
     "start": "concurrently --kill-others 'npm run tsc:watch' 'npm run dev'",
     "dev": "nodemon build/src/index.js",
-    "test": "jest src/tests",
+    "test": "NODE_ENV=test jest src/tests",
     "lint": "gts lint",
     "clean": "gts clean",
     "tsc": "./node_modules/.bin/tsc",

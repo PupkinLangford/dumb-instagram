@@ -13,6 +13,7 @@ A fair use parody of Instagram.
 
 ## Todo
 
+- destroy token when user deleted
 - remove 'any' type from resolvers
 - unit tests
 - implement follow/following models
