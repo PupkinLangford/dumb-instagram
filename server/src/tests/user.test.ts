@@ -1,4 +1,4 @@
-import {createUser} from './utils';
+import {createLike, createPost, createUser} from './utils';
 import request from 'supertest';
 import app from '../index';
 import {IUser} from '../models/user';
@@ -6,6 +6,10 @@ import jsonwebtoken from 'jsonwebtoken';
 import config from '../config';
 import {disconnectDb} from '../db';
 import bcrypt from 'bcrypt';
+import {createComment} from './utils';
+import Comment from '../models/comment';
+import Like from '../models/like';
+import Post from '../models/post';
 
 const mutationSignup = (
   username: string,
@@ -60,6 +64,13 @@ mutation {
   {
       password
   }
+}`;
+
+const mutationDeleteSelf = () => `
+mutation {
+    deleteSelf {
+        id
+    }
 }`;
 
 describe('signup and login', () => {
@@ -220,5 +231,72 @@ describe('user mutations', () => {
       .set('Authorization', 'fakewrongtoken2334523452345164')
       .send({query: mutationChangePassword('09876', '09876')});
     expect(res.body.errors).not.toBeUndefined();
+  });
+
+  test('deleteSelf fails with wrong token', async () => {
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', 'fakewrongtoken2334523452345164')
+      .send({query: mutationDeleteSelf()});
+    expect(res.body.errors).not.toBeUndefined();
+  });
+
+  test('deleteSelf successfully deletes user and lingering comments', async () => {
+    const comment = await createComment();
+    const id = comment.author;
+    const commenterToken = jsonwebtoken.sign({id: id}, config.jwtSecret!, {
+      expiresIn: '1d',
+    });
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', commenterToken)
+      .send({query: mutationDeleteSelf()});
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.deleteSelf.id).toBe(id.toString());
+
+    const comments = await Comment.find({});
+    expect(comments.length).toBe(0);
+  });
+
+  test('deleteSelf successfully deletes lingering likes', async () => {
+    const like = await createLike();
+    const id = like.liker;
+    const likerToken = jsonwebtoken.sign({id: id}, config.jwtSecret!, {
+      expiresIn: '1d',
+    });
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', likerToken)
+      .send({query: mutationDeleteSelf()});
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.deleteSelf.id).toBe(id.toString());
+
+    const likes = await Like.find({});
+    expect(likes.length).toBe(0);
+  });
+
+  test('deleteSelf successfully deletes lingering posts', async () => {
+    const post = await createPost();
+    const id = post.author;
+    const posterToken = jsonwebtoken.sign({id: id}, config.jwtSecret!, {
+      expiresIn: '1d',
+    });
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', posterToken)
+      .send({query: mutationDeleteSelf()});
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.deleteSelf.id).toBe(id.toString());
+
+    const foundPost = await Post.findById(id);
+    expect(foundPost).toBeNull();
+  });
+
+  afterAll(() => {
+    disconnectDb();
   });
 });

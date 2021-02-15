@@ -54,6 +54,8 @@ export const createComment = async () => {
     bio: 'testing comment creation',
   });
 
+  await user.save();
+
   const comment = new Comment({
     author: user._id,
     post: post._id,
@@ -76,6 +78,8 @@ export const createLike = async () => {
     profile_pic: '444',
     bio: 'testing like creation',
   });
+
+  await user.save();
 
   const like = new Like({
     liker: user._id,
