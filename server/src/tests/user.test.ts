@@ -11,6 +11,30 @@ import Comment from '../models/comment';
 import Like from '../models/like';
 import Post from '../models/post';
 
+const queryCurrentUser = () => `
+query {
+    current_user {
+        username
+    }
+}
+`;
+
+const queryUser = (user_id: string) => `
+query {
+    user(id: "${user_id}") {
+        username
+    }
+}
+`;
+
+const queryUsers = () => `
+query {
+    users {
+        id
+    }
+}
+`;
+
 const mutationSignup = (
   username: string,
   password: string,
@@ -72,6 +96,59 @@ mutation {
         id
     }
 }`;
+
+describe('user queries', () => {
+  let server: request.SuperTest<request.Test>;
+  let user: IUser;
+  let token: string;
+  beforeAll(async () => {
+    server = request(app);
+    user = await createUser();
+    token = jsonwebtoken.sign({id: user.id}, config.jwtSecret!, {
+      expiresIn: '1d',
+    });
+  });
+
+  test('current user query returns current user', async () => {
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', token)
+      .send({
+        query: queryCurrentUser(),
+      });
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.current_user.username).toBe('testuser');
+  });
+
+  test('can query user by id', async () => {
+    const post = await createPost();
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', token)
+      .send({
+        query: queryUser(post.author.toString()),
+      });
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.user.username).toBe('testposter');
+  });
+
+  test('can query all users', async () => {
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', token)
+      .send({
+        query: queryUsers(),
+      });
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.users.length).toBeGreaterThan(0);
+  });
+  afterAll(() => {
+    disconnectDb();
+  });
+});
 
 describe('signup and login', () => {
   let server: request.SuperTest<request.Test>;
