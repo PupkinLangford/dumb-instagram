@@ -13,7 +13,7 @@ A fair use parody of Instagram.
 
 ## Todo
 
-- unit tests for post, comment, like mutations and queries
+- unit tests for post and comment mutations and queries
 - destroy token when user deleted
 - remove 'any' type from resolvers
 - implement follow/following models
