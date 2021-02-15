@@ -27,8 +27,10 @@ app.use(
 );
 
 app.get('/playground', expressPlayground({endpoint: '/graphql'}));
-app.listen(config.serverPort, () => {
-  console.log(`now listening for requests on port ${config.serverPort}`);
-});
+if (config.serverDatabase !== 'inmemory') {
+  app.listen(config.serverPort, () => {
+    console.log(`now listening for requests on port ${config.serverPort}`);
+  });
+}
 
 export default app;

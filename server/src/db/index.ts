@@ -12,7 +12,6 @@ const opts = {
 };
 
 const connectMongo = async () => {
-  console.log(config.serverDatabase);
   await mongoose
     .connect(config.serverDatabase!, opts)
     .catch(err => console.log(err));
