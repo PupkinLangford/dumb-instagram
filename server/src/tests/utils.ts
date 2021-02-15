@@ -2,14 +2,13 @@ import User from '../models/user';
 import Post from '../models/post';
 import Comment from '../models/comment';
 import Like from '../models/like';
-import bcrypt from 'bcrypt';
 
 export const createUser = async () => {
   const user = new User({
     first_name: 'Test',
     last_name: 'User',
     username: 'testuser',
-    password: await bcrypt.hash('12345', 10),
+    password: '12345',
     email: 'testuser@aol.com',
     profile_pic: '111',
     bio: 'live laugh love <33',
@@ -23,7 +22,7 @@ export const createPost = async () => {
     first_name: 'Test',
     last_name: 'Poster',
     username: 'testposter',
-    password: await bcrypt.hash('12345', 10),
+    password: '12345',
     email: 'testpost@aol.com',
     profile_pic: '222',
     bio: 'testing post creation',
@@ -49,7 +48,7 @@ export const createComment = async () => {
     first_name: 'Test',
     last_name: 'Commenter',
     username: 'testcommenter',
-    password: await bcrypt.hash('12345', 10),
+    password: '12345',
     email: 'testcomment@aol.com',
     profile_pic: '333',
     bio: 'testing comment creation',
@@ -62,7 +61,7 @@ export const createComment = async () => {
     timestamp: new Date(),
   });
 
-  await comment.save();
+  return await comment.save();
 };
 
 export const createLike = async () => {
@@ -72,7 +71,7 @@ export const createLike = async () => {
     first_name: 'Test',
     last_name: 'Liker',
     username: 'testliker',
-    password: await bcrypt.hash('12345', 10),
+    password: '12345',
     email: 'testlike@aol.com',
     profile_pic: '444',
     bio: 'testing like creation',
@@ -84,5 +83,5 @@ export const createLike = async () => {
     timestamp: new Date(),
   });
 
-  await like.save();
+  return await like.save();
 };

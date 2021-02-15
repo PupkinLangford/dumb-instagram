@@ -50,6 +50,7 @@ export const loginRules = yup.object().shape({
       schema.test({
         test: async (password: string) => {
           const foundUser = await User.findOne({username});
+          if (!foundUser) return false;
           const match = await bcrypt.compare(password, foundUser!.password);
           return match;
         },
