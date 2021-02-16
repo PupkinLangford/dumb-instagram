@@ -3,6 +3,7 @@ import config from '../config';
 import {MongoMemoryServer} from 'mongodb-memory-server';
 
 let db: mongoose.Connection;
+let mongoServer: MongoMemoryServer;
 
 const opts = {
   useNewUrlParser: true,
@@ -21,19 +22,21 @@ const connectMongo = async () => {
 
 const connectMemory = async () => {
   mongoose.Promise = Promise;
-  const mongoServer = new MongoMemoryServer();
+  mongoServer = new MongoMemoryServer();
 
   const mongoUri = await mongoServer.getUri();
   mongoose.connect(mongoUri, opts).catch(err => console.log(err));
+  db = mongoose.connection;
 };
 
 export const connectDb =
   config.serverDatabase === 'inmemory' ? connectMemory : connectMongo;
 
-export const disconnectDb = () => {
+export const disconnectDb = async () => {
   if (!db) {
     return;
   }
 
-  mongoose.disconnect();
+  await mongoose.disconnect();
+  if (mongoServer) await mongoServer.stop();
 };

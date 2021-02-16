@@ -145,9 +145,6 @@ describe('user queries', () => {
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.users.length).toBeGreaterThan(0);
   });
-  afterAll(() => {
-    disconnectDb();
-  });
 });
 
 describe('signup and login', () => {
@@ -208,10 +205,6 @@ describe('signup and login', () => {
       .set('Content-type', 'application/json')
       .send({query: mutationLogin('testuser', '123456')});
     expect(res.body.errors).not.toBeUndefined();
-  });
-
-  afterAll(() => {
-    disconnectDb();
   });
 });
 
@@ -372,8 +365,8 @@ describe('user mutations', () => {
     const foundPost = await Post.findById(id);
     expect(foundPost).toBeNull();
   });
+});
 
-  afterAll(() => {
-    disconnectDb();
-  });
+afterAll(() => {
+  disconnectDb();
 });
