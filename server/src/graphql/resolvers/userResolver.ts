@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   changeEmailRules,
   changeNameRules,
@@ -12,8 +11,17 @@ import jsonwebtoken from 'jsonwebtoken';
 import config from '../../config';
 import {jwtValidate} from '../../middlewares/jwtValidate';
 import bcrypt from 'bcrypt';
+import {Request} from 'express';
 
-export async function signup(_parent: unknown, args: any) {
+export async function signup(
+  _parent: unknown,
+  args: {
+    username?: string;
+    password?: string;
+    passwordConfirm?: string;
+    email?: string;
+  }
+) {
   try {
     await signUpRules.validate(args);
 
@@ -28,7 +36,10 @@ export async function signup(_parent: unknown, args: any) {
   }
 }
 
-export async function login(_parent: unknown, args: any) {
+export async function login(
+  _parent: unknown,
+  args: {username?: string; password?: string}
+) {
   try {
     await loginRules.validate(args);
     const username = args.username;
@@ -49,7 +60,11 @@ export async function login(_parent: unknown, args: any) {
   }
 }
 
-export async function changeName(_parent: unknown, args: any, {headers}: any) {
+export async function changeName(
+  _parent: unknown,
+  args: {first_name?: string; last_name?: string},
+  {headers}: Request
+) {
   try {
     await changeNameRules.validate(args);
     const {authorization} = headers;
@@ -64,7 +79,11 @@ export async function changeName(_parent: unknown, args: any, {headers}: any) {
     return new GraphQLError(err);
   }
 }
-export async function changeEmail(_parent: unknown, args: any, {headers}: any) {
+export async function changeEmail(
+  _parent: unknown,
+  args: {email?: string; emailConfirm?: string},
+  {headers}: Request
+) {
   try {
     await changeEmailRules.validate(args);
     const {authorization} = headers;
@@ -78,8 +97,8 @@ export async function changeEmail(_parent: unknown, args: any, {headers}: any) {
 
 export async function changePassword(
   _parent: unknown,
-  args: any,
-  {headers}: any
+  args: {password?: string; passwordConfirm?: string},
+  {headers}: Request
 ) {
   try {
     await changePasswordRules.validate(args);
@@ -92,7 +111,11 @@ export async function changePassword(
   }
 }
 
-export async function deleteSelf(_parent: any, _args: any, {headers}: any) {
+export async function deleteSelf(
+  _parent: unknown,
+  _args: {},
+  {headers}: Request
+) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);

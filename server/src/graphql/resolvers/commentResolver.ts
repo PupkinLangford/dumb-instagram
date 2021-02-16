@@ -1,13 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Comment from '../../models/comment';
 import {GraphQLError} from 'graphql';
 import {jwtValidate} from '../../middlewares/jwtValidate';
 import {createCommentRules, updateCommentRules} from '../../rules/commentRules';
+import {Request} from 'express';
+import {ObjectId} from 'mongoose';
 
 export async function createComment(
   _parent: unknown,
-  args: any,
-  {headers}: any
+  args: {content?: string; post_id?: ObjectId},
+  {headers}: Request
 ) {
   try {
     await createCommentRules.validate(args);
@@ -24,7 +25,11 @@ export async function createComment(
   }
 }
 
-export async function updateComment(_parent: any, args: any, {headers}: any) {
+export async function updateComment(
+  _parent: unknown,
+  args: {content?: string; comment_id?: ObjectId},
+  {headers}: Request
+) {
   try {
     await updateCommentRules.validate(args);
     const {authorization} = headers;
@@ -48,7 +53,11 @@ export async function updateComment(_parent: any, args: any, {headers}: any) {
   }
 }
 
-export async function deleteComment(_parent: any, args: any, {headers}: any) {
+export async function deleteComment(
+  _parent: unknown,
+  args: {comment_id?: ObjectId},
+  {headers}: Request
+) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);

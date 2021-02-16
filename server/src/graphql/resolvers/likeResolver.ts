@@ -1,10 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Like from '../../models/like';
 import {GraphQLError} from 'graphql';
 import {jwtValidate} from '../../middlewares/jwtValidate';
 import {ObjectId} from 'mongoose';
+import {Request} from 'express';
 
-export async function likePost(_parent: unknown, args: any, {headers}: any) {
+export async function likePost(
+  _parent: unknown,
+  args: {post_id?: ObjectId},
+  {headers}: Request
+) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
@@ -23,7 +27,11 @@ export async function likePost(_parent: unknown, args: any, {headers}: any) {
   }
 }
 
-export async function unlikePost(_parent: unknown, args: any, {headers}: any) {
+export async function unlikePost(
+  _parent: unknown,
+  args: {post_id?: ObjectId},
+  {headers}: Request
+) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);

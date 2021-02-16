@@ -8,7 +8,8 @@ type ValidateResponse = {
   exp: number;
 };
 
-export const jwtValidate = (token: string): ValidateResponse => {
+export const jwtValidate = (token: string | undefined): ValidateResponse => {
+  if (!token) token = '';
   return jsonwebtoken.verify(token, config.jwtSecret) as ValidateResponse;
 };
 

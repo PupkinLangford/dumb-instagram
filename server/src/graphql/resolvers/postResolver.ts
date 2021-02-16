@@ -1,9 +1,14 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Post from '../../models/post';
 import {GraphQLError} from 'graphql';
 import {jwtValidate} from '../../middlewares/jwtValidate';
+import {Request} from 'express';
+import {ObjectId} from 'mongoose';
 
-export async function createPost(_parent: unknown, args: any, {headers}: any) {
+export async function createPost(
+  _parent: unknown,
+  args: {photo?: string; caption?: string; location?: string},
+  {headers}: Request
+) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
@@ -19,7 +24,11 @@ export async function createPost(_parent: unknown, args: any, {headers}: any) {
   }
 }
 
-export async function updatePost(_parent: unknown, args: any, {headers}: any) {
+export async function updatePost(
+  _parent: unknown,
+  args: {post_id?: ObjectId; caption?: string; location?: string},
+  {headers}: Request
+) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
@@ -44,7 +53,11 @@ export async function updatePost(_parent: unknown, args: any, {headers}: any) {
   }
 }
 
-export async function deletePost(_parent: any, args: any, {headers}: any) {
+export async function deletePost(
+  _parent: unknown,
+  args: {post_id?: ObjectId},
+  {headers}: Request
+) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
