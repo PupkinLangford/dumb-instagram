@@ -13,7 +13,6 @@ A fair use parody of Instagram.
 
 ## Todo
 
-- unit tests for comment mutations and queries
 - destroy token when user deleted
 - implement follow/following models
 - implement picture upload / view (multer to submit photo?, cloudinary/AWS S3 for hosting?)
