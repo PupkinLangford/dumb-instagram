@@ -9,6 +9,7 @@ import {
   deleteComment,
   updateComment,
 } from './resolvers/commentResolver';
+import {followUser, unfollowUser} from './resolvers/followResolver';
 import {likePost, unlikePost} from './resolvers/likeResolver';
 import {createPost, deletePost, updatePost} from './resolvers/postResolver';
 import {
@@ -19,7 +20,14 @@ import {
   changePassword,
   deleteSelf,
 } from './resolvers/userResolver';
-import {UserType, tokenType, PostType, commentType, likeType} from './types';
+import {
+  UserType,
+  tokenType,
+  PostType,
+  commentType,
+  likeType,
+  followType,
+} from './types';
 
 export const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -67,6 +75,20 @@ export const mutation = new GraphQLObjectType({
       resolve: changePassword,
     },
     deleteSelf: {type: UserType, resolve: deleteSelf},
+    followUser: {
+      type: followType,
+      args: {
+        user_id: {type: new GraphQLNonNull(GraphQLID)},
+      },
+      resolve: followUser,
+    },
+    unfollowUser: {
+      type: followType,
+      args: {
+        user_id: {type: new GraphQLNonNull(GraphQLID)},
+      },
+      resolve: unfollowUser,
+    },
     createPost: {
       type: PostType,
       args: {

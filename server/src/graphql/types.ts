@@ -24,6 +24,8 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
     bio: {type: GraphQLString},
     full_name: {type: new GraphQLNonNull(GraphQLString)},
     posts: {type: new GraphQLList(PostType)},
+    following: {type: new GraphQLList(followType)},
+    followers: {type: new GraphQLList(followType)},
   }),
 });
 
@@ -85,6 +87,31 @@ export const likeType = new GraphQLObjectType({
       type: new GraphQLNonNull(PostType),
       resolve(parent) {
         return Post.findById(parent.post);
+      },
+    },
+    timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
+    format_date: {type: GraphQLString},
+  }),
+});
+
+export const followType = new GraphQLObjectType({
+  name: 'Follow',
+  fields: () => ({
+    id: {type: new GraphQLNonNull(GraphQLID)},
+    follower: {
+      type: new GraphQLNonNull(UserType),
+      resolve(parent) {
+        return User.findById(parent.follower).populate(
+          'posts followers following'
+        );
+      },
+    },
+    following: {
+      type: new GraphQLNonNull(UserType),
+      resolve(parent) {
+        return User.findById(parent.following).populate(
+          'posts followers following'
+        );
       },
     },
     timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},

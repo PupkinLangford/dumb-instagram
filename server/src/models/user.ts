@@ -37,6 +37,18 @@ UserSchema.virtual('posts', {
   localField: '_id',
 });
 
+UserSchema.virtual('following', {
+  ref: 'Follow',
+  foreignField: 'follower',
+  localField: '_id',
+});
+
+UserSchema.virtual('followers', {
+  ref: 'Follow',
+  foreignField: 'following',
+  localField: '_id',
+});
+
 UserSchema.pre(
   'save',
   async function (this: IUser, next: HookNextFunction): Promise<void> {
