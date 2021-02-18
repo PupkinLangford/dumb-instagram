@@ -6,6 +6,7 @@ import {connectDb} from './db';
 import {GraphQLSchema} from 'graphql';
 import {queryType} from './graphql/queries';
 import {mutation} from './graphql/mutations';
+import {graphqlUploadExpress} from 'graphql-upload';
 const app = express();
 const expressPlayground = require('graphql-playground-middleware-express')
   .default;
@@ -20,6 +21,7 @@ const schema = new GraphQLSchema({
 
 app.use(
   '/graphql',
+  graphqlUploadExpress({maxFileSize: 10000000, maxFiles: 10}),
   graphqlHTTP({
     schema: schema,
     graphiql: true,

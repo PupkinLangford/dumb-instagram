@@ -12,6 +12,9 @@ import config from '../../config';
 import {jwtValidate} from '../../middlewares/jwtValidate';
 import bcrypt from 'bcrypt';
 import {Request} from 'express';
+import FormData from 'form-data';
+import fetch from 'node-fetch';
+import {FileUpload} from 'graphql-upload';
 
 export async function signup(
   _parent: unknown,
@@ -106,6 +109,32 @@ export async function changePassword(
     const user = jwtValidate(authorization);
     const password = await bcrypt.hash(args.password, 10);
     return User.findByIdAndUpdate(user.id, {password}, {new: true});
+  } catch (err) {
+    return new GraphQLError(err);
+  }
+}
+
+export async function changeProfilePic(
+  _parent: unknown,
+  args: {picture?: FileUpload},
+  {headers}: Request
+) {
+  try {
+    const {authorization} = headers;
+    const picture = (await args.picture!).createReadStream();
+    const user = jwtValidate(authorization);
+    const formData = new FormData();
+    formData.append('file', picture, {filename: user.id + '.jpg'});
+    formData.append('upload_preset', process.env.UPLOAD_PRESET!);
+    //formData.append('use_filename', 'true'); <-- TODO: Use this after setting up signed uploads
+    formData.append('public_id', user.id);
+    const response = await fetch(process.env.CLOUDINARY_BASE_URL!, {
+      method: 'POST',
+      body: formData,
+    });
+    const data = await response.json();
+    const profile_pic = data.url;
+    return await User.findByIdAndUpdate(user.id, {profile_pic}, {new: true});
   } catch (err) {
     return new GraphQLError(err);
   }

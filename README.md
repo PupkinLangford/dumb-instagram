@@ -13,8 +13,11 @@ A fair use parody of Instagram.
 
 ## Todo
 
+- set up post photos
+- delete photos and replace when pushed to same cloudinary URL
+- set up signed uploads
+- change image size/quality
 - destroy token when user deleted
-- implement picture upload / view (multer to submit photo?, cloudinary/AWS S3 for hosting?)
 - user profile pic mutation
 - going to need some privacy settings
 - users could possibly manipulate url to find other user's private photos

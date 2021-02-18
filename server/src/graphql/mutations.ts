@@ -4,6 +4,7 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql';
+import {GraphQLUpload} from 'graphql-upload';
 import {
   createComment,
   deleteComment,
@@ -19,6 +20,7 @@ import {
   changeEmail,
   changePassword,
   deleteSelf,
+  changeProfilePic,
 } from './resolvers/userResolver';
 import {
   UserType,
@@ -73,6 +75,13 @@ export const mutation = new GraphQLObjectType({
         passwordConfirm: {type: new GraphQLNonNull(GraphQLString)},
       },
       resolve: changePassword,
+    },
+    changeProfilePic: {
+      type: UserType,
+      args: {
+        picture: {type: new GraphQLNonNull(GraphQLUpload)},
+      },
+      resolve: changeProfilePic,
     },
     deleteSelf: {type: UserType, resolve: deleteSelf},
     followUser: {
