@@ -13,11 +13,10 @@ A fair use parody of Instagram.
 
 ## Todo
 
+- separate cloudinary logic to separate file
 - set up post photos
 - delete photos and replace when pushed to same cloudinary URL
-- set up signed uploads
-- change image size/quality
+- change image size/quality/other cloudinary settings
 - destroy token when user deleted
-- user profile pic mutation
 - going to need some privacy settings
 - users could possibly manipulate url to find other user's private photos

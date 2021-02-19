@@ -15,6 +15,7 @@ import {Request} from 'express';
 import FormData from 'form-data';
 import fetch from 'node-fetch';
 import {FileUpload} from 'graphql-upload';
+import {v2} from 'cloudinary';
 
 export async function signup(
   _parent: unknown,
@@ -114,7 +115,7 @@ export async function changePassword(
   }
 }
 
-export async function changeProfilePic(
+/*export async function changeProfilePic(
   _parent: unknown,
   args: {picture?: FileUpload},
   {headers}: Request
@@ -126,6 +127,7 @@ export async function changeProfilePic(
     const formData = new FormData();
     formData.append('file', picture, {filename: user.id + '.jpg'});
     formData.append('upload_preset', process.env.UPLOAD_PRESET!);
+    formData.append('format', 'jpg');
     //formData.append('use_filename', 'true'); <-- TODO: Use this after setting up signed uploads
     formData.append('public_id', user.id);
     const response = await fetch(process.env.CLOUDINARY_BASE_URL!, {
@@ -136,6 +138,39 @@ export async function changeProfilePic(
     const profile_pic = data.url;
     return await User.findByIdAndUpdate(user.id, {profile_pic}, {new: true});
   } catch (err) {
+    return new GraphQLError(err);
+  }
+}*/
+
+export async function changeProfilePic(
+  _parent: unknown,
+  args: {picture?: FileUpload},
+  {headers}: Request
+) {
+  try {
+    const {authorization} = headers;
+    const picture = (await args.picture!).createReadStream();
+    const user = jwtValidate(authorization);
+    v2.config({
+      cloud_name: process.env.CLOUDINARY_NAME,
+      api_key: process.env.CLOUDINARY_KEY,
+      api_secret: process.env.CLOUDINARY_SECRET,
+    });
+    let profile_pic = '';
+    await new Promise((resolve, _reject) => {
+      const stream = v2.uploader.upload_stream(
+        {public_id: user.id, format: 'jpg'},
+        (_err, result) => {
+          profile_pic = result!.public_id;
+          resolve(profile_pic);
+        }
+      );
+
+      picture.pipe(stream);
+    });
+    return await User.findByIdAndUpdate(user.id, {profile_pic}, {new: true});
+  } catch (err) {
+    console.log(err);
     return new GraphQLError(err);
   }
 }
