@@ -13,7 +13,6 @@ A fair use parody of Instagram.
 
 ## Todo
 
-- separate cloudinary logic to separate file
 - set up post photos
 - delete photos and replace when pushed to same cloudinary URL
 - change image size/quality/other cloudinary settings

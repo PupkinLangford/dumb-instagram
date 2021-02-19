@@ -90,12 +90,12 @@ mutation {
   }
 }`;
 
-const _mutationChangeProfilePic = () => `mutation changeProfilePic($picture: Upload!){ 
+/*const _mutationChangeProfilePic = () => `mutation changeProfilePic($picture: Upload!){ 
   changeProfilePic(picture: $picture) {
     username
   	profile_pic
   }
-}`;
+}`;*/
 
 const mutationDeleteSelf = () => `
 mutation {
