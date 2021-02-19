@@ -46,6 +46,16 @@ const mutationCreatePost = (
         }
       }`;
 
+/*const mutationCreatePost = `mutation createPost($photo: Upload!) {
+  createPost(photo: $photo, caption: "Post with photo", location: "Asia, Lima Peru") {
+    photo
+    id
+  caption
+  location
+  }
+}
+`;*/
+
 const mutationUpdatePost = (
   post_id: string,
   caption: string,

@@ -3,21 +3,28 @@ import {GraphQLError} from 'graphql';
 import {jwtValidate} from '../../middlewares/jwtValidate';
 import {Request} from 'express';
 import {ObjectId} from 'mongoose';
+import {FileUpload} from 'graphql-upload';
+import {uploadImage} from './imageFunctions';
 
 export async function createPost(
   _parent: unknown,
-  args: {photo?: string; caption?: string; location?: string},
+  args: {photo?: FileUpload; caption?: string; location?: string},
   {headers}: Request
 ) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
     const post = new Post({
-      photo: args.photo,
+      photo: '',
       caption: args.caption,
       author: user.id,
       location: args.location,
     });
+    const url = await uploadImage(args.photo!, user.id, post._id);
+    if (url === '') {
+      return new GraphQLError('Upload failed');
+    }
+    post.photo = url;
     return await post.save();
   } catch (err) {
     return new GraphQLError(err);

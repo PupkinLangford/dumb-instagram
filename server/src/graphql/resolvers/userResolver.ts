@@ -120,9 +120,15 @@ export async function changeProfilePic(
 ) {
   try {
     const {authorization} = headers;
-    const picture = (await args.picture!).createReadStream();
     const user = jwtValidate(authorization);
-    const profile_pic = await uploadImage(picture, user.id);
+    const profile_pic = await uploadImage(
+      args.picture!,
+      user.id,
+      'profile_pic'
+    );
+    if (profile_pic === '') {
+      return new GraphQLError('Upload failed');
+    }
     return await User.findByIdAndUpdate(user.id, {profile_pic}, {new: true});
   } catch (err) {
     return new GraphQLError(err);

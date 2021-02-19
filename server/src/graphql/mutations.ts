@@ -101,7 +101,7 @@ export const mutation = new GraphQLObjectType({
     createPost: {
       type: PostType,
       args: {
-        photo: {type: new GraphQLNonNull(GraphQLString)}, //change to photo/file once figured out
+        photo: {type: new GraphQLNonNull(GraphQLUpload)},
         caption: {type: GraphQLString},
         location: {type: GraphQLString},
       },
