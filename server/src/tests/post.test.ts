@@ -8,6 +8,8 @@ import {IPost} from '../models/post';
 import Post from '../models/post';
 import Comment from '../models/comment';
 import Like from '../models/like';
+import * as imageFunctions from '../graphql/resolvers/imageFunctions';
+import path from 'path';
 
 const queryPost = (post_id: string) => `
 query {
@@ -26,35 +28,25 @@ query {
 `;
 
 const mutationCreatePost = (
-  photo: string,
+  /*photo: FileUpload,*/
   caption: string,
   location: string
-) => `
-      mutation {
-        createPost(
-          photo: "${photo}", 
-          caption: "${caption}",
-          location: "${location}"
-          ) 
-        {
-          photo
-          caption
-          location
-          author {
-              id
-          }
-        }
-      }`;
-
-/*const mutationCreatePost = `mutation createPost($photo: Upload!) {
-  createPost(photo: $photo, caption: "Post with photo", location: "Asia, Lima Peru") {
+) => {
+  return {
+    query: `mutation createPost($photo: Upload!) {
+  createPost(photo: $photo, caption: "${caption}", location: "${location}") {
     photo
-    id
   caption
   location
+  author {
+    id
+  }
   }
 }
-`;*/
+`,
+    variables: {photo: null},
+  };
+};
 
 const mutationUpdatePost = (
   post_id: string,
@@ -122,12 +114,15 @@ describe('post mutations', () => {
   let server: request.SuperTest<request.Test>;
   let post: IPost;
   let token: string;
+  let uploadSpy;
   beforeAll(async () => {
     server = request(app);
     post = await createPost();
     token = jsonwebtoken.sign({id: post.author}, config.jwtSecret!, {
       expiresIn: '1d',
     });
+    uploadSpy = jest.spyOn(imageFunctions, 'uploadImage');
+    uploadSpy.mockReturnValue(Promise.resolve('url'));
   });
 
   test('can create post with proper args', async () => {
@@ -135,11 +130,14 @@ describe('post mutations', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .set('Authorization', token)
-      .send({
-        query: mutationCreatePost('photo', 'test content', 'Lima, PE'),
-      });
+      .field(
+        'operations',
+        JSON.stringify(mutationCreatePost('test content', 'Lima, PE'))
+      )
+      .field('map', JSON.stringify({photo: ['variables.photo']}))
+      .attach('photo', path.join(__dirname, './photo.jpg'));
     expect(res.body.errors).toBeUndefined();
-    expect(res.body.data.createPost.photo).toBe('photo');
+    expect(res.body.data.createPost.photo).toBe('url');
     expect(res.body.data.createPost.caption).toBe('test content');
     expect(res.body.data.createPost.location).toBe('Lima, PE');
     expect(res.body.data.createPost.author.id).toEqual(post.author.toString());
@@ -150,9 +148,12 @@ describe('post mutations', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .set('Authorization', 'faketoken')
-      .send({
-        query: mutationCreatePost('photo', 'test content', 'Lima, PE'),
-      });
+      .field(
+        'operations',
+        JSON.stringify(mutationCreatePost('test content', 'Lima, PE'))
+      )
+      .field('map', JSON.stringify({photo: ['variables.photo']}))
+      .attach('photo', path.join(__dirname, './photo.jpg'));
     expect(res.body.errors).not.toBeUndefined();
   });
 

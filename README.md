@@ -13,7 +13,7 @@ A fair use parody of Instagram.
 
 ## Todo
 
-- set up post photos
+- delete photos from cloudinary when posts deleted
 - delete photos and replace when pushed to same cloudinary URL
 - change image size/quality/other cloudinary settings
 - destroy token when user deleted

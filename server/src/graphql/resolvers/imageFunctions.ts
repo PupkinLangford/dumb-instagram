@@ -6,6 +6,7 @@ export const uploadImage = async (
   folder: string,
   filename: string
 ) => {
+  console.log(picture);
   const pictureStream = (await picture).createReadStream();
   let image_url = '';
   await new Promise(resolve => {
