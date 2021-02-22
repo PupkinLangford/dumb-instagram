@@ -1,5 +1,6 @@
 import express from 'express';
 import {graphqlHTTP} from 'express-graphql';
+import helmet from 'helmet';
 import cors from 'cors';
 import config from './config';
 import {connectDb} from './db';
@@ -12,6 +13,8 @@ const expressPlayground = require('graphql-playground-middleware-express')
   .default;
 
 connectDb();
+
+app.use(helmet());
 
 app.use(cors());
 const schema = new GraphQLSchema({
