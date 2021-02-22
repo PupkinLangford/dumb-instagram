@@ -27,11 +27,7 @@ query {
 }
 `;
 
-const mutationCreatePost = (
-  /*photo: FileUpload,*/
-  caption: string,
-  location: string
-) => {
+const mutationCreatePost = (caption: string, location: string) => {
   return {
     query: `mutation createPost($photo: Upload!) {
   createPost(photo: $photo, caption: "${caption}", location: "${location}") {

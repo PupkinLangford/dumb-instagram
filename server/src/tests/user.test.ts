@@ -10,6 +10,8 @@ import {createComment} from './utils';
 import Comment from '../models/comment';
 import Like from '../models/like';
 import Post from '../models/post';
+import * as imageFunctions from '../graphql/resolvers/imageFunctions';
+import path from 'path';
 
 const queryCurrentUser = () => `
 query {
@@ -90,12 +92,17 @@ mutation {
   }
 }`;
 
-/*const _mutationChangeProfilePic = () => `mutation changeProfilePic($picture: Upload!){
+const _mutationChangeProfilePic = () => {
+  return {
+    query: `mutation changeProfilePic($picture: Upload!){
   changeProfilePic(picture: $picture) {
     username
   	profile_pic
   }
-}`;*/
+}`,
+    variables: {picture: null},
+  };
+};
 
 const mutationDeleteSelf = () => `
 mutation {
@@ -274,6 +281,21 @@ describe('user mutations', () => {
       .set('Authorization', 'fakewrongtoken2334523452345164')
       .send({query: mutationChangeEmail('wilford@aol.com', 'wilford@aol.com')});
     expect(res.body.errors).not.toBeUndefined();
+  });
+
+  test('change profile pic successful', async () => {
+    const uploadSpy = jest.spyOn(imageFunctions, 'uploadImage');
+    uploadSpy.mockReturnValue(Promise.resolve('new url'));
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', token)
+      .field('operations', JSON.stringify(_mutationChangeProfilePic()))
+      .field('map', JSON.stringify({photo: ['variables.picture']}))
+      .attach('picture', path.join(__dirname, './photo.jpg'));
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.changeProfilePic.profile_pic).toBe('new url');
+    expect(res.body.data.changeProfilePic.username).toBe('testuser');
   });
 
   test('change password successful', async () => {
