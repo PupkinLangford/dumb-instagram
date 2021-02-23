@@ -7,7 +7,11 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import {setContext} from '@apollo/client/link/context';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import config from './config';
+import logo from './images/logo.png';
+import Login from './pages/Login';
+import Home from './pages/Home';
 
 const httpLink = createHttpLink({uri: config.serverUrl});
 
@@ -31,9 +35,12 @@ const client = new ApolloClient({
 function App() {
   return (
     <ApolloProvider client={client}>
-      <div>
-        <h2>My first Apollo app 🚀</h2>
-      </div>
+      <Router>
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/login" component={Login} />
+        </Switch>
+      </Router>
     </ApolloProvider>
   );
 }
