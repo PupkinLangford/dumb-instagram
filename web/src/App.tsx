@@ -9,7 +9,6 @@ import {
 import {setContext} from '@apollo/client/link/context';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import config from './config';
-import logo from './images/logo.png';
 import Login from './pages/Login';
 import Home from './pages/Home';
 

@@ -23,3 +23,7 @@ A fair use parody of Instagram.
 - users could possibly manipulate url to find other user's private photos
 
 #### Web Client
+
+- Login/signup error messages
+- Login/signup onSubmit
+- Fix logo background
