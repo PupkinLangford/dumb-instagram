@@ -7,12 +7,13 @@ import {loginRules, signUpRules} from '../rules/rules';
 import './Login.module.css';
 import styles from './Login.module.css';
 import {useMutation} from '@apollo/client';
-import {mutation_signup} from '../graphql/mutations/user';
+import {mutation_login, mutation_signup} from '../graphql/mutations/user';
 
 const Login = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [auth, loadingAuth] = useAuth();
-  const [signUp, {data, loading}] = useMutation(mutation_signup);
+  const [signUp] = useMutation(mutation_signup);
+  const [userLogin] = useMutation(mutation_login);
   const history = useHistory();
   const formikLogin = useFormik({
     initialValues: {
@@ -20,8 +21,20 @@ const Login = () => {
       password: '',
     },
     validationSchema: loginRules,
-    onSubmit: values => {
-      console.log(values.username);
+    onSubmit: async values => {
+      const {data, errors} = await userLogin({
+        variables: {
+          username: values.username,
+          password: values.password,
+        },
+      });
+      if (!data) {
+        console.log(errors);
+        return;
+      } else {
+        localStorage.setItem('token', data.login.token);
+        history.push('/');
+      }
     },
   });
 
@@ -34,7 +47,7 @@ const Login = () => {
     },
     validationSchema: signUpRules,
     onSubmit: async values => {
-      await signUp({
+      const {data, errors} = await signUp({
         variables: {
           username: values.username,
           password: values.password,
@@ -43,9 +56,10 @@ const Login = () => {
         },
       });
       if (!data) {
+        console.log(errors);
         return;
       } else {
-        console.log(data.signup.username);
+        window.alert(`Successfully registered as ${data.signup.username}`);
         setShowLogin(true);
       }
     },
@@ -56,7 +70,7 @@ const Login = () => {
   }
 
   const loginForm = (
-    <form onSubmit={formikLogin.handleSubmit}>
+    <form onSubmit={formikLogin.handleSubmit} className={styles.loginForm}>
       <input
         id="username"
         name="username"
@@ -78,7 +92,7 @@ const Login = () => {
   );
 
   const signupForm = (
-    <form onSubmit={formikSignup.handleSubmit}>
+    <form onSubmit={formikSignup.handleSubmit} className={styles.loginForm}>
       <input
         id="email"
         name="email"
@@ -117,9 +131,9 @@ const Login = () => {
 
   return (
     <div className={styles.login}>
-      <main>
+      <main className={styles.main}>
         <div className={styles.formstuff}>
-          <div id={styles.logo} style={{background: logo}}></div>
+          <div id={styles.logo} style={{backgroundImage: `url(${logo})`}}></div>
           {showLogin ? loginForm : signupForm}
         </div>
         <div className="switch">

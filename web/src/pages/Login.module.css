@@ -5,14 +5,14 @@
   background-color: rgb(250, 250, 250);
 }
 
-input {
+.login input {
   display: inline-block;
   padding: 9px 0 7px 8px;
   font: 400 13.3333px Arial;
   margin: 0 40px 6px;
 }
 
-form {
+.loginForm {
   display: flex;
   flex-direction: column;
   align-items: stretch;
@@ -20,7 +20,7 @@ form {
   min-width: 350px;
 }
 
-main {
+.main {
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -28,7 +28,7 @@ main {
   height: 100vh;
 }
 
-button {
+.login button {
   border-radius: 4px;
   background-color: #0095f6;
   color: #fff;
@@ -50,7 +50,6 @@ button {
 #logo {
   height: 80px;
   width: 175px;
-  background-image: url('../images/logo.png');
   background-repeat: no-repeat;
   background-size: contain;
   display: inline-block;

@@ -15,6 +15,7 @@ A fair use parody of Instagram.
 
 #### Server
 
+- find memory leak
 - delete photos from cloudinary when posts deleted
 - delete photos and replace when pushed to same cloudinary URL
 - change image size/quality/other cloudinary settings
@@ -25,5 +26,5 @@ A fair use parody of Instagram.
 #### Web Client
 
 - Login/signup error messages
-- Login/signup onSubmit
+- fix redirect to login even when logged in (problem with onAuth hook or apollo client setContext?)
 - Fix logo background
