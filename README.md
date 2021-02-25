@@ -26,5 +26,4 @@ A fair use parody of Instagram.
 #### Web Client
 
 - Login/signup error messages
-- fix redirect to login even when logged in (problem with onAuth hook or apollo client setContext?)
-- Fix logo background
+- reset cache on login/logout

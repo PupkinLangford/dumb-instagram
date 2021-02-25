@@ -8,7 +8,19 @@ const Home = () => {
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
-  return <div>Home</div>;
+  return (
+    <div>
+      Home
+      <button
+        onClick={() => {
+          localStorage.clear();
+          history.go(0);
+        }}
+      >
+        Logout
+      </button>
+    </div>
+  );
 };
 
 export default Home;

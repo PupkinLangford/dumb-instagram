@@ -125,7 +125,7 @@ const Login = () => {
         onChange={formikSignup.handleChange}
         value={formikSignup.values.passwordConfirm}
       />
-      <button type="submit">Log In</button>
+      <button type="submit">Sign Up</button>
     </form>
   );
 
