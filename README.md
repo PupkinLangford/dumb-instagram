@@ -16,6 +16,7 @@ A fair use parody of Instagram.
 #### Server
 
 - find memory leak
+- Helmet may be interfering with GrahpQL Playground
 - delete photos from cloudinary when posts deleted
 - delete photos and replace when pushed to same cloudinary URL
 - change image size/quality/other cloudinary settings
@@ -25,5 +26,5 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- Login/signup error messages
+- display GraphQLErrors in Formik
 - reset cache on login/logout

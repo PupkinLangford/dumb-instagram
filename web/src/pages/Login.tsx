@@ -12,8 +12,8 @@ import {mutation_login, mutation_signup} from '../graphql/mutations/user';
 const Login = () => {
   const [showLogin, setShowLogin] = useState(true);
   const [auth, loadingAuth] = useAuth();
-  const [signUp] = useMutation(mutation_signup);
-  const [userLogin] = useMutation(mutation_login);
+  const [signUp] = useMutation(mutation_signup, {errorPolicy: 'all'});
+  const [userLogin] = useMutation(mutation_login, {errorPolicy: 'all'});
   const history = useHistory();
   const formikLogin = useFormik({
     initialValues: {
@@ -21,6 +21,7 @@ const Login = () => {
       password: '',
     },
     validationSchema: loginRules,
+
     onSubmit: async values => {
       const {data, errors} = await userLogin({
         variables: {
@@ -28,8 +29,8 @@ const Login = () => {
           password: values.password,
         },
       });
-      if (!data) {
-        console.log(errors);
+      if (!data.login) {
+        errors?.forEach(e => console.log((e as any).message.message));
         return;
       } else {
         localStorage.setItem('token', data.login.token);
@@ -79,6 +80,9 @@ const Login = () => {
         onChange={formikLogin.handleChange}
         value={formikLogin.values.username}
       />
+      {formikLogin.touched.username && formikLogin.errors.username ? (
+        <div className={styles.errors}>{formikLogin.errors.username}</div>
+      ) : null}
       <input
         id="password"
         name="password"
@@ -87,6 +91,9 @@ const Login = () => {
         onChange={formikLogin.handleChange}
         value={formikLogin.values.password}
       />
+      {formikLogin.touched.password && formikLogin.errors.password ? (
+        <div className={styles.errors}>{formikLogin.errors.password}</div>
+      ) : null}
       <button type="submit">Log In</button>
     </form>
   );
@@ -101,6 +108,9 @@ const Login = () => {
         onChange={formikSignup.handleChange}
         value={formikSignup.values.email}
       />
+      {formikSignup.touched.email && formikSignup.errors.email ? (
+        <div className={styles.errors}>{formikSignup.errors.email}</div>
+      ) : null}
       <input
         id="username"
         name="username"
@@ -109,6 +119,9 @@ const Login = () => {
         onChange={formikSignup.handleChange}
         value={formikSignup.values.username}
       />
+      {formikSignup.touched.username && formikSignup.errors.username ? (
+        <div className={styles.errors}>{formikSignup.errors.username}</div>
+      ) : null}
       <input
         id="password"
         name="password"
@@ -117,6 +130,9 @@ const Login = () => {
         onChange={formikSignup.handleChange}
         value={formikSignup.values.password}
       />
+      {formikSignup.touched.password && formikSignup.errors.password ? (
+        <div className={styles.errors}>{formikSignup.errors.password}</div>
+      ) : null}
       <input
         id="passwordConfirm"
         name="passwordConfirm"
@@ -125,6 +141,12 @@ const Login = () => {
         onChange={formikSignup.handleChange}
         value={formikSignup.values.passwordConfirm}
       />
+      {formikSignup.touched.passwordConfirm &&
+      formikSignup.errors.passwordConfirm ? (
+        <div className={styles.errors}>
+          {formikSignup.errors.passwordConfirm}
+        </div>
+      ) : null}
       <button type="submit">Sign Up</button>
     </form>
   );
