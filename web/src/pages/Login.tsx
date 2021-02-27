@@ -148,6 +148,21 @@ const Login = () => {
         </div>
       ) : null}
       <button type="submit">Sign Up</button>
+      <p className={styles.disclaimer}>
+        By signing up, you agree to our{' '}
+        <abbr title="A series of probably unenforceable rules backed by a binding arbitration clause">
+          Terms
+        </abbr>
+        ,{' '}
+        <abbr title="Any public or private data on any of your devices belongs to us">
+          Data Policy
+        </abbr>{' '}
+        and{' '}
+        <abbr title="User shall not bake any raisin-based cookies">
+          Cookies Policy
+        </abbr>{' '}
+        .
+      </p>
     </form>
   );
 
@@ -158,7 +173,7 @@ const Login = () => {
           <div id={styles.logo} style={{backgroundImage: `url(${logo})`}}></div>
           {showLogin ? loginForm : signupForm}
         </div>
-        <div className="switch">
+        <div className={styles.switch}>
           {showLogin ? (
             <p>
               Don't have an account?{' '}
