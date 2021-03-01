@@ -3,11 +3,13 @@ import {useHistory} from 'react-router-dom';
 import {useFormik} from 'formik';
 import {useAuth} from '../hooks/use_auth';
 import logo from '../images/logo.png';
+import icon from '../images/di_icon.png';
 import {loginRules, signUpRules} from '../rules/rules';
 import './Login.module.css';
 import styles from './Login.module.css';
 import {useMutation} from '@apollo/client';
 import {mutation_login, mutation_signup} from '../graphql/mutations/user';
+import {GraphQLError} from 'graphql';
 
 const Login = () => {
   const [showLogin, setShowLogin] = useState(true);
@@ -22,15 +24,19 @@ const Login = () => {
     },
     validationSchema: loginRules,
 
-    onSubmit: async values => {
+    onSubmit: async (values, {setErrors}) => {
       const {data, errors} = await userLogin({
         variables: {
           username: values.username,
           password: values.password,
         },
       });
-      if (!data.login) {
-        errors?.forEach(e => console.log((e as any).message.message));
+      if (errors) {
+        errors.forEach(error => {
+          setErrors({
+            password: ((error.message as unknown) as GraphQLError).message,
+          });
+        });
         return;
       } else {
         localStorage.setItem('token', data.login.token);
@@ -47,7 +53,7 @@ const Login = () => {
       email: '',
     },
     validationSchema: signUpRules,
-    onSubmit: async values => {
+    onSubmit: async (values, {setErrors}) => {
       const {data, errors} = await signUp({
         variables: {
           username: values.username,
@@ -56,8 +62,12 @@ const Login = () => {
           passwordConfirm: values.passwordConfirm,
         },
       });
-      if (!data) {
-        console.log(errors);
+      if (errors) {
+        errors.forEach(error => {
+          setErrors({
+            username: ((error.message as unknown) as GraphQLError).message,
+          });
+        });
         return;
       } else {
         window.alert(`Successfully registered as ${data.signup.username}`);
@@ -169,26 +179,40 @@ const Login = () => {
   return (
     <div className={styles.login}>
       <main className={styles.main}>
-        <div className={styles.formstuff}>
-          <div id={styles.logo} style={{backgroundImage: `url(${logo})`}}></div>
-          {showLogin ? loginForm : signupForm}
-        </div>
-        <div className={styles.switch}>
-          {showLogin ? (
-            <p>
-              Don't have an account?{' '}
-              <span className={styles.link} onClick={() => setShowLogin(false)}>
-                Sign up
-              </span>
-            </p>
-          ) : (
-            <p>
-              Have an account?{' '}
-              <span className={styles.link} onClick={() => setShowLogin(true)}>
-                Log in
-              </span>
-            </p>
-          )}
+        <div style={{display: 'flex', flexDirection: 'row'}}>
+          <div id={styles.icon} style={{backgroundImage: `url(${icon})`}}></div>
+          <div>
+            <div className={styles.formstuff}>
+              <div
+                id={styles.logo}
+                style={{backgroundImage: `url(${logo})`}}
+              ></div>
+              {showLogin ? loginForm : signupForm}
+            </div>
+            <div className={styles.switch}>
+              {showLogin ? (
+                <p>
+                  Don't have an account?{' '}
+                  <span
+                    className={styles.link}
+                    onClick={() => setShowLogin(false)}
+                  >
+                    Sign up
+                  </span>
+                </p>
+              ) : (
+                <p>
+                  Have an account?{' '}
+                  <span
+                    className={styles.link}
+                    onClick={() => setShowLogin(true)}
+                  >
+                    Log in
+                  </span>
+                </p>
+              )}
+            </div>
+          </div>
         </div>
         <div className="getapp">
           <p>There is no app yet</p>

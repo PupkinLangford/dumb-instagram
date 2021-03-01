@@ -26,5 +26,4 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- display GraphQLErrors in Formik
 - reset cache on login/logout
