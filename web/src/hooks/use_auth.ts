@@ -7,5 +7,5 @@ export const useAuth = (): [boolean, boolean] => {
 
   if (loading) return [false, loading];
 
-  return [!!data?.current_user?.username, loading];
+  return [!!data?.current_user, loading];
 };

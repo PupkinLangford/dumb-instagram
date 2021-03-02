@@ -40,6 +40,7 @@ const Login = () => {
         return;
       } else {
         localStorage.setItem('token', data.login.token);
+        localStorage.setItem('user', JSON.stringify(data.login.user));
         history.push('/');
       }
     },
@@ -218,7 +219,6 @@ const Login = () => {
           <p>There is no app yet</p>
         </div>
       </main>
-      <footer>footer</footer>
     </div>
   );
 };

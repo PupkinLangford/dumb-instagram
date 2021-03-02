@@ -9,7 +9,7 @@ const Home = () => {
     history.push('/login');
   }
   return (
-    <div>
+    <div className="home page">
       Home
       <button
         onClick={() => {

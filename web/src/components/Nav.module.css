@@ -1,0 +1,55 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  background-color: #fff;
+  width: 100%;
+  z-index: 3;
+  height: 54px;
+}
+
+.navContent {
+  height: 54px;
+  padding: 0 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.logo > img {
+  object-fit: contain;
+  height: 40px;
+}
+
+.navIcons {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navIcons svg {
+  cursor: pointer;
+}
+
+.navIcons svg:not(:first-child) {
+  margin-left: 22px;
+}
+
+.profilePic {
+  width: 22px;
+  height: 22px;
+  margin-left: 22px;
+  border-radius: 50%;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.profilePic > img {
+  height: 100%;
+  width: 100%;
+}

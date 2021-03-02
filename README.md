@@ -27,3 +27,4 @@ A fair use parody of Instagram.
 #### Web Client
 
 - reset cache on login/logout
+- set cloudinary to return a default picture if searched url not found

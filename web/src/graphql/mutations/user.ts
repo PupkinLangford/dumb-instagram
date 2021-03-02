@@ -23,7 +23,9 @@ export const mutation_login = gql`
     login(username: $username, password: $password) {
       token
       user {
+        id
         username
+        profile_pic
       }
     }
   }

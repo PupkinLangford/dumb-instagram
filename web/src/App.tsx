@@ -11,6 +11,7 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import config from './config';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import Nav from './components/Nav';
 
 const httpLink = createHttpLink({uri: config.serverUrl});
 
@@ -35,6 +36,7 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <Router>
+        <Nav />
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
