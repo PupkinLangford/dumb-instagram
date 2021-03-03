@@ -5,6 +5,7 @@
   width: 100%;
   z-index: 3;
   height: 54px;
+  border-bottom: 1px solid #dbdbdb;
 }
 
 .navContent {
@@ -52,4 +53,46 @@
 .profilePic > img {
   height: 100%;
   width: 100%;
+}
+
+.dropdown {
+  top: 54px;
+  right: 0;
+  position: absolute;
+  z-index: 3;
+  width: 180px;
+  padding: 0 16px;
+  background-color: #fff;
+  border-radius: 6px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 0 5px 1px rgba(0, 0, 0, 0.0975);
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 8px 16px;
+}
+
+.dropdownItem:hover {
+  background-color: #fafafa;
+}
+
+.dropdownItem svg {
+  margin-right: 12px;
+}
+
+.dropdownItem span {
+  color: #262626;
+}
+
+.logoutButton {
+  margin-bottom: 4px;
+  cursor: pointer;
+  border-top: 1px solid #dbdbdb;
 }

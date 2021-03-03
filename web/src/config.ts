@@ -8,7 +8,8 @@ const prod: string = '';
 
 const config: Config = {
   serverUrl: process.env.NODE_ENV === 'development' ? dev : prod,
-  cloudinaryBaseUrl: 'https://res.cloudinary.com/daqi29wve/image/upload/',
+  cloudinaryBaseUrl:
+    'https://res.cloudinary.com/daqi29wve/image/upload/d_default.jpg/',
 };
 
 export default config;

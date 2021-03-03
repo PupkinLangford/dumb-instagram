@@ -1,3 +1,9 @@
 .page {
   margin-top: 54px;
 }
+
+a,
+a:visited {
+  color: #00376b;
+  text-decoration: none;
+}

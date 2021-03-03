@@ -15,6 +15,7 @@ A fair use parody of Instagram.
 
 #### Server
 
+- urls are superfluous properties. Post url could be a virtual property. Profile pic url could be stored as a constant on the front end.
 - find memory leak
 - Helmet may be interfering with GrahpQL Playground
 - delete photos from cloudinary when posts deleted
@@ -27,4 +28,4 @@ A fair use parody of Instagram.
 #### Web Client
 
 - reset cache on login/logout
-- set cloudinary to return a default picture if searched url not found
+- set links in navbar dropdown
