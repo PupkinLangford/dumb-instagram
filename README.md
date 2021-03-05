@@ -27,6 +27,7 @@ A fair use parody of Instagram.
 
 #### Web Client
 
+- prevent modalform parent click event from propagating to children
 - reset cache on login/logout
 - set links in navbar dropdown
 - search functionality
