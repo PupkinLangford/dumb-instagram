@@ -18,7 +18,7 @@ const Nav = () => {
   };
 
   const dropdown = (
-    <div className={styles.dropdown}>
+    <div className={styles.dropdown} onClick={() => setShowDropdown(false)}>
       <Link to="" className={styles.dropdownItem}>
         <svg
           aria-label="Profile"
@@ -45,7 +45,7 @@ const Nav = () => {
         </svg>
         <span>New Post</span>
       </Link>
-      <Link to="" className={styles.dropdownItem}>
+      <Link to="/users/edit" className={styles.dropdownItem}>
         <svg
           aria-label="Settings"
           fill="#262626"
@@ -75,7 +75,13 @@ const Nav = () => {
   return (
     <nav className={styles.navbar}>
       <div className={styles.navContent}>
-        <div className={styles.logo} onClick={() => history.go(0)}>
+        <div
+          className={styles.logo}
+          onClick={() => {
+            history.push('/');
+            history.go(0);
+          }}
+        >
           <img src={logo} alt="main logo" />
         </div>
         <div className={styles.searchBar}>
@@ -90,7 +96,10 @@ const Nav = () => {
         </div>
         <div className={styles.navIcons}>
           <svg
-            onClick={() => history.go(0)}
+            onClick={() => {
+              history.push('/');
+              history.go(0);
+            }}
             aria-label="Home"
             fill="#262626"
             height="22"

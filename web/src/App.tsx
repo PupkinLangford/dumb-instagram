@@ -12,6 +12,7 @@ import config from './config';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Nav from './components/Nav';
+import EditProfile from './pages/EditProfile';
 
 const httpLink = createHttpLink({uri: config.serverUrl});
 
@@ -40,6 +41,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/users/edit" component={EditProfile} />
         </Switch>
       </Router>
     </ApolloProvider>

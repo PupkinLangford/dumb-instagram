@@ -1,9 +1,34 @@
+div {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 0;
+}
+
 .page {
   margin-top: 54px;
+  background-color: #fafafa;
+  min-height: 100vh;
+}
+
+.page main {
+  border: 1px solid #dbdbdb;
+  background-color: #fff;
+  border-radius: 3px;
+  width: 100%;
+  margin: 30px auto 0;
+  display: flex;
+  flex-direction: column;
 }
 
 a,
 a:visited {
   color: #00376b;
   text-decoration: none;
+}
+
+@media (max-width: 450px) {
+  .page main {
+    margin-top: 0 !important;
+  }
 }
