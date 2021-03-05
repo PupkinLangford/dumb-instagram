@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import config from '../config';
 import {useAuth} from '../hooks/use_auth';
@@ -8,7 +8,14 @@ import styles from './Nav.module.css';
 const Nav = () => {
   const [auth, loadingAuth] = useAuth();
   const [showDropdown, setShowDropdown] = useState(false);
+  const [search, setSearch] = useState('');
   const history = useHistory();
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    if (e.target.name === 'search') {
+      setSearch(e.target.value);
+    }
+  };
 
   const dropdown = (
     <div className={styles.dropdown}>
@@ -70,6 +77,16 @@ const Nav = () => {
       <div className={styles.navContent}>
         <div className={styles.logo} onClick={() => history.go(0)}>
           <img src={logo} alt="main logo" />
+        </div>
+        <div className={styles.searchBar}>
+          <input
+            type="text"
+            placeholder="&#128269; Search"
+            name="search"
+            id="search"
+            value={search}
+            onChange={handleChange}
+          />
         </div>
         <div className={styles.navIcons}>
           <svg

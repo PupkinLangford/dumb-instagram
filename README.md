@@ -29,3 +29,4 @@ A fair use parody of Instagram.
 
 - reset cache on login/logout
 - set links in navbar dropdown
+- search functionality
