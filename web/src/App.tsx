@@ -1,11 +1,7 @@
 import React from 'react';
 import './App.css';
-import {
-  ApolloClient,
-  ApolloProvider,
-  createHttpLink,
-  InMemoryCache,
-} from '@apollo/client';
+import {ApolloClient, ApolloProvider, InMemoryCache} from '@apollo/client';
+import {createUploadLink} from 'apollo-upload-client';
 import {setContext} from '@apollo/client/link/context';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import config from './config';
@@ -14,7 +10,7 @@ import Home from './pages/Home';
 import Nav from './components/Nav';
 import EditProfile from './pages/EditProfile';
 
-const httpLink = createHttpLink({uri: config.serverUrl});
+const uploadLink = createUploadLink({uri: config.serverUrl});
 
 const authLink = setContext((_, {headers}) => {
   // https://www.apollographql.com/docs/react/networking/authentication/
@@ -29,7 +25,7 @@ const authLink = setContext((_, {headers}) => {
 });
 
 const client = new ApolloClient({
-  link: authLink.concat(httpLink),
+  link: authLink.concat(uploadLink),
   cache: new InMemoryCache(),
 });
 

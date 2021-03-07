@@ -28,6 +28,7 @@ A fair use parody of Instagram.
 #### Web Client
 
 - prevent modalform parent click event from propagating to children
+- cloudinary is serving old profile picture when new profile picture is added
 - reset cache on login/logout
 - set links in navbar dropdown
 - search functionality

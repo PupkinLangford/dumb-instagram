@@ -4,10 +4,29 @@ import {Formik} from 'formik';
 import config from '../config';
 import {useAuth} from '../hooks/use_auth';
 import styles from './EditProfile.module.css';
+import {useMutation} from '@apollo/client';
+import {mutation_chageProfilePic} from '../graphql/mutations/user';
 
 const EditProfile = () => {
   const [auth, loadingAuth] = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [changeProfilePic] = useMutation(mutation_chageProfilePic);
+  /*const fileOnChange = ({
+    target: {
+      validity,
+      files: [file],
+    },
+  }) => {
+    if (validity.valid) changeProfilePic({variables: {file}});
+  };*/
+  const fileOnChange = async (files: FileList) => {
+    try {
+      const {data} = await changeProfilePic({variables: {picture: files[0]}});
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
   const history = useHistory();
   const photoUpload = useRef<HTMLInputElement>(null);
   if (!loadingAuth && !auth) {
@@ -39,12 +58,6 @@ const EditProfile = () => {
           </div>
         </div>
       </div>
-      <input
-        type="file"
-        id="photoUpload"
-        ref={photoUpload}
-        style={{display: 'none'}}
-      />
     </div>
   );
 
@@ -58,7 +71,7 @@ const EditProfile = () => {
                 src={
                   config.cloudinaryBaseUrl +
                   JSON.parse(localStorage.getItem('user')!)?.id +
-                  'profile_pic'
+                  '/profile_pic'
                 }
                 alt="user's profile pic"
               />
@@ -73,6 +86,13 @@ const EditProfile = () => {
         </article>
       </main>
       {showModal ? modal : null}
+      <input
+        type="file"
+        id="photoUpload"
+        ref={photoUpload}
+        hidden
+        onChange={e => fileOnChange(e.target.files!)}
+      />
     </div>
   );
 };
