@@ -1,5 +1,6 @@
 .editProfile article {
   display: flex;
+  flex-direction: column;
   flex: 1 1 400px;
   align-items: stretch;
   box-sizing: border-box;
@@ -103,4 +104,53 @@
   vertical-align: middle;
   font-weight: 700;
   font-size: 14px;
+}
+
+.editProfile form {
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+  margin-top: 16px;
+}
+
+.editProfile label {
+  color: #262626;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 18px;
+  flex-basis: 25px;
+  padding: 0 20px;
+  margin-top: 24px;
+}
+
+.editProfile input {
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #262626;
+  font-size: 16px;
+  height: 32px;
+  margin: 0 20px;
+  padding: 0 10px;
+  width: 100%;
+  max-width: 355px;
+}
+
+.editProfile textarea {
+  border: 1px solid #dbdbdb;
+  border-radius: 3px;
+  box-sizing: border-box;
+  color: #262626;
+  font-size: 16px;
+  height: 60px;
+  padding: 6px 10px;
+  margin: 0 20px;
+  width: 100%;
+  max-width: 355px;
+}
+
+.editProfile #submitButton {
+  width: 68px;
+  margin: 30px 20px;
 }
