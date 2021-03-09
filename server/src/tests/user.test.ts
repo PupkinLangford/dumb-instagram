@@ -84,6 +84,14 @@ mutation {
   }
 }`;
 
+const mutationChangeBio = (bio: string) => `
+mutation {
+  changeBio (bio: "${bio}") 
+  {
+      bio
+  }
+}`;
+
 const mutationChangePassword = (password: string, passwordConfirm: string) => `
 mutation {
   changePassword (password: "${password}", passwordConfirm: "${passwordConfirm}") 
@@ -280,6 +288,25 @@ describe('user mutations', () => {
       .set('Content-type', 'application/json')
       .set('Authorization', 'fakewrongtoken2334523452345164')
       .send({query: mutationChangeEmail('wilford@aol.com', 'wilford@aol.com')});
+    expect(res.body.errors).not.toBeUndefined();
+  });
+
+  test('change bio successful', async () => {
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', token)
+      .send({query: mutationChangeBio('updated bio')});
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.changeBio.bio).toBe('updated bio');
+  });
+
+  test('change bio fails with wrong token', async () => {
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', 'faketoken1234')
+      .send({query: mutationChangeBio('updated bio')});
     expect(res.body.errors).not.toBeUndefined();
   });
 

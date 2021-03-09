@@ -97,6 +97,21 @@ export async function changeEmail(
   }
 }
 
+export async function changeBio(
+  _parent: unknown,
+  args: {bio?: string},
+  {headers}: Request
+) {
+  try {
+    const {authorization} = headers;
+    const user = jwtValidate(authorization);
+    const {bio} = args;
+    return User.findByIdAndUpdate(user.id, {bio}, {new: true});
+  } catch (err) {
+    return new GraphQLError(err);
+  }
+}
+
 export async function changePassword(
   _parent: unknown,
   args: {password?: string; passwordConfirm?: string},

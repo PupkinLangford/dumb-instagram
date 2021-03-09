@@ -23,6 +23,7 @@ import {
   deleteSelf,
   changeProfilePic,
   deleteProfilePic,
+  changeBio,
 } from './resolvers/userResolver';
 import {
   UserType,
@@ -77,6 +78,11 @@ export const mutation = new GraphQLObjectType({
         passwordConfirm: {type: new GraphQLNonNull(GraphQLString)},
       },
       resolve: changePassword,
+    },
+    changeBio: {
+      type: UserType,
+      args: {bio: {type: GraphQLString}},
+      resolve: changeBio,
     },
     changeProfilePic: {
       type: UserType,
