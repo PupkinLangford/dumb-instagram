@@ -18,3 +18,15 @@ export const signUpRules = yup.object().shape({
     .oneOf([yup.ref('password'), null], 'Passwords do not match'),
   email: yup.string().email().required(),
 });
+
+export const editProfileRules = yup.object().shape({
+  firstName: yup.string().trim().required().min(1, 'Name may not be empty'),
+  lastName: yup.string().trim().required().min(1, 'Name may not be empty'),
+  email: yup.string().trim().email().required(),
+  emailConfirm: yup
+    .string()
+    .trim()
+    .email()
+    .required()
+    .oneOf([yup.ref('email'), null], 'Emails do not match'),
+});

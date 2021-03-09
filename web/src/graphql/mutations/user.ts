@@ -44,3 +44,24 @@ export const mutation_deleteProfilePic = gql`
     deleteProfilePic
   }
 `;
+
+export const mutation_editProfile = gql`
+  mutation editProfile(
+    $first_name: String!
+    $last_name: String!
+    $bio: String
+    $email: String!
+    $emailConfirm: String!
+  ) {
+    changeName(first_name: $first_name, last_name: $last_name) {
+      first_name
+      last_name
+    }
+    changeEmail(email: $email, emailConfirm: $emailConfirm) {
+      email
+    }
+    changeBio(bio: $bio) {
+      bio
+    }
+  }
+`;

@@ -20,6 +20,7 @@ const authLink = setContext((_, {headers}) => {
     headers: {
       ...headers,
       authorization: token || '',
+      'Cache-Control': 'max-age=0, must-revalidate',
     },
   };
 });

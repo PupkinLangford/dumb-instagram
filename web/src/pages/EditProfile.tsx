@@ -1,5 +1,5 @@
-import React, {useState, useEffect, useRef, MouseEvent} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import React, {useState, useEffect, useRef} from 'react';
+import {useHistory} from 'react-router-dom';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import config from '../config';
 import {useAuth} from '../hooks/use_auth';
@@ -8,8 +8,10 @@ import {useMutation, useQuery} from '@apollo/client';
 import {
   mutation_changeProfilePic,
   mutation_deleteProfilePic,
+  mutation_editProfile,
 } from '../graphql/mutations/user';
 import {query_current_user} from '../graphql/queries/user';
+import {editProfileRules} from '../rules/rules';
 
 const EditProfile = () => {
   const [auth, loadingAuth] = useAuth();
@@ -17,6 +19,7 @@ const EditProfile = () => {
   const [changeProfilePic] = useMutation(mutation_changeProfilePic);
   const [deleteProfilePic] = useMutation(mutation_deleteProfilePic);
   const {loading: queryLoading, data: queryData} = useQuery(query_current_user);
+  const [updateProfile] = useMutation(mutation_editProfile);
   const fileOnChange = async (files: FileList) => {
     try {
       const {data} = await changeProfilePic({variables: {picture: files[0]}});
@@ -38,7 +41,6 @@ const EditProfile = () => {
   };
 
   useEffect(() => {
-    console.log(queryData);
     if (showModal) document.body.style.overflow = 'hidden';
     else document.body.style.overflow = '';
   }, [showModal]);
@@ -72,7 +74,10 @@ const EditProfile = () => {
       <main>
         <article>
           <div className={styles.headline}>
-            <div className={styles.profilePic}>
+            <div
+              className={styles.profilePic}
+              onClick={() => setShowModal(true)}
+            >
               <img
                 src={
                   config.cloudinaryBaseUrl +
@@ -98,7 +103,19 @@ const EditProfile = () => {
               email: queryData.current_user.email,
               emailConfirm: queryData.current_user.email,
             }}
-            onSubmit={values => console.table(values)}
+            validationSchema={editProfileRules}
+            onSubmit={async values => {
+              updateProfile({
+                variables: {
+                  first_name: values.firstName,
+                  last_name: values.lastName,
+                  bio: values.bio,
+                  email: values.email,
+                  emailConfirm: values.emailConfirm,
+                },
+              });
+              alert('Profile updated');
+            }}
           >
             <Form>
               <label htmlFor="firstName">First Name</label>
@@ -114,11 +131,11 @@ const EditProfile = () => {
               <ErrorMessage name="bio"></ErrorMessage>
 
               <label htmlFor="email">Email</label>
-              <Field name="email" type="email"></Field>
+              <Field name="email" type="email" required></Field>
               <ErrorMessage name="email"></ErrorMessage>
 
               <label htmlFor="emailConfirm">Confirm Email</label>
-              <Field name="emailConfirm" type="text"></Field>
+              <Field name="emailConfirm" type="text" required></Field>
               <ErrorMessage name="emailConfirm"></ErrorMessage>
 
               <button type="submit" id={styles.submitButton}>
