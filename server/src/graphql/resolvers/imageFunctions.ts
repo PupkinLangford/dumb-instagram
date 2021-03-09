@@ -10,7 +10,7 @@ export const uploadImage = async (
   let image_url = '';
   await new Promise(resolve => {
     const stream = v2.uploader.upload_stream(
-      {public_id: filename, format: 'jpg', folder},
+      {public_id: filename, format: 'jpg', folder, invalidate: true},
       (_err, result) => {
         image_url = result!.public_id;
         resolve(image_url);
@@ -21,3 +21,6 @@ export const uploadImage = async (
   });
   return image_url;
 };
+
+export const deleteImage = (photo_id: string) =>
+  v2.uploader.destroy(photo_id, {invalidate: true});

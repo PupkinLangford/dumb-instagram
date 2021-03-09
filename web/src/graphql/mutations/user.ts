@@ -31,10 +31,16 @@ export const mutation_login = gql`
   }
 `;
 
-export const mutation_chageProfilePic = gql`
+export const mutation_changeProfilePic = gql`
   mutation changeProfilePic($picture: Upload!) {
     changeProfilePic(picture: $picture) {
       profile_pic
     }
+  }
+`;
+
+export const mutation_deleteProfilePic = gql`
+  mutation deleteProfilePic {
+    deleteProfilePic
   }
 `;

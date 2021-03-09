@@ -5,20 +5,16 @@ import config from '../config';
 import {useAuth} from '../hooks/use_auth';
 import styles from './EditProfile.module.css';
 import {useMutation} from '@apollo/client';
-import {mutation_chageProfilePic} from '../graphql/mutations/user';
+import {
+  mutation_changeProfilePic,
+  mutation_deleteProfilePic,
+} from '../graphql/mutations/user';
 
 const EditProfile = () => {
   const [auth, loadingAuth] = useAuth();
   const [showModal, setShowModal] = useState(false);
-  const [changeProfilePic] = useMutation(mutation_chageProfilePic);
-  /*const fileOnChange = ({
-    target: {
-      validity,
-      files: [file],
-    },
-  }) => {
-    if (validity.valid) changeProfilePic({variables: {file}});
-  };*/
+  const [changeProfilePic] = useMutation(mutation_changeProfilePic);
+  const [deleteProfilePic] = useMutation(mutation_deleteProfilePic);
   const fileOnChange = async (files: FileList) => {
     try {
       const {data} = await changeProfilePic({variables: {picture: files[0]}});
@@ -53,7 +49,12 @@ const EditProfile = () => {
             <button style={{color: '#0095f6'}} onClick={uploadProfilePic}>
               Upload Photo
             </button>
-            <button style={{color: '#ed4956'}}>Remove Current Photo</button>
+            <button
+              style={{color: '#ed4956'}}
+              onClick={() => deleteProfilePic()}
+            >
+              Remove Current Photo
+            </button>
             <button style={{fontWeight: 'normal'}}>Cancel</button>
           </div>
         </div>
@@ -71,7 +72,8 @@ const EditProfile = () => {
                 src={
                   config.cloudinaryBaseUrl +
                   JSON.parse(localStorage.getItem('user')!)?.id +
-                  '/profile_pic'
+                  '/profile_pic#' +
+                  Date.now()
                 }
                 alt="user's profile pic"
               />

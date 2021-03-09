@@ -13,7 +13,7 @@ import {jwtValidate} from '../../middlewares/jwtValidate';
 import bcrypt from 'bcrypt';
 import {Request} from 'express';
 import {FileUpload} from 'graphql-upload';
-import {uploadImage} from './imageFunctions';
+import {deleteImage, uploadImage} from './imageFunctions';
 
 export async function signup(
   _parent: unknown,
@@ -130,6 +130,22 @@ export async function changeProfilePic(
       return new GraphQLError('Upload failed');
     }
     return await User.findByIdAndUpdate(user.id, {profile_pic}, {new: true});
+  } catch (err) {
+    return new GraphQLError(err);
+  }
+}
+
+export async function deleteProfilePic(
+  _parent: unknown,
+  _args: {},
+  {headers}: Request
+) {
+  try {
+    const {authorization} = headers;
+    const user = jwtValidate(authorization);
+    const id = user.id;
+    deleteImage(id + '/profile_pic');
+    return true;
   } catch (err) {
     return new GraphQLError(err);
   }

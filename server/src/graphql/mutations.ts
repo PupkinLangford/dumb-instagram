@@ -1,4 +1,5 @@
 import {
+  GraphQLBoolean,
   GraphQLID,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -21,6 +22,7 @@ import {
   changePassword,
   deleteSelf,
   changeProfilePic,
+  deleteProfilePic,
 } from './resolvers/userResolver';
 import {
   UserType,
@@ -82,6 +84,10 @@ export const mutation = new GraphQLObjectType({
         picture: {type: new GraphQLNonNull(GraphQLUpload)},
       },
       resolve: changeProfilePic,
+    },
+    deleteProfilePic: {
+      type: GraphQLBoolean,
+      resolve: deleteProfilePic,
     },
     deleteSelf: {type: UserType, resolve: deleteSelf},
     followUser: {

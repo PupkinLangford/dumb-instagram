@@ -5,6 +5,10 @@ export const query_current_user = gql`
     current_user {
       id
       username
+      first_name
+      last_name
+      email
+      bio
     }
   }
 `;

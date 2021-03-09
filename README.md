@@ -15,6 +15,7 @@ A fair use parody of Instagram.
 
 #### Server
 
+- user bio mutation
 - urls are superfluous properties. Post url could be a virtual property. Profile pic url could be stored as a constant on the front end.
 - find memory leak
 - Helmet may be interfering with GrahpQL Playground
@@ -27,8 +28,9 @@ A fair use parody of Instagram.
 
 #### Web Client
 
+- refactor profile picture into reusable component, prop -> user_id
+- profile picture being cached; clear cache when new picture uploaded
 - prevent modalform parent click event from propagating to children
-- cloudinary is serving old profile picture when new profile picture is added
 - reset cache on login/logout
 - set links in navbar dropdown
 - search functionality

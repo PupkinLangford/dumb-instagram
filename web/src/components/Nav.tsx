@@ -147,7 +147,8 @@ const Nav = () => {
               src={
                 config.cloudinaryBaseUrl +
                 JSON.parse(localStorage.getItem('user')!)?.id +
-                'profile_pic'
+                '/profile_pic#' +
+                Date.now()
               }
               alt="user's profile pic"
             />
