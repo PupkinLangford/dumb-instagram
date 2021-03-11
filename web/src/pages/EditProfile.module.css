@@ -1,3 +1,10 @@
+.editProfile main {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 935px;
+}
+
 .editProfile article {
   display: flex;
   flex-direction: column;
@@ -153,4 +160,32 @@
   margin: 0 20px;
   color: #ed4956;
   font-size: 14px;
+}
+
+.optionsList {
+  border: 1px solid #dbdbdb;
+  margin: 0;
+  padding: 0;
+  flex-basis: 236px;
+}
+
+.optionsList > li {
+  cursor: pointer;
+  color: #262626;
+  display: block;
+  font-size: 16px;
+  line-height: 20px;
+  padding: 16px 16px 16px 30px;
+  width: calc(100% - 48px);
+}
+
+.optionsList > li:hover {
+  font-weight: 600;
+  border-left: 2px solid #262626;
+}
+
+@media (max-width: 735px) {
+  .optionsList {
+    display: none;
+  }
 }

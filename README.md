@@ -16,7 +16,7 @@ A fair use parody of Instagram.
 #### Server
 
 - urls are superfluous properties. Post url could be a virtual property. Profile pic url could be stored as a constant on the front end.
-- delete photos from cloudinary when posts deleted
+- delete photos from cloudinary when posts/users deleted
 - change image size/quality/other cloudinary settings
 - destroy token when user deleted
 - going to need some privacy settings

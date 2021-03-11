@@ -174,6 +174,7 @@ export async function deleteSelf(
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
+    deleteImage(user.id + '/profile_pic');
     const foundUser = await User.findById(user.id);
     return await foundUser!.deleteOne();
   } catch (err) {

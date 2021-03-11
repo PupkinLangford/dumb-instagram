@@ -10,12 +10,13 @@ import {
   mutation_editProfile,
 } from '../graphql/mutations/user';
 import {query_current_user} from '../graphql/queries/user';
-import {editProfileRules} from '../rules/rules';
+import {changePasswordRules, editProfileRules} from '../rules/rules';
 import ProfilePic from '../components/ProfilePic';
 
 const EditProfile = () => {
   const [auth, loadingAuth] = useAuth();
   const [showModal, setShowModal] = useState(false);
+  const [showChangePassword, setShowChangePassword] = useState(false);
   const [changeProfilePic] = useMutation(mutation_changeProfilePic);
   const [deleteProfilePic] = useMutation(mutation_deleteProfilePic);
   const {loading: queryLoading, data: queryData} = useQuery(query_current_user);
@@ -69,9 +70,117 @@ const EditProfile = () => {
     </div>
   );
 
+  const editProfileFormik = (
+    <Formik
+      initialValues={{
+        firstName: queryData.current_user.first_name,
+        lastName: queryData.current_user.last_name,
+        bio: queryData.current_user.bio,
+        email: queryData.current_user.email,
+        emailConfirm: queryData.current_user.email,
+      }}
+      validationSchema={editProfileRules}
+      onSubmit={async values => {
+        updateProfile({
+          variables: {
+            first_name: values.firstName,
+            last_name: values.lastName,
+            bio: values.bio,
+            email: values.email,
+            emailConfirm: values.emailConfirm,
+          },
+        });
+        alert('Profile updated');
+      }}
+    >
+      <Form>
+        <label htmlFor="firstName">First Name</label>
+        <Field name="firstName" type="text"></Field>
+        <ErrorMessage
+          name="firstName"
+          component="div"
+          className={styles.errors}
+        />
+
+        <label htmlFor="lastName">Last Name</label>
+        <Field name="lastName" type="text"></Field>
+        <ErrorMessage
+          name="lastName"
+          component="div"
+          className={styles.errors}
+        />
+
+        <label htmlFor="bio">Bio</label>
+        <Field name="bio" component="textarea"></Field>
+        <ErrorMessage name="bio" component="div" className={styles.errors} />
+
+        <label htmlFor="email">Email</label>
+        <Field name="email" type="email" required></Field>
+        <ErrorMessage name="email" component="div" className={styles.errors} />
+
+        <label htmlFor="emailConfirm">Confirm Email</label>
+        <Field name="emailConfirm" type="text" required></Field>
+        <ErrorMessage
+          name="emailConfirm"
+          component="div"
+          className={styles.errors}
+        />
+
+        <button type="submit" id={styles.submitButton}>
+          Submit
+        </button>
+      </Form>
+    </Formik>
+  );
+
+  const changePasswordFormik = (
+    <Formik
+      initialValues={{
+        password: '',
+        passwordConfirm: '',
+      }}
+      validationSchema={changePasswordRules}
+      onSubmit={async values => {
+        updateProfile({
+          variables: {
+            passowrd: values.password,
+            passwordConfirm: values.passwordConfirm,
+          },
+        });
+        alert('Password changed');
+      }}
+    >
+      <Form>
+        <label htmlFor="password">New Password</label>
+        <Field name="password" type="password"></Field>
+        <ErrorMessage
+          name="password"
+          component="div"
+          className={styles.errors}
+        />
+
+        <label htmlFor="passwordConfirm">Confirm New Password</label>
+        <Field name="passwordConfirm" type="passwordConfirm"></Field>
+        <ErrorMessage
+          name="passwordConfirm"
+          component="div"
+          className={styles.errors}
+        />
+
+        <button type="submit" id={styles.submitButton}>
+          Submit
+        </button>
+      </Form>
+    </Formik>
+  );
+
   return (
     <div className={`page ${styles.editProfile}`}>
       <main>
+        <ul className={styles.optionsList}>
+          <li onClick={() => setShowChangePassword(false)}>Edit Profile</li>
+          <li onClick={() => setShowChangePassword(true)}>Change Password</li>
+        </ul>
         <article>
           <div className={styles.headline}>
             <div
@@ -89,74 +198,7 @@ const EditProfile = () => {
               </button>
             </div>
           </div>
-          <Formik
-            initialValues={{
-              firstName: queryData.current_user.first_name,
-              lastName: queryData.current_user.last_name,
-              bio: queryData.current_user.bio,
-              email: queryData.current_user.email,
-              emailConfirm: queryData.current_user.email,
-            }}
-            validationSchema={editProfileRules}
-            onSubmit={async values => {
-              updateProfile({
-                variables: {
-                  first_name: values.firstName,
-                  last_name: values.lastName,
-                  bio: values.bio,
-                  email: values.email,
-                  emailConfirm: values.emailConfirm,
-                },
-              });
-              alert('Profile updated');
-            }}
-          >
-            <Form>
-              <label htmlFor="firstName">First Name</label>
-              <Field name="firstName" type="text"></Field>
-              <ErrorMessage
-                name="firstName"
-                component="div"
-                className={styles.errors}
-              />
-
-              <label htmlFor="lastName">Last Name</label>
-              <Field name="lastName" type="text"></Field>
-              <ErrorMessage
-                name="lastName"
-                component="div"
-                className={styles.errors}
-              />
-
-              <label htmlFor="bio">Bio</label>
-              <Field name="bio" component="textarea"></Field>
-              <ErrorMessage
-                name="bio"
-                component="div"
-                className={styles.errors}
-              />
-
-              <label htmlFor="email">Email</label>
-              <Field name="email" type="email" required></Field>
-              <ErrorMessage
-                name="email"
-                component="div"
-                className={styles.errors}
-              />
-
-              <label htmlFor="emailConfirm">Confirm Email</label>
-              <Field name="emailConfirm" type="text" required></Field>
-              <ErrorMessage
-                name="emailConfirm"
-                component="div"
-                className={styles.errors}
-              />
-
-              <button type="submit" id={styles.submitButton}>
-                Submit
-              </button>
-            </Form>
-          </Formik>
+          {showChangePassword ? changePasswordFormik : editProfileFormik}
         </article>
       </main>
       {showModal ? modal : null}

@@ -7,6 +7,10 @@ article {
   padding: 0;
 }
 
+ul {
+  list-style: none;
+}
+
 .page {
   margin-top: 54px;
   background-color: #fafafa;
