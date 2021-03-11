@@ -19,14 +19,6 @@
   margin: 2px 20px 0;
   height: 38px;
   width: 38px;
-  cursor: pointer;
-  border-radius: 50%;
-  overflow: hidden;
-}
-
-.profilePic img {
-  height: 100%;
-  width: 100%;
 }
 
 .title h1 {

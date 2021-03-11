@@ -69,14 +69,6 @@
   width: 22px;
   height: 22px;
   margin-left: 22px;
-  border-radius: 50%;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.profilePic > img {
-  height: 100%;
-  width: 100%;
 }
 
 .dropdown {

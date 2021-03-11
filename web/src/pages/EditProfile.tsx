@@ -1,7 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import {useHistory} from 'react-router-dom';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
-import config from '../config';
 import {useAuth} from '../hooks/use_auth';
 import styles from './EditProfile.module.css';
 import {useMutation, useQuery} from '@apollo/client';
@@ -12,6 +11,7 @@ import {
 } from '../graphql/mutations/user';
 import {query_current_user} from '../graphql/queries/user';
 import {editProfileRules} from '../rules/rules';
+import ProfilePic from '../components/ProfilePic';
 
 const EditProfile = () => {
   const [auth, loadingAuth] = useAuth();
@@ -78,14 +78,8 @@ const EditProfile = () => {
               className={styles.profilePic}
               onClick={() => setShowModal(true)}
             >
-              <img
-                src={
-                  config.cloudinaryBaseUrl +
-                  JSON.parse(localStorage.getItem('user')!)?.id +
-                  '/profile_pic#' +
-                  Date.now()
-                }
-                alt="user's profile pic"
+              <ProfilePic
+                source={JSON.parse(localStorage.getItem('user')!)?.id}
               />
             </div>
             <div className={styles.title}>

@@ -1,9 +1,9 @@
 import React, {ChangeEvent, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
-import config from '../config';
 import {useAuth} from '../hooks/use_auth';
 import logo from '../images/logo.png';
 import styles from './Nav.module.css';
+import ProfilePic from './ProfilePic';
 
 const Nav = () => {
   const [auth, loadingAuth] = useAuth();
@@ -143,14 +143,8 @@ const Nav = () => {
             className={styles.profilePic}
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            <img
-              src={
-                config.cloudinaryBaseUrl +
-                JSON.parse(localStorage.getItem('user')!)?.id +
-                '/profile_pic#' +
-                Date.now()
-              }
-              alt="user's profile pic"
+            <ProfilePic
+              source={JSON.parse(localStorage.getItem('user')!)?.id}
             />
           </span>
           {showDropdown ? dropdown : null}
