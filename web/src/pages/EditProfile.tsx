@@ -120,23 +120,43 @@ const EditProfile = () => {
             <Form>
               <label htmlFor="firstName">First Name</label>
               <Field name="firstName" type="text"></Field>
-              <ErrorMessage name="firstName"></ErrorMessage>
+              <ErrorMessage
+                name="firstName"
+                component="div"
+                className={styles.errors}
+              />
 
               <label htmlFor="lastName">Last Name</label>
               <Field name="lastName" type="text"></Field>
-              <ErrorMessage name="lastName"></ErrorMessage>
+              <ErrorMessage
+                name="lastName"
+                component="div"
+                className={styles.errors}
+              />
 
               <label htmlFor="bio">Bio</label>
               <Field name="bio" component="textarea"></Field>
-              <ErrorMessage name="bio"></ErrorMessage>
+              <ErrorMessage
+                name="bio"
+                component="div"
+                className={styles.errors}
+              />
 
               <label htmlFor="email">Email</label>
               <Field name="email" type="email" required></Field>
-              <ErrorMessage name="email"></ErrorMessage>
+              <ErrorMessage
+                name="email"
+                component="div"
+                className={styles.errors}
+              />
 
               <label htmlFor="emailConfirm">Confirm Email</label>
               <Field name="emailConfirm" type="text" required></Field>
-              <ErrorMessage name="emailConfirm"></ErrorMessage>
+              <ErrorMessage
+                name="emailConfirm"
+                component="div"
+                className={styles.errors}
+              />
 
               <button type="submit" id={styles.submitButton}>
                 Submit

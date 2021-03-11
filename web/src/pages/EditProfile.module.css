@@ -154,3 +154,11 @@
   width: 68px;
   margin: 30px 20px;
 }
+
+.errors {
+  padding: 9px 0 7px 8px;
+  font: 400 13.3333px Arial;
+  margin: 0 20px;
+  color: #ed4956;
+  font-size: 14px;
+}
