@@ -65,3 +65,11 @@ export const mutation_editProfile = gql`
     }
   }
 `;
+
+export const mutation_changePassword = gql`
+  mutation changePassword($password: String!, $passwordConfirm: String!) {
+    changePassword(password: $password, passwordConfirm: $passwordConfirm) {
+      username
+    }
+  }
+`;

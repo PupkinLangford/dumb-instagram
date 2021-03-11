@@ -5,6 +5,7 @@ import {useAuth} from '../hooks/use_auth';
 import styles from './EditProfile.module.css';
 import {useMutation, useQuery} from '@apollo/client';
 import {
+  mutation_changePassword,
   mutation_changeProfilePic,
   mutation_deleteProfilePic,
   mutation_editProfile,
@@ -21,10 +22,10 @@ const EditProfile = () => {
   const [deleteProfilePic] = useMutation(mutation_deleteProfilePic);
   const {loading: queryLoading, data: queryData} = useQuery(query_current_user);
   const [updateProfile] = useMutation(mutation_editProfile);
+  const [changePassword] = useMutation(mutation_changePassword);
   const fileOnChange = async (files: FileList) => {
     try {
-      const {data} = await changeProfilePic({variables: {picture: files[0]}});
-      console.log(data);
+      await changeProfilePic({variables: {picture: files[0]}});
     } catch (err) {
       console.log(err);
     }
@@ -141,9 +142,9 @@ const EditProfile = () => {
       }}
       validationSchema={changePasswordRules}
       onSubmit={async values => {
-        updateProfile({
+        changePassword({
           variables: {
-            passowrd: values.password,
+            password: values.password,
             passwordConfirm: values.passwordConfirm,
           },
         });
@@ -160,7 +161,7 @@ const EditProfile = () => {
         />
 
         <label htmlFor="passwordConfirm">Confirm New Password</label>
-        <Field name="passwordConfirm" type="passwordConfirm"></Field>
+        <Field name="passwordConfirm" type="password"></Field>
         <ErrorMessage
           name="passwordConfirm"
           component="div"
