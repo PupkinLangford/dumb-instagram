@@ -26,6 +26,10 @@ A fair use parody of Instagram.
 #### Web Client
 
 - loader spinner component
+- return posts in reverse order of timestamp
+- fix explicit any typing of post
+- follow button functionality
+- dont display follow button on own page, display link to settings
 - refactor settings forms to separate components
 - add delete account tab to settings
 - profile picture being cached; clear cache when new picture uploaded

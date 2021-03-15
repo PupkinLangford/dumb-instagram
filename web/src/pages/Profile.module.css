@@ -1,0 +1,71 @@
+.profile header {
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-top: 16px;
+  border-bottom: none;
+  margin-bottom: 24px;
+  padding-bottom: 0;
+  flex-direction: row;
+}
+
+.profilePic {
+  margin-right: 28px;
+  height: 77px;
+  width: 77px;
+}
+
+.headline {
+  align-items: flex-start;
+}
+
+.headline h2 {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: #262626;
+  font-size: 28px;
+  line-height: 32px;
+  margin: -5px 0 -6px;
+  font-weight: 300;
+}
+
+.headline button {
+  border-radius: 4px;
+  background-color: #0095f6;
+  color: #fff;
+  border: 1px solid transparent;
+  font-weight: 600;
+  padding: 5px 9px;
+  margin: 10px 0 0 0;
+  text-align: center;
+  cursor: pointer;
+}
+
+.bio {
+  font-size: 14px;
+  line-height: 20px;
+  overflow: hidden;
+  padding: 0 16px 21px;
+  text-overflow: ellipsis;
+}
+
+.bio h3 {
+  display: inline;
+  font-weight: 600;
+  font-size: 14px;
+  margin: 0;
+  padding: 0;
+}
+
+.posts {
+  display: grid;
+  width: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 2px;
+}
+
+.posts img {
+  width: 100%;
+  height: 100%;
+}
