@@ -2,8 +2,7 @@ import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './NewPost.module.css';
-import {useMutation, useQuery} from '@apollo/client';
-import ProfilePic from '../components/ProfilePic';
+import {useMutation} from '@apollo/client';
 import {
   ErrorMessage,
   Field,

@@ -10,6 +10,7 @@ import Home from './pages/Home';
 import Nav from './components/Nav';
 import Settings from './pages/Settings';
 import NewPost from './pages/NewPost';
+import Profile from './pages/Profile';
 
 const uploadLink = createUploadLink({uri: config.serverUrl});
 
@@ -42,6 +43,7 @@ function App() {
           <Route exact path="/users/edit" component={Settings} />
           <Route exact path="/posts/new" component={NewPost} />
           <Route exact path="/posts/:id" component={Home} />
+          <Route exact path="/users/:id" component={Profile} />
         </Switch>
       </Router>
     </ApolloProvider>

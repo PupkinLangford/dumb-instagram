@@ -19,7 +19,10 @@ const Nav = () => {
 
   const dropdown = (
     <div className={styles.dropdown} onClick={() => setShowDropdown(false)}>
-      <Link to="" className={styles.dropdownItem}>
+      <Link
+        to={`/users/${JSON.parse(localStorage.getItem('user')!)?.id}`}
+        className={styles.dropdownItem}
+      >
         <svg
           aria-label="Profile"
           fill="#262626"

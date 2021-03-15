@@ -12,3 +12,33 @@ export const query_current_user = gql`
     }
   }
 `;
+
+export const query_user = gql`
+  query User($id: ID!) {
+    user(id: $id) {
+      username
+      first_name
+      last_name
+      bio
+      posts {
+        id
+        comments {
+          id
+        }
+        likes {
+          id
+        }
+      }
+      following {
+        following {
+          id
+        }
+      }
+      followers {
+        follower {
+          id
+        }
+      }
+    }
+  }
+`;
