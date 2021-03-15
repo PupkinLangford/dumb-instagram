@@ -12,11 +12,13 @@ import {
   FormikErrors,
   FormikValues,
 } from 'formik';
+import {mutation_createPost} from '../graphql/mutations/post';
 
 const NewPost = () => {
   const [auth, loadingAuth] = useAuth();
   const history = useHistory();
   const [fileURL, setFileURL] = useState<string | null>(null);
+  const [createPost] = useMutation(mutation_createPost);
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
@@ -38,7 +40,20 @@ const NewPost = () => {
             return errors;
           }}
           onSubmit={async values => {
-            console.log(values);
+            try {
+              const response = await createPost({
+                variables: {
+                  photo: values.file,
+                  caption: values.caption,
+                  location: values.location,
+                },
+              });
+              console.log(response);
+              const post_id = response.data.createPost.id;
+              history.push('/posts/' + post_id);
+            } catch (err) {
+              console.log(err);
+            }
           }}
         >
           {props => (

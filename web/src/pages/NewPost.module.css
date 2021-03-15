@@ -1,3 +1,8 @@
+.newPost main {
+  width: 100%;
+  max-width: 935px;
+}
+
 .newPost textarea {
   background: 0 0;
   border: 1px solid #dbdbdb;

@@ -41,6 +41,7 @@ function App() {
           <Route exact path="/login" component={Login} />
           <Route exact path="/users/edit" component={Settings} />
           <Route exact path="/posts/new" component={NewPost} />
+          <Route exact path="/posts/:id" component={Home} />
         </Switch>
       </Router>
     </ApolloProvider>
