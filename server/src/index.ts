@@ -24,7 +24,7 @@ const schema = new GraphQLSchema({
 
 app.use(
   '/graphql',
-  graphqlUploadExpress({maxFileSize: 10000000, maxFiles: 10}),
+  graphqlUploadExpress({maxFileSize: 10000000, maxFiles: 1}),
   graphqlHTTP({
     schema: schema,
     graphiql: true,
