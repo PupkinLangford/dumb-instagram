@@ -2,7 +2,7 @@ import React, {useState, useEffect, useRef} from 'react';
 import {useHistory} from 'react-router-dom';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {useAuth} from '../hooks/use_auth';
-import styles from './EditProfile.module.css';
+import styles from './Settings.module.css';
 import {useMutation, useQuery} from '@apollo/client';
 import {
   mutation_changePassword,
@@ -14,7 +14,7 @@ import {query_current_user} from '../graphql/queries/user';
 import {changePasswordRules, editProfileRules} from '../rules/rules';
 import ProfilePic from '../components/ProfilePic';
 
-const EditProfile = () => {
+const Settings = () => {
   const [auth, loadingAuth] = useAuth();
   const [showModal, setShowModal] = useState(false);
   const [showChangePassword, setShowChangePassword] = useState(false);
@@ -93,6 +93,7 @@ const EditProfile = () => {
         });
         alert('Profile updated');
       }}
+      key="editProfile"
     >
       <Form>
         <label htmlFor="firstName">First Name</label>
@@ -150,6 +151,7 @@ const EditProfile = () => {
         });
         alert('Password changed');
       }}
+      key="changePassword"
     >
       <Form>
         <label htmlFor="password">New Password</label>
@@ -176,7 +178,7 @@ const EditProfile = () => {
   );
 
   return (
-    <div className={`page ${styles.editProfile}`}>
+    <div className={`page ${styles.settings}`}>
       <main>
         <ul className={styles.optionsList}>
           <li onClick={() => setShowChangePassword(false)}>Edit Profile</li>
@@ -214,4 +216,4 @@ const EditProfile = () => {
   );
 };
 
-export default EditProfile;
+export default Settings;

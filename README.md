@@ -25,6 +25,7 @@ A fair use parody of Instagram.
 #### Web Client
 
 - loader spinner component
+- refactor settings forms to separate components
 - add delete account tab to settings
 - profile picture being cached; clear cache when new picture uploaded
 - prevent modalform parent click event from propagating to children

@@ -31,7 +31,7 @@ const Nav = () => {
         </svg>
         <span>Profile</span>
       </Link>
-      <Link to="" className={styles.dropdownItem}>
+      <Link to="/posts/new" className={styles.dropdownItem}>
         <svg
           aria-label="New Post"
           fill="#262626"

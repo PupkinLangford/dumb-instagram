@@ -1,11 +1,11 @@
-.editProfile main {
+.settings main {
   display: flex;
   flex-direction: row;
   width: 100%;
   max-width: 935px;
 }
 
-.editProfile article {
+.settings article {
   display: flex;
   flex-direction: column;
   flex: 1 1 400px;
@@ -105,7 +105,7 @@
   font-size: 14px;
 }
 
-.editProfile form {
+.settings form {
   align-items: stretch;
   display: flex;
   flex-direction: column;
@@ -113,7 +113,7 @@
   margin-top: 16px;
 }
 
-.editProfile label {
+.settings label {
   color: #262626;
   font-size: 16px;
   font-weight: 600;
@@ -123,7 +123,7 @@
   margin-top: 24px;
 }
 
-.editProfile input {
+.settings input {
   border: 1px solid #dbdbdb;
   border-radius: 3px;
   box-sizing: border-box;
@@ -136,7 +136,7 @@
   max-width: 355px;
 }
 
-.editProfile textarea {
+.settings textarea {
   border: 1px solid #dbdbdb;
   border-radius: 3px;
   box-sizing: border-box;
@@ -149,7 +149,7 @@
   max-width: 355px;
 }
 
-.editProfile #submitButton {
+.settings #submitButton {
   width: 68px;
   margin: 30px 20px;
 }

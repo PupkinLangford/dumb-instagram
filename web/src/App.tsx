@@ -8,7 +8,8 @@ import config from './config';
 import Login from './pages/Login';
 import Home from './pages/Home';
 import Nav from './components/Nav';
-import EditProfile from './pages/EditProfile';
+import Settings from './pages/Settings';
+import NewPost from './pages/NewPost';
 
 const uploadLink = createUploadLink({uri: config.serverUrl});
 
@@ -38,7 +39,8 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
-          <Route exact path="/users/edit" component={EditProfile} />
+          <Route exact path="/users/edit" component={Settings} />
+          <Route exact path="/posts/new" component={NewPost} />
         </Switch>
       </Router>
     </ApolloProvider>
