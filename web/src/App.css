@@ -23,7 +23,8 @@ ul {
 .page {
   margin-top: 54px;
   background-color: #fafafa;
-  min-height: 100vh;
+  min-height: calc(100vh - 54px);
+  overflow-x: hidden;
 }
 
 button[type='submit'] {

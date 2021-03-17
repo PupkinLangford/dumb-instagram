@@ -31,21 +31,37 @@ const Post = () => {
         <div className={styles.imageContainer}>
           <PostPic userID={postQueryData.post.author.id} postID={id} />
         </div>
-        <div className={styles.commentContainer}>
-          <Comment
-            authorID={postQueryData.post.author.id}
-            authorUsername={postQueryData.post.author.username}
-            content={postQueryData.post.caption}
-            timestamp={postQueryData.post.format_date}
-          />
-          {postQueryData.post.comments.map((comment: any) => (
+        <div className={styles.dataContainer}>
+          <header>
+            <div className={styles.profilePicContainer}>
+              <ProfilePic source={postQueryData.post.author.id} />
+            </div>
+            <div className={styles.captionContainer}>
+              <div className={styles.text}>
+                <Link to={`/users/${id}`}>
+                  <h2>{postQueryData.post.author.username}</h2>
+                </Link>
+                <p>{postQueryData.post.location}</p>
+              </div>
+            </div>
+          </header>
+          <div className={styles.commentContainer}>
             <Comment
-              authorID={comment.author.id}
-              authorUsername={comment.author.username}
-              content={comment.content}
-              timestamp={comment.format_date}
+              authorID={postQueryData.post.author.id}
+              authorUsername={postQueryData.post.author.username}
+              content={postQueryData.post.caption}
+              timestamp={postQueryData.post.format_date}
             />
-          ))}
+            {postQueryData.post.comments.map((comment: any) => (
+              <Comment
+                authorID={comment.author.id}
+                authorUsername={comment.author.username}
+                content={comment.content}
+                timestamp={comment.format_date}
+              />
+            ))}
+          </div>
+          <footer>based</footer>
         </div>
       </main>
     </div>
