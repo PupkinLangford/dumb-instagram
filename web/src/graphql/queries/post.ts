@@ -5,6 +5,7 @@ export const query_post = gql`
     post(id: $id) {
       caption
       location
+      format_date
       author {
         id
         username

@@ -6,6 +6,7 @@ import {useQuery} from '@apollo/client';
 import ProfilePic from '../components/ProfilePic';
 import {query_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';
+import Comment from '../components/Comment';
 
 const Post = () => {
   const [auth, loadingAuth] = useAuth();
@@ -30,7 +31,14 @@ const Post = () => {
         <div className={styles.imageContainer}>
           <PostPic userID={postQueryData.post.author.id} postID={id} />
         </div>
-        <div className={styles.dataContainer}>{postQueryData.post.caption}</div>
+        <div className={styles.commentContainer}>
+          <Comment
+            authorID={postQueryData.post.author.id}
+            authorUsername={postQueryData.post.author.username}
+            content={postQueryData.post.caption}
+            timestamp={postQueryData.post.format_date}
+          />
+        </div>
       </main>
     </div>
   );
