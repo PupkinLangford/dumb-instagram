@@ -65,7 +65,15 @@
   gap: 2px;
 }
 
-.posts img {
-  width: 100%;
-  height: 100%;
+.posts img:hover {
+  opacity: 1;
+  filter: brightness(70%);
+}
+
+#editButton {
+  border: 1px solid #dbdbdb;
+  background-color: transparent;
+  color: #262626;
+  font-weight: 600;
+  text-align: center;
 }

@@ -1,0 +1,21 @@
+.post main {
+  flex-direction: row;
+  width: 100%;
+  max-width: 935px;
+}
+
+.imageContainer {
+  background-color: #000;
+  min-height: 450px;
+  justify-content: center;
+  flex-grow: 1;
+}
+
+.imageContainer > * {
+  height: auto;
+  width: auto;
+}
+
+.dataContainer {
+  width: 335px;
+}
