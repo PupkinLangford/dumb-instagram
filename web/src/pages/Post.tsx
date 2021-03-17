@@ -38,6 +38,14 @@ const Post = () => {
             content={postQueryData.post.caption}
             timestamp={postQueryData.post.format_date}
           />
+          {postQueryData.post.comments.map((comment: any) => (
+            <Comment
+              authorID={comment.author.id}
+              authorUsername={comment.author.username}
+              content={comment.content}
+              timestamp={comment.format_date}
+            />
+          ))}
         </div>
       </main>
     </div>

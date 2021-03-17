@@ -13,6 +13,14 @@ export const query_post = gql`
       likes {
         id
       }
+      comments {
+        author {
+          id
+          username
+        }
+        content
+        format_date
+      }
     }
   }
 `;
