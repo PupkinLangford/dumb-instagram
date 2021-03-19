@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Post.module.css';
@@ -16,6 +16,7 @@ import {
 const Post = () => {
   const [auth, loadingAuth] = useAuth();
   const [newComment, setNewComment] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const [createComment] = useMutation(mutation_createComment);
   const [likePost] = useMutation(mutation_likePost);
   const [unlikePost] = useMutation(mutation_unlikePost);
@@ -65,6 +66,28 @@ const Post = () => {
     history.go(0);
   };
 
+  const modal = (
+    <div className={styles.cover} onClick={() => setShowModal(false)}>
+      <div className={styles.modalBox}>
+        <div className={styles.modalForm}>
+          <div className={styles.modalButtons}>
+            <Link to="/" className={styles.modalLink}>
+              <button style={{color: '#0095f6'}}>Edit Post</button>
+            </Link>
+            <Link to="/" className={styles.modalLink}>
+              <button style={{color: '#ed4956'}}>Delete Post</button>
+            </Link>
+            <button
+              style={{fontWeight: 'normal', borderTop: '1px solid #dbdbdb'}}
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <div className={`page ${styles.post}`}>
       <main>
@@ -83,6 +106,15 @@ const Post = () => {
                 </Link>
                 <p>{postQueryData.post.location}</p>
               </div>
+              {postQueryData.post.author.id ===
+              JSON.parse(localStorage.getItem('user')!)?.id ? (
+                <div
+                  className={styles.modalSwitch}
+                  onClick={() => setShowModal(true)}
+                >
+                  ...
+                </div>
+              ) : null}
             </div>
           </header>
           <div className={styles.commentContainer}>
@@ -141,6 +173,7 @@ const Post = () => {
           </footer>
         </div>
       </main>
+      {showModal ? modal : null}
     </div>
   );
 };

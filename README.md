@@ -25,17 +25,18 @@ A fair use parody of Instagram.
 
 #### Web Client
 
+- make edit page based on new post page but without file input. props: existing caption/location
+- edit and delete post functionality
 - loader spinner component
 - factor like button / comment box into separate components
+- factor modals into separate components
+- refactor settings forms to separate components
 - return posts in reverse order of timestamp
 - fix explicit any typings in arrays of GraphQL data
 - follow button functionality
-- dont display follow button on own page, display link to settings
-- refactor settings forms to separate components
 - add delete account tab to settings
 - profile picture being cached; clear cache when new picture uploaded
 - prevent modalform parent click event from propagating to children
 - reset cache on login/logout, change headers to not dump cache always
-- set links in navbar dropdown
 - search functionality
 - use graphql subscriptions to avoid manual refresh
