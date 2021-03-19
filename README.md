@@ -26,8 +26,9 @@ A fair use parody of Instagram.
 #### Web Client
 
 - loader spinner component
+- factor like button / comment box into separate components
 - return posts in reverse order of timestamp
-- fix explicit any typing of post
+- fix explicit any typings in arrays of GraphQL data
 - follow button functionality
 - dont display follow button on own page, display link to settings
 - refactor settings forms to separate components

@@ -12,6 +12,9 @@ export const query_post = gql`
       }
       likes {
         id
+        liker {
+          id
+        }
       }
       comments {
         author {
