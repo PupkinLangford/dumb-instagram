@@ -1,18 +1,30 @@
-import React, {useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Post.module.css';
-import {useQuery} from '@apollo/client';
+import {useMutation, useQuery} from '@apollo/client';
 import ProfilePic from '../components/ProfilePic';
 import {query_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';
 import Comment from '../components/Comment';
+import {mutation_createComment} from '../graphql/mutations/comment';
 
 const Post = () => {
   const [auth, loadingAuth] = useAuth();
   const [newComment, setNewComment] = useState('');
+  const [createComment] = useMutation(mutation_createComment);
   const {id} = useParams<{id: string}>();
   const history = useHistory();
+
+  const submitComment = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!newComment) {
+      return;
+    } else {
+      await createComment({variables: {content: newComment, post_id: id}});
+      history.go(0);
+    }
+  };
 
   const {loading: postQueryLoading, data: postQueryData} = useQuery(
     query_post,
@@ -47,12 +59,14 @@ const Post = () => {
             </div>
           </header>
           <div className={styles.commentContainer}>
-            <Comment
-              authorID={postQueryData.post.author.id}
-              authorUsername={postQueryData.post.author.username}
-              content={postQueryData.post.caption}
-              timestamp={postQueryData.post.format_date}
-            />
+            {postQueryData.post.caption ? (
+              <Comment
+                authorID={postQueryData.post.author.id}
+                authorUsername={postQueryData.post.author.username}
+                content={postQueryData.post.caption}
+                timestamp={postQueryData.post.format_date}
+              />
+            ) : null}
             {postQueryData.post.comments.map((comment: any) => (
               <Comment
                 authorID={comment.author.id}
@@ -80,13 +94,15 @@ const Post = () => {
             <div className={styles.postTime}>
               {postQueryData.post.format_date}
             </div>
-            <form className={styles.newComment}>
+            <form className={styles.newComment} onSubmit={submitComment}>
               <textarea
                 placeholder="Add a comment..."
                 value={newComment}
                 onChange={e => setNewComment(e.target.value)}
               ></textarea>
-              <button type="submit">Post</button>
+              <button type="submit" disabled={!newComment}>
+                Post
+              </button>
             </form>
           </footer>
         </div>

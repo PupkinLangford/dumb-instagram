@@ -37,3 +37,4 @@ A fair use parody of Instagram.
 - reset cache on login/logout, change headers to not dump cache always
 - set links in navbar dropdown
 - search functionality
+- use graphql subscriptions to avoid manual refresh

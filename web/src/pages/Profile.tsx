@@ -5,7 +5,6 @@ import styles from './Profile.module.css';
 import {useQuery} from '@apollo/client';
 import ProfilePic from '../components/ProfilePic';
 import {query_user} from '../graphql/queries/user';
-import config from '../config';
 import PostPic from '../components/PostPic';
 
 const Profile = () => {
