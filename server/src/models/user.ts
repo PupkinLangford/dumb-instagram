@@ -35,6 +35,7 @@ UserSchema.virtual('posts', {
   ref: 'Post',
   foreignField: 'author',
   localField: '_id',
+  options: {sort: {timestamp: -1}},
 });
 
 UserSchema.virtual('following', {

@@ -27,11 +27,11 @@ A fair use parody of Instagram.
 
 - make edit page based on new post page but without file input. props: existing caption/location
 - edit and delete post functionality
+- edit and delete own comments
 - loader spinner component
 - factor like button / comment box into separate components
 - factor modals into separate components
 - refactor settings forms to separate components
-- return posts in reverse order of timestamp
 - fix explicit any typings in arrays of GraphQL data
 - follow button functionality
 - add delete account tab to settings
