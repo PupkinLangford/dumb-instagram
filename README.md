@@ -26,7 +26,7 @@ A fair use parody of Instagram.
 #### Web Client
 
 - pass props (existing caption/location) to EditPost; no need to re-query
-- edit and delete post functionality
+- delete post functionality
 - edit and delete own comments
 - loader spinner component
 - factor like button / comment box into separate components

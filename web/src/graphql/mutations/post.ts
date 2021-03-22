@@ -7,3 +7,11 @@ export const mutation_createPost = gql`
     }
   }
 `;
+
+export const mutation_updatePost = gql`
+  mutation updatePost($post_id: ID!, $caption: String, $location: String) {
+    updatePost(post_id: $post_id, caption: $caption, location: $location) {
+      id
+    }
+  }
+`;

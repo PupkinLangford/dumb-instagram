@@ -11,14 +11,14 @@ import {
   FormikErrors,
   FormikValues,
 } from 'formik';
-import {mutation_createPost} from '../graphql/mutations/post';
+import {mutation_updatePost} from '../graphql/mutations/post';
 import {query_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';
 
 const NewPost = () => {
   const [auth, loadingAuth] = useAuth();
   const history = useHistory();
-  const [createPost] = useMutation(mutation_createPost);
+  const [updatePost] = useMutation(mutation_updatePost);
   const {id} = useParams<{id: string}>();
   if (!loadingAuth && !auth) {
     history.push('/login');
@@ -48,20 +48,18 @@ const NewPost = () => {
           initialValues={{
             caption: postQueryData.post.caption,
             location: postQueryData.post.location,
-            file: null,
           }}
           onSubmit={async values => {
             try {
-              const response = await createPost({
+              const response = await updatePost({
                 variables: {
-                  photo: values.file,
+                  post_id: id,
                   caption: values.caption,
                   location: values.location,
                 },
               });
-              console.log(response);
-              const post_id = response.data.createPost.id;
-              history.push('/posts/' + post_id);
+              history.push('/posts/' + response.data.updatePost.id);
+              history.go(0);
             } catch (err) {
               console.log(err);
             }

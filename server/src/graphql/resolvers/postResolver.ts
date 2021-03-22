@@ -49,8 +49,8 @@ export async function updatePost(
       return Post.findByIdAndUpdate(
         foundPost._id,
         {
-          caption: args.caption || foundPost.caption,
-          location: args.location || foundPost.location,
+          caption: args.caption,
+          location: args.location,
         },
         {new: true}
       );

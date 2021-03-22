@@ -47,7 +47,6 @@ const NewPost = () => {
                   location: values.location,
                 },
               });
-              console.log(response);
               const post_id = response.data.createPost.id;
               history.push('/posts/' + post_id);
             } catch (err) {
