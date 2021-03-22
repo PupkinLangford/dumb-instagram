@@ -1,16 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './NewPost.module.css';
 import {useQuery, useMutation} from '@apollo/client';
-import {
-  ErrorMessage,
-  Field,
-  Form,
-  Formik,
-  FormikErrors,
-  FormikValues,
-} from 'formik';
+import {Field, Form, Formik} from 'formik';
 import {mutation_updatePost} from '../graphql/mutations/post';
 import {query_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';

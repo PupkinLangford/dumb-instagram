@@ -12,11 +12,13 @@ import {
   mutation_likePost,
   mutation_unlikePost,
 } from '../graphql/mutations/like';
+import {mutation_deletePost} from '../graphql/mutations/post';
 
 const Post = () => {
   const [auth, loadingAuth] = useAuth();
   const [newComment, setNewComment] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [deletePost] = useMutation(mutation_deletePost);
   const [createComment] = useMutation(mutation_createComment);
   const [likePost] = useMutation(mutation_likePost);
   const [unlikePost] = useMutation(mutation_unlikePost);
@@ -50,6 +52,18 @@ const Post = () => {
       like.liker.id === JSON.parse(localStorage.getItem('user')!)?.id
   );
 
+  const submitDelete = async () => {
+    const res = window.confirm('Are you sure you want to delete this post?');
+    if (!res) return;
+    try {
+      await deletePost({variables: {post_id: id}});
+      history.goBack();
+      history.go(0);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const submitLike = async () => {
     if (liked) {
       return;
@@ -74,9 +88,12 @@ const Post = () => {
             <Link to={`/posts/${id}/edit`} className={styles.modalLink}>
               <button style={{color: '#0095f6'}}>Edit Post</button>
             </Link>
-            <Link to="/" className={styles.modalLink}>
-              <button style={{color: '#ed4956'}}>Delete Post</button>
-            </Link>
+            <button
+              style={{color: '#ed4956', borderTop: '1px solid #dbdbdb'}}
+              onClick={() => submitDelete()}
+            >
+              Delete Post
+            </button>
             <button
               style={{fontWeight: 'normal', borderTop: '1px solid #dbdbdb'}}
             >

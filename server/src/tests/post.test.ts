@@ -119,6 +119,8 @@ describe('post mutations', () => {
     });
     uploadSpy = jest.spyOn(imageFunctions, 'uploadImage');
     uploadSpy.mockReturnValue(Promise.resolve('url'));
+    const deleteSpy = jest.spyOn(imageFunctions, 'deleteImage');
+    deleteSpy.mockReturnValue(Promise.resolve());
   });
 
   test('can create post with proper args', async () => {

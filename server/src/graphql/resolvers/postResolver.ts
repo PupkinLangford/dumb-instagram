@@ -4,7 +4,7 @@ import {jwtValidate} from '../../middlewares/jwtValidate';
 import {Request} from 'express';
 import {ObjectId} from 'mongoose';
 import {FileUpload} from 'graphql-upload';
-import {uploadImage} from './imageFunctions';
+import {deleteImage, uploadImage} from './imageFunctions';
 
 export async function createPost(
   _parent: unknown,
@@ -75,6 +75,7 @@ export async function deletePost(
     if (user.id !== foundPost.author.toString()) {
       return new GraphQLError("Cannot delete other user's post");
     }
+    deleteImage(user.id + '/' + args.post_id);
     return await foundPost.deleteOne();
   } catch (err) {
     return new GraphQLError(err);
