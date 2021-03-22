@@ -71,7 +71,7 @@ const Post = () => {
       <div className={styles.modalBox}>
         <div className={styles.modalForm}>
           <div className={styles.modalButtons}>
-            <Link to="/" className={styles.modalLink}>
+            <Link to={`/posts/${id}/edit`} className={styles.modalLink}>
               <button style={{color: '#0095f6'}}>Edit Post</button>
             </Link>
             <Link to="/" className={styles.modalLink}>

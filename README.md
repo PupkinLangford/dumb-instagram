@@ -25,7 +25,7 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- make edit page based on new post page but without file input. props: existing caption/location
+- pass props (existing caption/location) to EditPost; no need to re-query
 - edit and delete post functionality
 - edit and delete own comments
 - loader spinner component
