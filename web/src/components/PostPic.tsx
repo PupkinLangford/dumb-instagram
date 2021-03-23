@@ -8,7 +8,7 @@ interface PostPicProps {
   style?: React.CSSProperties;
 }
 
-const ProfilePic = (props: PostPicProps) => (
+const PostPic = (props: PostPicProps) => (
   <div className={styles.container} style={props.style}>
     <img
       src={config.cloudinaryBaseUrl + `${props.userID}/${props.postID}`}
@@ -17,4 +17,4 @@ const ProfilePic = (props: PostPicProps) => (
   </div>
 );
 
-export default ProfilePic;
+export default PostPic;

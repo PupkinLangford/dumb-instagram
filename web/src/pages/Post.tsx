@@ -1,4 +1,4 @@
-import React, {FormEvent, useState} from 'react';
+import React, {FormEvent, useEffect, useState} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Post.module.css';
@@ -13,11 +13,13 @@ import {
   mutation_unlikePost,
 } from '../graphql/mutations/like';
 import {mutation_deletePost} from '../graphql/mutations/post';
+import UsersModal from '../components/UsersModal';
 
 const Post = () => {
   const [auth, loadingAuth] = useAuth();
   const [newComment, setNewComment] = useState('');
   const [showModal, setShowModal] = useState(false);
+  const [showLikesModal, setShowLikesModal] = useState(false);
   const [deletePost] = useMutation(mutation_deletePost);
   const [createComment] = useMutation(mutation_createComment);
   const [likePost] = useMutation(mutation_likePost);
@@ -39,6 +41,9 @@ const Post = () => {
     query_post,
     {variables: {id}}
   );
+  /*useEffect(() => {
+    if (!postQueryLoading) console.log(postQueryData.post.likes);
+  });*/
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
@@ -79,7 +84,6 @@ const Post = () => {
     await unlikePost({variables: {post_id: id}});
     history.go(0);
   };
-
   const modal = (
     <div className={styles.cover} onClick={() => setShowModal(false)}>
       <div className={styles.modalBox}>
@@ -171,7 +175,10 @@ const Post = () => {
                 ></path>
               </svg>
             </span>
-            <div className={styles.likes}>
+            <div
+              className={styles.likes}
+              onClick={() => setShowLikesModal(true)}
+            >
               {postQueryData.post.likes.length} likes
             </div>
             <div className={styles.postTime}>
@@ -191,6 +198,13 @@ const Post = () => {
         </div>
       </main>
       {showModal ? modal : null}
+      {showLikesModal ? (
+        <UsersModal
+          closeModal={() => setShowLikesModal(false)}
+          title="Likes"
+          userList={postQueryData.post.likes.map((like: any) => like.liker)}
+        />
+      ) : null}
     </div>
   );
 };

@@ -14,6 +14,9 @@ export const query_post = gql`
         id
         liker {
           id
+          username
+          first_name
+          last_name
         }
       }
       comments {
