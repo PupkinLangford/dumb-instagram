@@ -2,6 +2,7 @@ import User from '../models/user';
 import Post from '../models/post';
 import Comment from '../models/comment';
 import Like from '../models/like';
+import Follow from '../models/follow';
 
 export const createUser = async () => {
   const user = new User({
@@ -88,4 +89,44 @@ export const createLike = async () => {
   });
 
   return await like.save();
+};
+
+export const createFollow = async () => {
+  const user1 = new User({
+    first_name: 'Test',
+    last_name: 'Follower',
+    username: 'testfollower',
+    password: '12345',
+    email: 'testfollow@aol.com',
+    profile_pic: '444',
+    bio: 'testing follow creation',
+  });
+
+  await user1.save();
+
+  const user2 = new User({
+    first_name: 'Test',
+    last_name: 'Following',
+    username: 'testfollowing',
+    password: '12345',
+    email: 'testfollowing@aol.com',
+    profile_pic: '444',
+    bio: 'testing follow creation',
+  });
+
+  await user2.save();
+
+  const follow = new Follow({
+    follower: user1._id,
+    following: user2._id,
+    timestamp: new Date(),
+  });
+
+  const follow2 = new Follow({
+    follower: user2._id,
+    following: user1._id,
+    timestamp: new Date(),
+  });
+
+  return await Promise.all([follow.save(), follow2.save()]);
 };

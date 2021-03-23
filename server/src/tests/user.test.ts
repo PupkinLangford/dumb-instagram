@@ -1,4 +1,4 @@
-import {createLike, createPost, createUser} from './utils';
+import {createFollow, createLike, createPost, createUser} from './utils';
 import request from 'supertest';
 import app from '../index';
 import {IUser} from '../models/user';
@@ -10,6 +10,7 @@ import {createComment} from './utils';
 import Comment from '../models/comment';
 import Like from '../models/like';
 import Post from '../models/post';
+import Follow from '../models/follow';
 import * as imageFunctions from '../graphql/resolvers/imageFunctions';
 import path from 'path';
 
@@ -404,6 +405,24 @@ describe('user mutations', () => {
 
     const likes = await Like.find({});
     expect(likes.length).toBe(0);
+  });
+
+  test('deleteSelf successfully deletes lingering follows', async () => {
+    const follows = await createFollow();
+    const id = follows[0].follower;
+    const followerToken = jsonwebtoken.sign({id: id}, config.jwtSecret!, {
+      expiresIn: '1d',
+    });
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', followerToken)
+      .send({query: mutationDeleteSelf()});
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.deleteSelf.id).toBe(id.toString());
+
+    const follows_query = await Follow.find({});
+    expect(follows_query.length).toBe(0);
   });
 
   test('deleteSelf successfully deletes lingering posts', async () => {

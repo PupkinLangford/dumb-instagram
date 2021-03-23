@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt';
 import Comment from './comment';
 import Like from './like';
 import Post from './post';
+import Follow from './follow';
 
 export interface IUser extends Document {
   first_name: string;
@@ -71,6 +72,8 @@ UserSchema.pre(
       Post.find({author: user_id}),
       Comment.deleteMany({author: user_id}),
       Like.deleteMany({liker: user_id}),
+      Follow.deleteMany({follower: user_id}),
+      Follow.deleteMany({following: user_id}),
     ]);
     await posts.forEach(post => {
       post.deleteOne();
