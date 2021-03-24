@@ -17,14 +17,13 @@ A fair use parody of Instagram.
 
 - urls are superfluous properties. Post url could be a virtual property. Profile pic url could be stored as a constant on the front end.
 - virtual properties for count of user posts/following/followers?
-- delete photos from cloudinary when posts/users deleted
-- change image size/quality/other cloudinary settings
+- delete photos from cloudinary when users deleted
 - destroy token when user deleted
-- going to need some privacy settings
-- users could possibly manipulate url to find other user's private photos
+- privacy settings (don't allow users to manipulate url to view private data)
 
 #### Web Client
 
+- post/follow counts on Profile page (with follow modals)
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
 - edit and delete own comments
@@ -33,7 +32,6 @@ A fair use parody of Instagram.
 - factor modals into separate components
 - refactor settings forms to separate components
 - fix explicit any typings in arrays of GraphQL data
-- follow button functionality
 - add delete account tab to settings
 - profile picture being cached; clear cache when new picture uploaded
 - prevent modalform parent click event from propagating to children

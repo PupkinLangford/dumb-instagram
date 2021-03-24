@@ -1,4 +1,4 @@
-import React, {FormEvent, useEffect, useState} from 'react';
+import React, {FormEvent, useState} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Post.module.css';
@@ -41,9 +41,7 @@ const Post = () => {
     query_post,
     {variables: {id}}
   );
-  /*useEffect(() => {
-    if (!postQueryLoading) console.log(postQueryData.post.likes);
-  });*/
+
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
@@ -122,7 +120,7 @@ const Post = () => {
             </div>
             <div className={styles.captionContainer}>
               <div className={styles.text}>
-                <Link to={`/users/${id}`}>
+                <Link to={`/users/${postQueryData.post.author.id}`}>
                   <h2>{postQueryData.post.author.username}</h2>
                 </Link>
                 <p>{postQueryData.post.location}</p>

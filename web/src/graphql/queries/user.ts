@@ -32,11 +32,17 @@ export const query_user = gql`
       following {
         following {
           id
+          username
+          first_name
+          last_name
         }
       }
       followers {
         follower {
           id
+          username
+          first_name
+          last_name
         }
       }
     }

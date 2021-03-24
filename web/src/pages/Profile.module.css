@@ -77,3 +77,9 @@
   font-weight: 600;
   text-align: center;
 }
+
+#unfollow {
+  background-color: transparent;
+  color: #262626;
+  border: 1px solid #dbdbdb;
+}
