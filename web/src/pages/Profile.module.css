@@ -58,6 +58,33 @@
   padding: 0;
 }
 
+.stats {
+  justify-content: space-around;
+  border-top: 1px solid #dbdbdb;
+  border-bottom: 1px solid #dbdbdb;
+  padding: 12px 0;
+  flex-direction: row;
+  margin-bottom: 12px;
+}
+
+.stats > div {
+  width: 100%;
+  text-align: center;
+}
+
+.stats > div:not(:first-child) {
+  cursor: pointer;
+}
+
+.statCount {
+  color: #262626;
+  font-weight: 600;
+}
+
+.statName {
+  color: #8e8e8e;
+}
+
 .posts {
   display: grid;
   width: 100%;

@@ -23,7 +23,7 @@ const UsersModal = (props: UsersModalProps) => (
       <div className={styles.modalForm}>
         <h1>{props.title}</h1>
         {props.userList.map((user: IUser) => (
-          <div className={styles.user}>
+          <div className={styles.user} key={user.id}>
             <div className={styles.picContainer}>
               <ProfilePic source={user.id} />
             </div>

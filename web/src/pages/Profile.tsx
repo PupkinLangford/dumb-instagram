@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Profile.module.css';
@@ -10,6 +10,7 @@ import {
   mutation_followUser,
   mutation_unfollowUser,
 } from '../graphql/mutations/follow';
+import UsersModal from '../components/UsersModal';
 
 const Profile = () => {
   const [auth, loadingAuth] = useAuth();
@@ -17,6 +18,8 @@ const Profile = () => {
   const history = useHistory();
   const [followUser] = useMutation(mutation_followUser);
   const [unfollowUser] = useMutation(mutation_unfollowUser);
+  const [showFollowersModal, setShowFollowersModal] = useState(false);
+  const [showFollowingModal, setShowFollowingModal] = useState(false);
   const {loading: userQueryLoading, data: userQueryData} = useQuery(
     query_user,
     {variables: {id}}
@@ -91,14 +94,48 @@ const Profile = () => {
             <h3>{`${userQueryData.user.first_name} ${userQueryData.user.last_name}`}</h3>
             <p>{userQueryData.user.bio}</p>
           </div>
+          <div className={styles.stats}>
+            <div>
+              <span className={styles.statCount}>
+                {userQueryData.user.posts.length}
+              </span>
+              <span className={styles.statName}>posts</span>
+            </div>
+            <div onClick={() => setShowFollowersModal(true)}>
+              <span className={styles.statCount}>
+                {userQueryData.user.followers.length}
+              </span>
+              <span className={styles.statName}>followers</span>
+            </div>
+            <div onClick={() => setShowFollowingModal(true)}>
+              <span className={styles.statCount}>
+                {userQueryData.user.following.length}
+              </span>
+              <span className={styles.statName}>following</span>
+            </div>
+          </div>
           <div className={styles.posts}>
             {userQueryData.user.posts.map((post: any) => (
-              <Link to={'/posts/' + post.id}>
+              <Link to={'/posts/' + post.id} key={post.id}>
                 <PostPic userID={id} postID={post.id} />
               </Link>
             ))}
           </div>
         </main>
+        {showFollowersModal ? (
+          <UsersModal
+            closeModal={() => setShowFollowersModal(false)}
+            title="Likes"
+            userList={userQueryData.user.followers.map((f: any) => f.follower)}
+          />
+        ) : null}
+        {showFollowingModal ? (
+          <UsersModal
+            closeModal={() => setShowFollowingModal(false)}
+            title="Likes"
+            userList={userQueryData.user.following.map((f: any) => f.following)}
+          />
+        ) : null}
       </div>
     );
   }

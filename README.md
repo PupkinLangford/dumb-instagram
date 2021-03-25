@@ -23,7 +23,6 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- post/follow counts on Profile page (with follow modals)
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
 - edit and delete own comments
