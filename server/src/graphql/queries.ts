@@ -1,4 +1,4 @@
-import {GraphQLID, GraphQLList, GraphQLObjectType} from 'graphql';
+import {GraphQLID, GraphQLInt, GraphQLList, GraphQLObjectType} from 'graphql';
 import {jwtValidate} from '../middlewares/jwtValidate';
 import {commentType, PostType, UserType} from './types';
 import User from '../models/user';
@@ -52,6 +52,18 @@ export const queryType = new GraphQLObjectType({
         const {authorization} = headers;
         jwtValidate(authorization);
         return Post.find({}).populate('comments likes').sort('-timestamp');
+      },
+    },
+    explore_posts: {
+      type: new GraphQLList(GraphQLID),
+      args: {count: {type: GraphQLInt}},
+      resolve(_parent, args, {headers}) {
+        const {authorization} = headers;
+        jwtValidate(authorization);
+        return Post.aggregate()
+          .project({id: {$toString: '$_id'}})
+          .sample(args.count)
+          .then(agg => agg.map(doc => doc.id));
       },
     },
     comment: {

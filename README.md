@@ -15,6 +15,7 @@ A fair use parody of Instagram.
 
 #### Server
 
+- Enable helmet before deployment
 - urls are superfluous properties. Post url could be a virtual property. Profile pic url could be stored as a constant on the front end.
 - virtual properties for count of user posts/following/followers?
 - delete photos from cloudinary when users deleted
