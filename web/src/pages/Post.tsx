@@ -50,6 +50,10 @@ const Post = () => {
     return <div></div>;
   }
 
+  if (!postQueryLoading && !postQueryData.post) {
+    return <div></div>;
+  }
+
   const liked = postQueryData.post.likes.some(
     (like: any) =>
       like.liker.id === JSON.parse(localStorage.getItem('user')!)?.id
