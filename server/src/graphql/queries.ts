@@ -55,15 +55,20 @@ export const queryType = new GraphQLObjectType({
       },
     },
     explore_posts: {
-      type: new GraphQLList(GraphQLID),
+      type: new GraphQLList(PostType),
       args: {count: {type: GraphQLInt}},
       resolve(_parent, args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
         return Post.aggregate()
-          .project({id: {$toString: '$_id'}})
-          .sample(args.count)
-          .then(agg => agg.map(doc => doc.id));
+          .project({
+            id: {$toString: '$_id'},
+            caption: 1,
+            location: 1,
+            timestamp: 1,
+            author: 1,
+          })
+          .sample(args.count);
       },
     },
     comment: {
