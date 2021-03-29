@@ -41,3 +41,22 @@ export const query_explore_post = gql`
     }
   }
 `;
+
+export const query_following_posts = gql`
+  query {
+    current_user {
+      following {
+        following {
+          id
+          username
+          posts {
+            id
+            caption
+            timestamp
+            format_date
+          }
+        }
+      }
+    }
+  }
+`;
