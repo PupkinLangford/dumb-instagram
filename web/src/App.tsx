@@ -13,6 +13,7 @@ import NewPost from './pages/NewPost';
 import Profile from './pages/Profile';
 import Post from './pages/Post';
 import EditPost from './pages/EditPost';
+import Explore from './pages/Explore';
 
 const uploadLink = createUploadLink({uri: config.serverUrl});
 
@@ -42,6 +43,7 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home} />
           <Route exact path="/login" component={Login} />
+          <Route exact path="/explore" component={Explore} />
           <Route exact path="/users/edit" component={Settings} />
           <Route exact path="/posts/new" component={NewPost} />
           <Route exact path="/posts/:id" component={Post} />

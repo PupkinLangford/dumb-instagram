@@ -37,8 +37,12 @@
   cursor: pointer;
 }
 
-.navIcons svg:not(:first-child) {
+.navIcons > *:not(:first-child) {
   margin-left: 22px;
+}
+
+.navIcons svg {
+  display: block;
 }
 
 .searchBar {

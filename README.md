@@ -16,6 +16,7 @@ A fair use parody of Instagram.
 #### Server
 
 - explore_posts missing virtual properties of post
+- test for explore_posts
 - Enable helmet before deployment
 - urls are superfluous properties. Post url could be a virtual property. Profile pic url could be stored as a constant on the front end.
 - virtual properties for count of user posts/following/followers?

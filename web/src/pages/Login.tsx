@@ -216,7 +216,7 @@ const Login = () => {
           </div>
         </div>
         <div className="getapp">
-          <p>There is no app yet</p>
+          <p>App coming soon</p>
         </div>
       </main>
     </div>
