@@ -15,6 +15,7 @@ A fair use parody of Instagram.
 
 #### Server
 
+- make feed_posts not suck (add tests too)
 - explore_posts missing virtual properties of post
 - test for explore_posts
 - Enable helmet before deployment

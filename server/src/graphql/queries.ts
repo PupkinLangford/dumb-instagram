@@ -4,6 +4,8 @@ import {commentType, PostType, UserType} from './types';
 import User from '../models/user';
 import Post from '../models/post';
 import Comment from '../models/comment';
+import Follow from '../models/follow';
+import {Types} from 'mongoose';
 
 export const queryType = new GraphQLObjectType({
   name: 'Query',
@@ -69,6 +71,20 @@ export const queryType = new GraphQLObjectType({
             author: 1,
           })
           .sample(args.count);
+      },
+    },
+    feed_posts: {
+      type: new GraphQLList(PostType),
+      async resolve(_parent, _args, {headers}) {
+        const {authorization} = headers;
+        const user = jwtValidate(authorization);
+        const follows = await Follow.find({
+          follower: user.id as Object,
+        });
+        const following = follows.map(f => f.following);
+        return Post.find({author: following as Object})
+          .populate('comments likes')
+          .sort('-timestamp');
       },
     },
     comment: {
