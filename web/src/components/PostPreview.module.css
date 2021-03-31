@@ -1,0 +1,24 @@
+.postPreview {
+  padding: 0;
+  margin-bottom: 60px;
+  border-radius: 3px;
+  border: 1px solid #dbdbdb;
+  width: 100%;
+  max-width: 600px;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  background-color: #000;
+  min-height: 425px;
+  justify-content: center;
+  flex-grow: 1;
+  padding: 0;
+  margin: 0;
+}
+
+.imageContainer > * {
+  height: auto;
+  width: auto;
+}

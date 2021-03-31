@@ -80,7 +80,7 @@ export const queryType = new GraphQLObjectType({
         const follows = await Follow.find({
           follower: user.id as Object,
         });
-        const following = follows.map(f => f.following);
+        const following = [...follows.map(f => f.following), user.id];
         return Post.find({author: following as Object})
           .populate('comments likes')
           .sort('-timestamp');
