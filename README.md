@@ -28,6 +28,7 @@ A fair use parody of Instagram.
 
 #### Web Client
 
+- search functionality
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
 - edit and delete own comments
@@ -39,5 +40,4 @@ A fair use parody of Instagram.
 - profile picture being cached; clear cache when new picture uploaded
 - prevent modalform parent click event from propagating to children
 - reset cache on login/logout, change headers to not dump cache always
-- search functionality
 - use graphql subscriptions to avoid manual refresh

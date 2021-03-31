@@ -8,9 +8,12 @@ import {
 } from '../graphql/mutations/like';
 import UsersModal from '../components/UsersModal';
 import {useHistory} from 'react-router';
+import Comment from './Comment';
+import {Link} from 'react-router-dom';
 
 interface PostFooterProps {
   postData: any;
+  showCaption?: boolean;
 }
 
 const PostFooter = (props: PostFooterProps) => {
@@ -74,6 +77,14 @@ const PostFooter = (props: PostFooterProps) => {
       <div className={styles.likes} onClick={() => setShowLikesModal(true)}>
         {props.postData.likes.length} likes
       </div>
+      {props.showCaption && (
+        <div className={styles.text}>
+          <Link to={`/users/${props.postData.author.id}`}>
+            <h2>{props.postData.author.username}</h2>
+          </Link>
+          <p>{props.postData.caption}</p>
+        </div>
+      )}
       <div className={styles.postTime}>{props.postData.format_date}</div>
       <form className={styles.newComment} onSubmit={submitComment}>
         <textarea
