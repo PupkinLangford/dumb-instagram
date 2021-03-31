@@ -1,0 +1,75 @@
+.postFooter {
+  border-top: 1px solid #efefef;
+  padding-top: 4px;
+  margin-top: 4px;
+}
+
+.likeButton {
+  margin: 0;
+  padding: 0;
+  padding: 0 16px;
+  display: block;
+}
+
+.likeButton svg {
+  cursor: pointer;
+}
+
+.likes {
+  font-weight: 600;
+  color: #262626;
+  cursor: pointer;
+  margin-bottom: 4px;
+  padding: 0 16px;
+}
+
+.postTime {
+  font-size: 10px;
+  line-height: 18px;
+  letter-spacing: 0.2px;
+  color: #8e8e8e;
+  text-transform: uppercase;
+  padding: 0 16px;
+}
+
+.newComment {
+  margin-top: 8px;
+  min-height: 56px;
+  border-top: 1px solid #efefef;
+  font-size: 14px;
+  line-height: 18px;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.newComment textarea {
+  height: 32px;
+  background: 0 0;
+  border: 0;
+  color: #262626;
+  outline: 0;
+  padding-left: 40px;
+  flex-grow: 1;
+  resize: none;
+  scrollbar-width: none;
+}
+
+.newComment textarea::-webkit-scrollbar {
+  display: none;
+}
+
+.newComment button {
+  background: 0 0;
+  border: 0;
+  color: #0095f6;
+  margin: 0;
+  padding: 0;
+  justify-self: center;
+}
+
+.newComment button:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}

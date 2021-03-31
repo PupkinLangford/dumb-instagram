@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useHistory} from 'react-router-dom';
-import {query_following_posts} from '../graphql/queries/post';
+import {query_feed_posts} from '../graphql/queries/post';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Home.module.css';
 import {useQuery} from '@apollo/client';
@@ -12,17 +12,17 @@ const Home = () => {
     history.push('/login');
   }
 
-  const {loading: postsQueryLoading, data: postsQueryData} = useQuery(
-    query_following_posts
+  const {loading: feedQueryLoading, data: feedQueryData} = useQuery(
+    query_feed_posts
   );
 
-  if (postsQueryLoading) {
+  if (feedQueryLoading) {
     return <div></div>;
   }
 
   return (
     <div className={`page ${styles.explore}`}>
-      {console.log(postsQueryData)}
+      {console.log(feedQueryData)}
       <div>home</div>
     </div>
   );

@@ -17,6 +17,7 @@ A fair use parody of Instagram.
 
 - make feed_posts not suck (add tests too)
 - explore_posts missing virtual properties of post
+- virtual property for most recent comment on post; display in feed
 - test for explore_posts
 - Enable helmet before deployment
 - urls are superfluous properties. Post url could be a virtual property. Profile pic url could be stored as a constant on the front end.
@@ -34,7 +35,7 @@ A fair use parody of Instagram.
 - factor like button / comment box into separate components
 - factor modals into separate components
 - refactor settings forms to separate components
-- fix explicit any typings in arrays of GraphQL data
+- fix explicit any typings in arrays of GraphQL data and PostFooterProps
 - add delete account tab to settings
 - profile picture being cached; clear cache when new picture uploaded
 - prevent modalform parent click event from propagating to children

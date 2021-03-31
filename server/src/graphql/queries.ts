@@ -5,7 +5,6 @@ import User from '../models/user';
 import Post from '../models/post';
 import Comment from '../models/comment';
 import Follow from '../models/follow';
-import {Types} from 'mongoose';
 
 export const queryType = new GraphQLObjectType({
   name: 'Query',

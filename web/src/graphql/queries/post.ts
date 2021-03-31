@@ -3,6 +3,7 @@ import {gql} from '@apollo/client';
 export const query_post = gql`
   query Post($id: ID!) {
     post(id: $id) {
+      id
       caption
       location
       format_date
@@ -11,7 +12,6 @@ export const query_post = gql`
         username
       }
       likes {
-        id
         liker {
           id
           username
@@ -42,19 +42,23 @@ export const query_explore_post = gql`
   }
 `;
 
-export const query_following_posts = gql`
+export const query_feed_posts = gql`
   query {
-    current_user {
-      following {
-        following {
+    feed_posts {
+      id
+      caption
+      location
+      format_date
+      author {
+        id
+        username
+      }
+      likes {
+        liker {
           id
           username
-          posts {
-            id
-            caption
-            timestamp
-            format_date
-          }
+          first_name
+          last_name
         }
       }
     }
