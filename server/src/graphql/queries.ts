@@ -1,4 +1,11 @@
-import {GraphQLID, GraphQLInt, GraphQLList, GraphQLObjectType} from 'graphql';
+import {
+  GraphQLID,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLString,
+} from 'graphql';
 import {jwtValidate} from '../middlewares/jwtValidate';
 import {commentType, PostType, UserType} from './types';
 import User from '../models/user';
@@ -28,6 +35,15 @@ export const queryType = new GraphQLObjectType({
         return User.findById(args.id, '-password -email').populate(
           'posts followers following'
         );
+      },
+    },
+    search_users: {
+      type: new GraphQLList(UserType),
+      args: {searchQuery: {type: new GraphQLNonNull(GraphQLString)}},
+      resolve(_parent, args, {headers}) {
+        const {authorization} = headers;
+        jwtValidate(authorization);
+        return User.find({username: {$regex: args.searchQuery, $options: 'i'}});
       },
     },
     users: {

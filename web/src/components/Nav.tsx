@@ -17,6 +17,10 @@ const Nav = () => {
     }
   };
 
+  const handleSubmit = () => {
+    console.log(search);
+  };
+
   const dropdown = (
     <div className={styles.dropdown} onClick={() => setShowDropdown(false)}>
       <Link
@@ -95,6 +99,7 @@ const Nav = () => {
             id="search"
             value={search}
             onChange={handleChange}
+            onKeyUp={handleSubmit}
           />
         </div>
         <div className={styles.navIcons}>
