@@ -23,9 +23,14 @@ const Home = () => {
 
   return (
     <div className={`page ${styles.home}`}>
-      {feedQueryData.feed_posts.map((post: any) => (
-        <PostPreview postData={post} />
-      ))}
+      {feedQueryData.current_user.following
+        .flatMap((f: any) => f.posts)
+        .sort(
+          (a: any, b: any) => +new Date(b.timestamp) - +new Date(a.timestamp)
+        )
+        .map((post: any) => (
+          <PostPreview postData={post} key={post.id} />
+        ))}
     </div>
   );
 };

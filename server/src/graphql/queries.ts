@@ -14,7 +14,9 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, _args, {headers}) {
         const {authorization} = headers;
         const user = jwtValidate(authorization);
-        return User.findById(user.id).populate('posts followers following');
+        return User.findById(user.id)
+          .populate('posts followers')
+          .populate({path: 'following', populate: {path: 'posts'}});
       },
     },
     user: {

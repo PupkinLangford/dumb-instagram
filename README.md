@@ -16,6 +16,7 @@ A fair use parody of Instagram.
 #### Server
 
 - make feed_posts not suck (add tests too)
+- include own posts in feed
 - explore_posts missing virtual properties of post
 - virtual property for most recent comment on post; display in feed
 - test for explore_posts

@@ -8,7 +8,6 @@ import {
 } from '../graphql/mutations/like';
 import UsersModal from '../components/UsersModal';
 import {useHistory} from 'react-router';
-import Comment from './Comment';
 import {Link} from 'react-router-dom';
 
 interface PostFooterProps {

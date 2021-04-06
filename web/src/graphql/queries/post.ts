@@ -42,7 +42,7 @@ export const query_explore_post = gql`
   }
 `;
 
-export const query_feed_posts = gql`
+/*export const query_feed_posts = gql`
   query {
     feed_posts {
       id
@@ -59,6 +59,34 @@ export const query_feed_posts = gql`
           username
           first_name
           last_name
+        }
+      }
+    }
+  }
+`;*/
+
+export const query_feed_posts = gql`
+  query {
+    current_user {
+      following {
+        posts {
+          id
+          caption
+          location
+          format_date
+          timestamp
+          author {
+            id
+            username
+          }
+          likes {
+            liker {
+              id
+              username
+              first_name
+              last_name
+            }
+          }
         }
       }
     }

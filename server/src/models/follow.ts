@@ -22,4 +22,10 @@ FollowSchema.virtual('format_date').get(function (this: IFollow) {
   );
 });
 
+FollowSchema.virtual('posts', {
+  ref: 'Post',
+  foreignField: 'author',
+  localField: 'following',
+});
+
 export default model<IFollow>('Follow', FollowSchema);
