@@ -1,5 +1,7 @@
-import React, {ChangeEvent, useState} from 'react';
+import {useQuery} from '@apollo/client';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
+import {query_search_users} from '../graphql/queries/user';
 import {useAuth} from '../hooks/use_auth';
 import logo from '../images/logo.png';
 import styles from './Nav.module.css';
@@ -10,6 +12,10 @@ const Nav = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [search, setSearch] = useState('');
   const history = useHistory();
+  const {
+    loading: searchQueryLoading,
+    data: searchQueryData,
+  } = useQuery(query_search_users, {variables: {searchQuery: search}});
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'search') {
@@ -17,9 +23,9 @@ const Nav = () => {
     }
   };
 
-  const handleSubmit = () => {
-    console.log(search);
-  };
+  useEffect(() => {
+    if (!searchQueryLoading && search) console.log(searchQueryData);
+  });
 
   const dropdown = (
     <div className={styles.dropdown} onClick={() => setShowDropdown(false)}>
@@ -99,7 +105,6 @@ const Nav = () => {
             id="search"
             value={search}
             onChange={handleChange}
-            onKeyUp={handleSubmit}
           />
         </div>
         <div className={styles.navIcons}>

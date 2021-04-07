@@ -51,7 +51,7 @@ export const query_user = gql`
 
 export const query_search_users = gql`
   query SearchUsers($searchQuery: String!) {
-    search_users(searchQuery: $seachQuery) {
+    search_users(searchQuery: $searchQuery) {
       id
       username
       first_name
