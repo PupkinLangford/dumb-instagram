@@ -6,6 +6,7 @@ import {useAuth} from '../hooks/use_auth';
 import logo from '../images/logo.png';
 import styles from './Nav.module.css';
 import ProfilePic from './ProfilePic';
+import UsersDropdown from './UsersDropdown';
 
 const Nav = () => {
   const [auth, loadingAuth] = useAuth();
@@ -26,6 +27,10 @@ const Nav = () => {
   useEffect(() => {
     if (!searchQueryLoading && search) console.log(searchQueryData);
   });
+
+  const usersDropdown = !search ? null : searchQueryLoading ? null : (
+    <UsersDropdown userList={searchQueryData.search_users} />
+  );
 
   const dropdown = (
     <div className={styles.dropdown} onClick={() => setShowDropdown(false)}>
@@ -101,11 +106,13 @@ const Nav = () => {
           <input
             type="text"
             placeholder="&#128269; Search"
+            autoComplete="off"
             name="search"
             id="search"
             value={search}
             onChange={handleChange}
           />
+          {usersDropdown}
         </div>
         <div className={styles.navIcons}>
           <svg

@@ -29,7 +29,7 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- search functionality
+- re-query of db on every key up for search will likely not scale
 - click on own profile from own post, then click back => null map error
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
