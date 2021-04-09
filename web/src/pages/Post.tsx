@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Post.module.css';
@@ -22,6 +22,10 @@ const Post = () => {
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
+
+  useEffect(() => {
+    if (!postQueryLoading) console.log(postQueryData);
+  });
 
   if (postQueryLoading) {
     return <div></div>;
@@ -50,6 +54,7 @@ const Post = () => {
             ) : null}
             {postQueryData.post.comments.map((comment: any) => (
               <Comment
+                key={comment.author.id}
                 authorID={comment.author.id}
                 authorUsername={comment.author.username}
                 content={comment.content}

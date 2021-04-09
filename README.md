@@ -15,7 +15,7 @@ A fair use parody of Instagram.
 
 #### Server
 
-- make feed_posts not suck (add tests too)
+- add feed_posts tests
 - include own posts in feed
 - explore_posts missing virtual properties of post
 - virtual property for most recent comment on post; display in feed
@@ -30,6 +30,7 @@ A fair use parody of Instagram.
 #### Web Client
 
 - search functionality
+- click on own profile from own post, then click back => null map error
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
 - edit and delete own comments
