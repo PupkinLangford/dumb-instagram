@@ -101,17 +101,20 @@ mutation {
   }
 }`;
 
-const _mutationChangeProfilePic = () => {
+const mutationChangeProfilePic = () => {
   return {
     query: `mutation changeProfilePic($picture: Upload!){
-  changeProfilePic(picture: $picture) {
-    username
-  	profile_pic
-  }
+  changeProfilePic(picture: $picture)
 }`,
     variables: {picture: null},
   };
 };
+
+const mutationDeleteProfilePic = () => `
+mutation deleteProfilePic {
+  deleteProfilePic
+}
+`;
 
 const mutationDeleteSelf = () => `
 mutation {
@@ -236,8 +239,8 @@ describe('user mutations', () => {
   let user: IUser;
   let token: string;
   beforeAll(async () => {
-    const uploadSpy = jest.spyOn(imageFunctions, 'deleteImage');
-    uploadSpy.mockReturnValue(Promise.resolve());
+    const deleteSpy = jest.spyOn(imageFunctions, 'deleteImage');
+    deleteSpy.mockReturnValue(Promise.resolve());
     server = request(app);
     user = await createUser();
     token = jsonwebtoken.sign({id: user.id}, config.jwtSecret!, {
@@ -320,12 +323,21 @@ describe('user mutations', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .set('Authorization', token)
-      .field('operations', JSON.stringify(_mutationChangeProfilePic()))
+      .field('operations', JSON.stringify(mutationChangeProfilePic()))
       .field('map', JSON.stringify({photo: ['variables.picture']}))
       .attach('picture', path.join(__dirname, './photo.jpg'));
     expect(res.body.errors).toBeUndefined();
-    expect(res.body.data.changeProfilePic.profile_pic).toBe('new url');
-    expect(res.body.data.changeProfilePic.username).toBe('testuser');
+    expect(res.body.data.changeProfilePic).toBe(true);
+  });
+
+  test('delete profile pic successful', async () => {
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', token)
+      .send({query: mutationDeleteProfilePic()});
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.deleteProfilePic).toBe(true);
   });
 
   test('change password successful', async () => {

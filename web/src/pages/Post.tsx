@@ -44,14 +44,14 @@ const Post = () => {
         <div className={styles.dataContainer}>
           <PostHeader postData={postQueryData.post} />
           <div className={styles.commentContainer}>
-            {postQueryData.post.caption ? (
+            {postQueryData.post.caption && (
               <Comment
                 authorID={postQueryData.post.author.id}
                 authorUsername={postQueryData.post.author.username}
                 content={postQueryData.post.caption}
                 timestamp={postQueryData.post.format_date}
               />
-            ) : null}
+            )}
             {postQueryData.post.comments.map((comment: any) => (
               <Comment
                 key={comment.author.id}

@@ -85,7 +85,7 @@ export const mutation = new GraphQLObjectType({
       resolve: changeBio,
     },
     changeProfilePic: {
-      type: UserType,
+      type: GraphQLBoolean,
       args: {
         picture: {type: new GraphQLNonNull(GraphQLUpload)},
       },

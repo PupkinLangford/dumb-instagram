@@ -20,7 +20,6 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
     username: {type: new GraphQLNonNull(GraphQLString)},
     password: {type: new GraphQLNonNull(GraphQLString)},
     email: {type: new GraphQLNonNull(GraphQLString)},
-    profile_pic: {type: new GraphQLNonNull(GraphQLString)},
     bio: {type: GraphQLString},
     full_name: {type: new GraphQLNonNull(GraphQLString)},
     posts: {type: new GraphQLList(PostType)},
