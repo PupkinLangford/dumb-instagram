@@ -31,7 +31,6 @@ const mutationCreatePost = (caption: string, location: string) => {
   return {
     query: `mutation createPost($photo: Upload!) {
   createPost(photo: $photo, caption: "${caption}", location: "${location}") {
-    photo
   caption
   location
   author {
@@ -135,7 +134,6 @@ describe('post mutations', () => {
       .field('map', JSON.stringify({photo: ['variables.photo']}))
       .attach('photo', path.join(__dirname, './photo.jpg'));
     expect(res.body.errors).toBeUndefined();
-    expect(res.body.data.createPost.photo).toBe('url');
     expect(res.body.data.createPost.caption).toBe('test content');
     expect(res.body.data.createPost.location).toBe('Lima, PE');
     expect(res.body.data.createPost.author.id).toEqual(post.author.toString());

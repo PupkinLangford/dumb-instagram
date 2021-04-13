@@ -21,7 +21,6 @@ A fair use parody of Instagram.
 - explore_posts missing virtual properties of post
 - virtual property for most recent comment on post; display in feed
 - test for explore_posts
-- urls are superfluous properties. Post url could be a virtual property. Profile pic url could be stored as a constant on the front end. (models, graphql types, graphql resolver)
 - virtual properties for count of user posts/following/followers? Query full list only when user modals opened.
 - delete photos from cloudinary when users deleted
 - destroy token when user deleted

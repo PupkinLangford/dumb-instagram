@@ -32,7 +32,6 @@ export const PostType: GraphQLObjectType = new GraphQLObjectType({
   name: 'Post',
   fields: () => ({
     id: {type: new GraphQLNonNull(GraphQLID)},
-    photo: {type: new GraphQLNonNull(GraphQLString)},
     caption: {type: GraphQLString},
     author: {
       type: new GraphQLNonNull(UserType),

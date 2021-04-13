@@ -11,7 +11,6 @@ export const createUser = async () => {
     username: 'testuser',
     password: '12345',
     email: 'testuser@aol.com',
-    profile_pic: '111',
     bio: 'live laugh love <33',
   });
 
@@ -25,14 +24,12 @@ export const createPost = async () => {
     username: 'testposter',
     password: '12345',
     email: 'testpost@aol.com',
-    profile_pic: '222',
     bio: 'testing post creation',
   });
 
   await user.save();
 
   const post = new Post({
-    photo: '111',
     caption: 'test post',
     author: user._id,
     location: 'Asia, Lima Peru',
@@ -51,7 +48,6 @@ export const createComment = async () => {
     username: 'testcommenter',
     password: '12345',
     email: 'testcomment@aol.com',
-    profile_pic: '333',
     bio: 'testing comment creation',
   });
 
@@ -76,7 +72,6 @@ export const createLike = async () => {
     username: 'testliker',
     password: '12345',
     email: 'testlike@aol.com',
-    profile_pic: '444',
     bio: 'testing like creation',
   });
 
@@ -98,7 +93,6 @@ export const createFollow = async () => {
     username: 'testfollower',
     password: '12345',
     email: 'testfollow@aol.com',
-    profile_pic: '444',
     bio: 'testing follow creation',
   });
 
@@ -110,7 +104,6 @@ export const createFollow = async () => {
     username: 'testfollowing',
     password: '12345',
     email: 'testfollowing@aol.com',
-    profile_pic: '444',
     bio: 'testing follow creation',
   });
 

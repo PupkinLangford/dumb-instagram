@@ -15,7 +15,6 @@ export async function createPost(
     const {authorization} = headers;
     const user = jwtValidate(authorization);
     const post = new Post({
-      photo: '',
       caption: args.caption,
       author: user.id,
       location: args.location,
@@ -24,7 +23,6 @@ export async function createPost(
     if (url === '') {
       return new GraphQLError('Upload failed');
     }
-    post.photo = url;
     return await post.save();
   } catch (err) {
     return new GraphQLError(err);
