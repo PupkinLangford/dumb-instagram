@@ -8,6 +8,7 @@ import PostPic from '../components/PostPic';
 import Comment from '../components/Comment';
 import PostFooter from '../components/PostFooter';
 import PostHeader from '../components/PostHeader';
+import CustomLoader from '../components/CustomLoader';
 
 const Post = () => {
   const [auth, loadingAuth] = useAuth();
@@ -28,11 +29,11 @@ const Post = () => {
   });
 
   if (postQueryLoading) {
-    return <div></div>;
+    return <CustomLoader />;
   }
 
   if (!postQueryLoading && !postQueryData.post) {
-    return <div></div>;
+    history.push('/');
   }
 
   return (

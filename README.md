@@ -33,7 +33,6 @@ A fair use parody of Instagram.
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
 - edit and delete own comments
-- loader spinner component
 - factor modals into separate components
 - refactor settings forms to separate components
 - fix explicit any typings in arrays of GraphQL data and PostFooterProps

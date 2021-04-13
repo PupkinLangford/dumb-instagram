@@ -11,6 +11,7 @@ import {
   mutation_unfollowUser,
 } from '../graphql/mutations/follow';
 import UsersModal from '../components/UsersModal';
+import CustomLoader from '../components/CustomLoader';
 
 const Profile = () => {
   const [auth, loadingAuth] = useAuth();
@@ -33,10 +34,10 @@ const Profile = () => {
   }
 
   if (userQueryLoading) {
-    return <div></div>;
+    return <CustomLoader />;
   }
-  if (!userQueryLoading && !userQueryData) {
-    return <div></div>;
+  if (!userQueryLoading && !userQueryData.user) {
+    history.push('/');
   }
   const following = userQueryData.user.followers.some(
     (f: any) => f.follower.id === JSON.parse(localStorage.getItem('user')!)?.id

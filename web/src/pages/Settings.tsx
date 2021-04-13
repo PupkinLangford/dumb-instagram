@@ -13,6 +13,7 @@ import {
 import {query_current_user} from '../graphql/queries/user';
 import {changePasswordRules, editProfileRules} from '../rules/rules';
 import ProfilePic from '../components/ProfilePic';
+import CustomLoader from '../components/CustomLoader';
 
 const Settings = () => {
   const [auth, loadingAuth] = useAuth();
@@ -47,7 +48,7 @@ const Settings = () => {
     else document.body.style.overflow = '';
   }, [showModal]);
 
-  if (queryLoading) return <div></div>;
+  if (queryLoading) return <CustomLoader />;
 
   const modal = (
     <div className={styles.cover} onClick={() => setShowModal(false)}>

@@ -5,6 +5,7 @@ import {useAuth} from '../hooks/use_auth';
 import styles from './Home.module.css';
 import {useQuery} from '@apollo/client';
 import PostPreview from '../components/PostPreview';
+import CustomLoader from '../components/CustomLoader';
 
 const Home = () => {
   const [auth, loadingAuth] = useAuth();
@@ -18,7 +19,7 @@ const Home = () => {
   );
 
   if (feedQueryLoading) {
-    return <div></div>;
+    return <CustomLoader />;
   }
 
   return (

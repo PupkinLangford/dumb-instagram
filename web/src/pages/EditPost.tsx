@@ -7,6 +7,7 @@ import {Field, Form, Formik} from 'formik';
 import {mutation_updatePost} from '../graphql/mutations/post';
 import {query_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';
+import CustomLoader from '../components/CustomLoader';
 
 const NewPost = () => {
   const [auth, loadingAuth] = useAuth();
@@ -23,7 +24,7 @@ const NewPost = () => {
   );
 
   if (postQueryLoading) {
-    return <div></div>;
+    return <CustomLoader />;
   }
 
   if (
