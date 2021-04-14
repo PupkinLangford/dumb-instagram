@@ -37,10 +37,31 @@ PostSchema.virtual('comments', {
   localField: '_id',
 });
 
+PostSchema.virtual('comments_count', {
+  ref: 'Comment',
+  foreignField: 'post',
+  localField: '_id',
+  count: true,
+});
+
+PostSchema.virtual('last_comments', {
+  ref: 'Comment',
+  foreignField: 'post',
+  localField: '_id',
+  options: {sort: {timestamp: -1}, limit: 1},
+});
+
 PostSchema.virtual('likes', {
   ref: 'Like',
   foreignField: 'post',
   localField: '_id',
+});
+
+PostSchema.virtual('likes_count', {
+  ref: 'Like',
+  foreignField: 'post',
+  localField: '_id',
+  count: true,
 });
 
 PostSchema.pre(

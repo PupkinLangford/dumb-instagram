@@ -22,10 +22,14 @@ export const queryType = new GraphQLObjectType({
         const user = jwtValidate(authorization);
         return User.findById(user.id).populate([
           {path: 'posts', populate: 'likes comments'},
-          {path: 'followers'},
+          {path: 'followers followers_count following_count posts_count'},
           {
             path: 'following',
-            populate: {path: 'posts', populate: 'likes comments'},
+            populate: {
+              path: 'posts',
+              populate:
+                'likes comments comments_count last_comments likes_count',
+            },
           },
         ]);
       },
@@ -37,7 +41,7 @@ export const queryType = new GraphQLObjectType({
         const {authorization} = headers;
         jwtValidate(authorization);
         return User.findById(args.id, '-password -email').populate(
-          'posts followers following'
+          'posts followers following followers_count following_count posts_count'
         );
       },
     },
@@ -47,7 +51,12 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
-        return User.find({username: {$regex: args.searchQuery, $options: 'i'}});
+        return User.find(
+          {username: {$regex: args.searchQuery, $options: 'i'}},
+          '-password -email'
+        ).populate(
+          'posts followers following followers_count following_count posts_count'
+        );
       },
     },
     users: {
@@ -56,7 +65,7 @@ export const queryType = new GraphQLObjectType({
         const {authorization} = headers;
         jwtValidate(authorization);
         return User.find({}, '-password -email').populate(
-          'posts followers following'
+          'posts followers following followers_count following_count posts_count'
         );
       },
     },
@@ -66,7 +75,9 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
-        return Post.findById(args.id).populate('comments likes');
+        return Post.findById(args.id).populate(
+          'comments likes comments_count last_comments likes_count'
+        );
       },
     },
     posts: {
@@ -74,7 +85,9 @@ export const queryType = new GraphQLObjectType({
       resolve(_parent, _args, {headers}) {
         const {authorization} = headers;
         jwtValidate(authorization);
-        return Post.find({}).populate('comments likes').sort('-timestamp');
+        return Post.find({})
+          .populate('comments likes comments_count last_comments likes_count')
+          .sort('-timestamp');
       },
     },
     explore_posts: {

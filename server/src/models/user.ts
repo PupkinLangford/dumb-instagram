@@ -37,16 +37,37 @@ UserSchema.virtual('posts', {
   options: {sort: {timestamp: -1}},
 });
 
+UserSchema.virtual('posts_count', {
+  ref: 'Post',
+  foreignField: 'author',
+  localField: '_id',
+  count: true,
+});
+
 UserSchema.virtual('following', {
   ref: 'Follow',
   foreignField: 'follower',
   localField: '_id',
 });
 
+UserSchema.virtual('following_count', {
+  ref: 'Follow',
+  foreignField: 'follower',
+  localField: '_id',
+  count: true,
+});
+
 UserSchema.virtual('followers', {
   ref: 'Follow',
   foreignField: 'following',
   localField: '_id',
+});
+
+UserSchema.virtual('followers_count', {
+  ref: 'Follow',
+  foreignField: 'following',
+  localField: '_id',
+  count: true,
 });
 
 UserSchema.pre(

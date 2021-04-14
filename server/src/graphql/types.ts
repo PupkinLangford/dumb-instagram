@@ -1,5 +1,6 @@
 import {
   GraphQLID,
+  GraphQLInt,
   GraphQLList,
   GraphQLNonNull,
   GraphQLObjectType,
@@ -23,8 +24,11 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
     bio: {type: GraphQLString},
     full_name: {type: new GraphQLNonNull(GraphQLString)},
     posts: {type: new GraphQLList(PostType)},
+    posts_count: {type: new GraphQLNonNull(GraphQLInt)},
     following: {type: new GraphQLList(followType)},
+    following_count: {type: new GraphQLNonNull(GraphQLInt)},
     followers: {type: new GraphQLList(followType)},
+    followers_count: {type: new GraphQLNonNull(GraphQLInt)},
   }),
 });
 
@@ -36,7 +40,7 @@ export const PostType: GraphQLObjectType = new GraphQLObjectType({
     author: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
-        return User.findById(parent.author);
+        return User.findById(parent.author, '-password -email');
       },
     },
     location: {type: GraphQLString},
@@ -45,7 +49,10 @@ export const PostType: GraphQLObjectType = new GraphQLObjectType({
     comments: {
       type: new GraphQLList(commentType),
     },
+    comments_count: {type: new GraphQLNonNull(GraphQLInt)},
+    last_comments: {type: new GraphQLList(commentType)},
     likes: {type: new GraphQLList(likeType)},
+    likes_count: {type: new GraphQLNonNull(GraphQLInt)},
   }),
 });
 
@@ -56,7 +63,7 @@ export const commentType = new GraphQLObjectType({
     author: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
-        return User.findById(parent.author);
+        return User.findById(parent.author, '-password -email');
       },
     },
     content: {type: new GraphQLNonNull(GraphQLString)},
@@ -78,7 +85,7 @@ export const likeType = new GraphQLObjectType({
     liker: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
-        return User.findById(parent.liker);
+        return User.findById(parent.liker, '-password -email');
       },
     },
     post: {
@@ -99,7 +106,7 @@ export const followType = new GraphQLObjectType({
     follower: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
-        return User.findById(parent.follower).populate(
+        return User.findById(parent.follower, '-password -email').populate(
           'posts followers following'
         );
       },
@@ -107,7 +114,7 @@ export const followType = new GraphQLObjectType({
     following: {
       type: new GraphQLNonNull(UserType),
       resolve(parent) {
-        return User.findById(parent.following).populate(
+        return User.findById(parent.following, '-password -email').populate(
           'posts followers following'
         );
       },
