@@ -29,7 +29,9 @@ const Nav = () => {
   });
 
   const usersDropdown = !search ? null : searchQueryLoading ? null : (
-    <UsersDropdown userList={searchQueryData.search_users} />
+    <div onClick={() => setSearch('')}>
+      <UsersDropdown userList={searchQueryData.search_users} />
+    </div>
   );
 
   const dropdown = (

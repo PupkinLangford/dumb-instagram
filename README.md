@@ -16,11 +16,9 @@ A fair use parody of Instagram.
 #### Server
 
 - Enable helmet before deployment
-- add feed_posts tests
-- include own posts in feed
+- add feed_posts/explore_posts tests
 - explore_posts missing virtual properties of post
 - virtual property for most recent comment on post; display in feed
-- test for explore_posts
 - virtual properties for count of user posts/following/followers? Query full list only when user modals opened.
 - delete photos from cloudinary when users deleted
 - destroy token when user deleted

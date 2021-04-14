@@ -8,21 +8,21 @@ interface UserPreviewProps {
 
 const UserPreview = (props: UserPreviewProps) => {
   return (
-    <div className={styles.user}>
-      <div className={styles.picContainer}>
-        <ProfilePic source={props.user.id} />
-      </div>
-      <div className={styles.captionContainer}>
-        <div className={styles.text}>
-          <Link to={`/users/${props.user.id}`}>
-            <h2>{props.user.username}</h2>
-          </Link>
+    <Link to={`/users/${props.user.id}`}>
+      <div className={styles.user}>
+        <div className={styles.picContainer}>
+          <ProfilePic source={props.user.id} />
         </div>
-        <div
-          className={styles.name}
-        >{`${props.user.first_name} ${props.user.last_name}`}</div>
+        <div className={styles.captionContainer}>
+          <div className={styles.text}>
+            <h2>{props.user.username}</h2>
+          </div>
+          <div
+            className={styles.name}
+          >{`${props.user.first_name} ${props.user.last_name}`}</div>
+        </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

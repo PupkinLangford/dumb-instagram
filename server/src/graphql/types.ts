@@ -114,9 +114,6 @@ export const followType = new GraphQLObjectType({
     },
     posts: {
       type: new GraphQLList(PostType),
-      /*resolve(parent) {
-        return Post.find({author: parent.following}).populate('comments likes');
-      },*/
     },
     timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
     format_date: {type: GraphQLString},

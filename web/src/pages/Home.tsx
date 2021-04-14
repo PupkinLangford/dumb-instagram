@@ -26,6 +26,7 @@ const Home = () => {
     <div className={`page ${styles.home}`}>
       {feedQueryData.current_user.following
         .flatMap((f: any) => f.posts)
+        .concat(feedQueryData.current_user.posts)
         .sort(
           (a: any, b: any) => +new Date(b.timestamp) - +new Date(a.timestamp)
         )
