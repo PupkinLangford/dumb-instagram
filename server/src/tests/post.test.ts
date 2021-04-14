@@ -27,6 +27,14 @@ query {
 }
 `;
 
+const queryExplorePosts = (count: number) => `
+query {
+  explore_posts(count: ${count}) {
+    id
+  }
+}
+`;
+
 const mutationCreatePost = (caption: string, location: string) => {
   return {
     query: `mutation createPost($photo: Upload!) {
@@ -102,6 +110,19 @@ describe('post queries', () => {
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.posts.length).toBeGreaterThan(0);
     expect(res.body.data.posts[0].caption).toBe('test post');
+  });
+
+  test('Explore posts returns correct count', async () => {
+    await Promise.all([createPost(), createPost(), createPost()]);
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', token)
+      .send({
+        query: queryExplorePosts(2),
+      });
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.explore_posts.length).toBe(2);
   });
 });
 

@@ -16,18 +16,19 @@ A fair use parody of Instagram.
 #### Server
 
 - Enable helmet before deployment
-- add feed_posts/explore_posts tests
+- add feed_posts tests
 - explore_posts missing virtual properties of post
-- virtual property for most recent comment on post; display in feed
-- virtual properties for count of user posts/following/followers? Query full list only when user modals opened.
 - delete photos from cloudinary when users deleted
 - destroy token when user deleted
 - privacy settings (don't allow users to manipulate url to view private data)
 
 #### Web Client
 
+- use comment/like/follower etc. counts. Query full list only when user modals opened.
+- display last_comment on Home page
 - re-query of db on every key up for search will likely not scale
 - click on own profile from own post, then click back => null map error. Data being cached. Null checks needed for every property of query data in Post and PostFooter components?
+- error when user id in params doesn't exist
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
 - edit and delete own comments

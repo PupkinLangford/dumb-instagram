@@ -96,19 +96,19 @@ const Profile = () => {
         <div className={styles.stats}>
           <div>
             <span className={styles.statCount}>
-              {userQueryData.user.posts.length}
+              {userQueryData.user.posts_count}
             </span>
             <span className={styles.statName}>posts</span>
           </div>
           <div onClick={() => setShowFollowersModal(true)}>
             <span className={styles.statCount}>
-              {userQueryData.user.followers.length}
+              {userQueryData.user.followers_count}
             </span>
             <span className={styles.statName}>followers</span>
           </div>
           <div onClick={() => setShowFollowingModal(true)}>
             <span className={styles.statCount}>
-              {userQueryData.user.following.length}
+              {userQueryData.user.following_count}
             </span>
             <span className={styles.statName}>following</span>
           </div>

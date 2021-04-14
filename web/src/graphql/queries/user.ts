@@ -29,6 +29,7 @@ export const query_user = gql`
           id
         }
       }
+      posts_count
       following {
         following {
           id
@@ -37,6 +38,7 @@ export const query_user = gql`
           last_name
         }
       }
+      following_count
       followers {
         follower {
           id
@@ -45,6 +47,7 @@ export const query_user = gql`
           last_name
         }
       }
+      followers_count
     }
   }
 `;
