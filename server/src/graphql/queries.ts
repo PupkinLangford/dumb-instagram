@@ -21,7 +21,10 @@ export const queryType = new GraphQLObjectType({
         const {authorization} = headers;
         const user = jwtValidate(authorization);
         return User.findById(user.id).populate([
-          {path: 'posts', populate: 'likes comments'},
+          {
+            path: 'posts',
+            populate: 'likes comments comments_count last_comments likes_count',
+          },
           {path: 'followers followers_count following_count posts_count'},
           {
             path: 'following',

@@ -74,7 +74,7 @@ const PostFooter = (props: PostFooterProps) => {
         </svg>
       </span>
       <div className={styles.likes} onClick={() => setShowLikesModal(true)}>
-        {props.postData.likes.length} likes
+        {props.postData.likes_count} likes
       </div>
       {props.showCaption && (
         <div className={styles.text}>
@@ -82,6 +82,21 @@ const PostFooter = (props: PostFooterProps) => {
             <h2>{props.postData.author.username}</h2>
           </Link>
           <p>{props.postData.caption}</p>
+        </div>
+      )}
+      {props.postData.comments_count > 1 && (
+        <div className={`${styles.commentsCount} ${styles.text}`}>
+          <Link to={`/posts/${props.postData.id}`}>
+            <span>{`View all ${props.postData.comments_count} comments`}</span>
+          </Link>
+        </div>
+      )}
+      {props.postData.last_comments && props.postData.last_comments.length > 0 && (
+        <div className={styles.text} style={{marginTop: '4px'}}>
+          <Link to={`/users/${props.postData.last_comments[0].author.id}`}>
+            <h2>{props.postData.last_comments[0].author.username}</h2>
+          </Link>
+          <p>{props.postData.last_comments[0].content}</p>
         </div>
       )}
       <div className={styles.postTime}>{props.postData.format_date}</div>

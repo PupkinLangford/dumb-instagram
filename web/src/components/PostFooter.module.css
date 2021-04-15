@@ -93,3 +93,11 @@
   padding: 0;
   margin: 0;
 }
+
+.commentsCount {
+  margin-top: 4px;
+}
+
+.commentsCount span {
+  color: #8e8e8e;
+}

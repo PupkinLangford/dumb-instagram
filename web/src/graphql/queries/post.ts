@@ -19,6 +19,7 @@ export const query_post = gql`
           last_name
         }
       }
+      likes_count
       comments {
         author {
           id
@@ -55,6 +56,15 @@ export const query_feed_posts = gql`
           id
           username
         }
+        likes_count
+        comments_count
+        last_comments {
+          content
+          author {
+            id
+            username
+          }
+        }
         likes {
           liker {
             id
@@ -74,6 +84,15 @@ export const query_feed_posts = gql`
           author {
             id
             username
+          }
+          likes_count
+          comments_count
+          last_comments {
+            content
+            author {
+              id
+              username
+            }
           }
           likes {
             liker {
