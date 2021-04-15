@@ -109,6 +109,15 @@ export const createFollow = async () => {
 
   await user2.save();
 
+  const post = new Post({
+    caption: 'test post follow',
+    author: user2._id,
+    location: 'Asia, Lima Peru',
+    timestamp: new Date(),
+  });
+
+  await post.save();
+
   const follow = new Follow({
     follower: user1._id,
     following: user2._id,

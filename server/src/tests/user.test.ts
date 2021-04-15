@@ -18,6 +18,11 @@ const queryCurrentUser = () => `
 query {
     current_user {
         username
+        following {
+          posts {
+            caption
+          }
+        }
     }
 }
 `;
@@ -145,6 +150,26 @@ describe('user queries', () => {
       });
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.current_user.username).toBe('testuser');
+  });
+
+  test('current user query returns feed posts', async () => {
+    const follows = await createFollow();
+    const id = follows[0].follower;
+    const followerToken = jsonwebtoken.sign({id}, config.jwtSecret!, {
+      expiresIn: '1d',
+    });
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', followerToken)
+      .send({
+        query: queryCurrentUser(),
+      });
+    expect(res.body.errors).toBeUndefined();
+    expect(res.body.data.current_user.following[0].posts.length).toBe(1);
+    expect(res.body.data.current_user.following[0].posts[0].caption).toBe(
+      'test post follow'
+    );
   });
 
   test('can query user by id', async () => {
@@ -424,7 +449,7 @@ describe('user mutations', () => {
   test('deleteSelf successfully deletes lingering follows', async () => {
     const follows = await createFollow();
     const id = follows[0].follower;
-    const followerToken = jsonwebtoken.sign({id: id}, config.jwtSecret!, {
+    const followerToken = jsonwebtoken.sign({id}, config.jwtSecret!, {
       expiresIn: '1d',
     });
     const res = await server
@@ -435,7 +460,7 @@ describe('user mutations', () => {
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.deleteSelf.id).toBe(id.toString());
 
-    const follows_query = await Follow.find({});
+    const follows_query = await Follow.find({follower: id});
     expect(follows_query.length).toBe(0);
   });
 
