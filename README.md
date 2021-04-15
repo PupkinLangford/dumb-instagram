@@ -18,8 +18,6 @@ A fair use parody of Instagram.
 - Enable helmet before deployment
 - add feed_posts tests
 - explore_posts missing virtual properties of post
-- delete photos from cloudinary when users deleted
-- destroy token when user deleted
 - privacy settings (don't allow users to manipulate url to view private data)
 
 #### Web Client

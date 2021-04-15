@@ -241,6 +241,8 @@ describe('user mutations', () => {
   beforeAll(async () => {
     const deleteSpy = jest.spyOn(imageFunctions, 'deleteImage');
     deleteSpy.mockReturnValue(Promise.resolve());
+    const deleteUserSpy = jest.spyOn(imageFunctions, 'deleteFolder');
+    deleteUserSpy.mockReturnValue(Promise.resolve());
     server = request(app);
     user = await createUser();
     token = jsonwebtoken.sign({id: user.id}, config.jwtSecret!, {

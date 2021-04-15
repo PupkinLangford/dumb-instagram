@@ -13,7 +13,7 @@ import {jwtValidate} from '../../middlewares/jwtValidate';
 import bcrypt from 'bcrypt';
 import {Request} from 'express';
 import {FileUpload} from 'graphql-upload';
-import {deleteImage, uploadImage} from './imageFunctions';
+import {deleteFolder, deleteImage, uploadImage} from './imageFunctions';
 
 export async function signup(
   _parent: unknown,
@@ -174,7 +174,7 @@ export async function deleteSelf(
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
-    deleteImage(user.id + '/profile_pic');
+    deleteFolder(user.id);
     const foundUser = await User.findById(user.id);
     return await foundUser!.deleteOne();
   } catch (err) {

@@ -24,3 +24,6 @@ export const uploadImage = async (
 
 export const deleteImage = (photo_id: string) =>
   v2.uploader.destroy(photo_id, {invalidate: true});
+
+export const deleteFolder = (folder_id: string) =>
+  v2.api.delete_resources_by_prefix(folder_id + '/', {invalidate: true});
