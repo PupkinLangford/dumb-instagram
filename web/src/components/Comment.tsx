@@ -2,6 +2,7 @@ import {useMutation} from '@apollo/client';
 import React, {useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {mutation_deleteComment} from '../graphql/mutations/comment';
+import {getCurrentUser} from '../utils';
 import styles from './Comment.module.css';
 import ProfilePic from './ProfilePic';
 
@@ -66,8 +67,7 @@ const Comment = (props: CommentProps) => {
         </div>
         <div className={styles.time}>{props.timestamp}</div>
       </div>
-      {props.id &&
-      props.authorID === JSON.parse(localStorage.getItem('user')!)?.id ? (
+      {props.id && props.authorID === getCurrentUser() ? (
         <div className={styles.modalSwitch} onClick={() => setShowModal(true)}>
           ...
         </div>

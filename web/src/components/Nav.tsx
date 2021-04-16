@@ -4,6 +4,7 @@ import {Link, useHistory} from 'react-router-dom';
 import {query_search_users} from '../graphql/queries/user';
 import {useAuth} from '../hooks/use_auth';
 import logo from '../images/logo.png';
+import {getCurrentUser} from '../utils';
 import styles from './Nav.module.css';
 import ProfilePic from './ProfilePic';
 import UsersDropdown from './UsersDropdown';
@@ -36,10 +37,7 @@ const Nav = () => {
 
   const dropdown = (
     <div className={styles.dropdown} onClick={() => setShowDropdown(false)}>
-      <Link
-        to={`/users/${JSON.parse(localStorage.getItem('user')!)?.id}`}
-        className={styles.dropdownItem}
-      >
+      <Link to={`/users/${getCurrentUser()}`} className={styles.dropdownItem}>
         <svg
           aria-label="Profile"
           fill="#262626"
@@ -167,9 +165,7 @@ const Nav = () => {
             className={styles.profilePic}
             onClick={() => setShowDropdown(!showDropdown)}
           >
-            <ProfilePic
-              source={JSON.parse(localStorage.getItem('user')!)?.id}
-            />
+            <ProfilePic source={getCurrentUser()} />
           </span>
           {showDropdown ? dropdown : null}
         </div>

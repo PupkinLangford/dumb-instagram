@@ -12,6 +12,7 @@ import {
 } from '../graphql/mutations/follow';
 import UsersModal from '../components/UsersModal';
 import CustomLoader from '../components/CustomLoader';
+import {getCurrentUser} from '../utils';
 
 const Profile = () => {
   const [auth, loadingAuth] = useAuth();
@@ -40,7 +41,7 @@ const Profile = () => {
     history.push('/');
   }
   const following = userQueryData.user.followers.some(
-    (f: any) => f.follower.id === JSON.parse(localStorage.getItem('user')!)?.id
+    (f: any) => f.follower.id === getCurrentUser()
   );
 
   const submitFollow = async () => {
@@ -78,7 +79,7 @@ const Profile = () => {
           </div>
           <div className={styles.headline}>
             <h2>{userQueryData.user.username}</h2>
-            {id === JSON.parse(localStorage.getItem('user')!).id ? (
+            {id === getCurrentUser() ? (
               <Link to="/users/edit">
                 <button type="button" id={styles.editButton}>
                   Edit Profile

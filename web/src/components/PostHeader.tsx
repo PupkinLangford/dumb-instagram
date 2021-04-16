@@ -4,6 +4,7 @@ import styles from './PostHeader.module.css';
 import {useMutation} from '@apollo/client';
 import ProfilePic from '../components/ProfilePic';
 import {mutation_deletePost} from '../graphql/mutations/post';
+import {getCurrentUser} from '../utils';
 
 interface PostHeaderProps {
   postData: any;
@@ -65,8 +66,7 @@ const PostHeader = (props: PostHeaderProps) => {
           </Link>
           <p>{props.postData.location}</p>
         </div>
-        {props.postData.author.id ===
-        JSON.parse(localStorage.getItem('user')!)?.id ? (
+        {props.postData.author.id === getCurrentUser() ? (
           <div
             className={styles.modalSwitch}
             onClick={() => setShowModal(true)}

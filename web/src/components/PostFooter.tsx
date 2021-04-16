@@ -9,6 +9,7 @@ import {
 import UsersModal from '../components/UsersModal';
 import {useHistory} from 'react-router';
 import {Link} from 'react-router-dom';
+import {getCurrentUser} from '../utils';
 
 interface PostFooterProps {
   postData: any;
@@ -23,8 +24,7 @@ const PostFooter = (props: PostFooterProps) => {
   const [unlikePost] = useMutation(mutation_unlikePost);
   const history = useHistory();
   const liked = props.postData.likes.some(
-    (like: any) =>
-      like.liker.id === JSON.parse(localStorage.getItem('user')!)?.id
+    (like: any) => like.liker.id === getCurrentUser()
   );
 
   const submitComment = async (e: FormEvent) => {

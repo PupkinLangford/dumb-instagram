@@ -8,6 +8,7 @@ import {mutation_updatePost} from '../graphql/mutations/post';
 import {query_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';
 import CustomLoader from '../components/CustomLoader';
+import {getCurrentUser} from '../utils';
 
 const NewPost = () => {
   const [auth, loadingAuth] = useAuth();
@@ -27,11 +28,7 @@ const NewPost = () => {
     return <CustomLoader />;
   }
 
-  if (
-    !postQueryLoading &&
-    postQueryData.post.author.id !==
-      JSON.parse(localStorage.getItem('user')!)?.id
-  ) {
+  if (!postQueryLoading && postQueryData.post.author.id !== getCurrentUser()) {
     history.push('/');
   }
 
