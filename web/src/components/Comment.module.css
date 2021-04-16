@@ -40,3 +40,54 @@
   line-height: 14px;
   color: #8e8e8e;
 }
+
+.modalSwitch {
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  justify-self: flex-end;
+  margin-left: auto;
+}
+
+.cover {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.65);
+  z-index: 100;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalBox {
+  width: 260px;
+  justify-content: center;
+  margin: 20px;
+  max-height: calc(100% - 40px);
+  flex-shrink: 1;
+}
+
+.modalForm {
+  border-radius: 12px;
+  max-height: 100%;
+  overflow: hidden;
+  justify-content: center;
+  background-color: #fff;
+  max-height: 100%;
+}
+
+.modalButtons button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+  line-height: 1.5;
+  margin: 0;
+  min-height: 48px;
+  padding: 4px 8px;
+  text-align: center;
+  vertical-align: middle;
+  font-weight: 700;
+  font-size: 14px;
+}

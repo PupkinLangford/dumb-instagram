@@ -21,6 +21,7 @@ export const query_post = gql`
       }
       likes_count
       comments {
+        id
         author {
           id
           username

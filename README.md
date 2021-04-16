@@ -15,7 +15,7 @@ A fair use parody of Instagram.
 
 #### Server
 
-- ### Enable helmet before deployment!
+- ## Enable helmet before deployment!
 - explore_posts missing virtual properties of post
 - privacy settings (don't allow users to manipulate url to view private data)
 
@@ -27,7 +27,7 @@ A fair use parody of Instagram.
 - error when user id in params doesn't exist
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
-- edit and delete own comments
+- delete other user comments on own posts
 - factor modals into separate components
 - refactor settings forms to separate components
 - fix explicit any typings in arrays of GraphQL data and PostFooterProps
