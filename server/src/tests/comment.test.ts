@@ -7,6 +7,7 @@ import {disconnectDb} from '../db';
 import {IComment} from '../models/comment';
 import {Types} from 'mongoose';
 import Comment from '../models/comment';
+import Post from '../models/post';
 
 const queryComment = (comment_id: string) => `
 query {
@@ -157,6 +158,28 @@ test('delete comment fails with improper auth', async () => {
       query: mutationDeleteComment(nextComment._id),
     });
   expect(res.body.errors).not.toBeUndefined();
+});
+
+test('successfully delete comment by other user on own post', async () => {
+  const nextComment = await createComment();
+  const parent_post = await Post.findById(nextComment.post);
+  const newtoken = jsonwebtoken.sign(
+    {id: parent_post!.author.toString()},
+    config.jwtSecret!,
+    {
+      expiresIn: '1d',
+    }
+  );
+  const res = await server
+    .post('/graphql')
+    .set('Content-type', 'application/json')
+    .set('Authorization', newtoken)
+    .send({
+      query: mutationDeleteComment(nextComment._id),
+    });
+  expect(res.body.errors).toBeUndefined();
+  const foundComment = await Comment.findById(nextComment._id);
+  expect(foundComment).toBeNull();
 });
 
 afterAll(() => {

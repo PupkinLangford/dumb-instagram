@@ -44,6 +44,7 @@ const Post = () => {
             {postQueryData.post.caption && (
               <Comment
                 authorID={postQueryData.post.author.id}
+                parentAuthorID={postQueryData.post.author.id}
                 authorUsername={postQueryData.post.author.username}
                 content={postQueryData.post.caption}
                 timestamp={postQueryData.post.format_date}
@@ -54,6 +55,7 @@ const Post = () => {
                 key={comment.id}
                 id={comment.id}
                 authorID={comment.author.id}
+                parentAuthorID={postQueryData.post.author.id}
                 authorUsername={comment.author.username}
                 content={comment.content}
                 timestamp={comment.format_date}

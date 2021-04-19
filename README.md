@@ -27,7 +27,6 @@ A fair use parody of Instagram.
 - error when user id in params doesn't exist
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
-- delete other user comments on own posts
 - factor modals into separate components
 - refactor settings forms to separate components
 - fix explicit any typings in arrays of GraphQL data and PostFooterProps

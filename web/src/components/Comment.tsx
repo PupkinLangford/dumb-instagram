@@ -8,6 +8,7 @@ import ProfilePic from './ProfilePic';
 
 interface CommentProps {
   authorID: string;
+  parentAuthorID: string;
   authorUsername: string;
   content: string;
   timestamp: Date;
@@ -67,7 +68,9 @@ const Comment = (props: CommentProps) => {
         </div>
         <div className={styles.time}>{props.timestamp}</div>
       </div>
-      {props.id && props.authorID === getCurrentUser() ? (
+      {props.id &&
+      (props.authorID === getCurrentUser() ||
+        props.parentAuthorID === getCurrentUser()) ? (
         <div className={styles.modalSwitch} onClick={() => setShowModal(true)}>
           ...
         </div>

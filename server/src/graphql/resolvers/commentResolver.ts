@@ -1,4 +1,5 @@
 import Comment from '../../models/comment';
+import Post from '../../models/post';
 import {GraphQLError} from 'graphql';
 import {jwtValidate} from '../../middlewares/jwtValidate';
 import {createCommentRules, updateCommentRules} from '../../rules/commentRules';
@@ -66,7 +67,13 @@ export async function deleteComment(
       return new GraphQLError('Comment does not exist');
     }
     if (user.id !== foundComment.author.toString()) {
-      return new GraphQLError("Cannot delete other user's comment");
+      const parent_post = await Post.findById(foundComment.post);
+      if (!parent_post) {
+        return new GraphQLError('Parent post does not exist');
+      }
+      if (user.id !== parent_post.author.toString()) {
+        return new GraphQLError("Cannot delete other user's comment");
+      }
     }
     return await Comment.findByIdAndDelete(foundComment._id);
   } catch (err) {
