@@ -28,8 +28,9 @@ const Post = () => {
     return <CustomLoader />;
   }
 
-  if (!postQueryLoading && !postQueryData.post) {
+  if (!postQueryLoading && (!postQueryData || !postQueryData.post)) {
     history.push('/');
+    return null;
   }
 
   return (

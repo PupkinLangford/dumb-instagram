@@ -20,11 +20,8 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- find faster way to check if current user already likes/follows
-- use like/follower counts. Query full list only when user modals opened.
+- use like counts. Query full list only when user modals opened.
 - re-query of db on every key up for search will likely not scale
-- click on own profile from own post, then click back => null map error. Data being cached. Null checks needed for every property of query data in Post and PostFooter components?
-- error when user id in params doesn't exist
 - pass props (existing caption/location) to EditPost; no need to re-query
 - clear cached queries after edit/delete post mutations
 - factor modals into separate components

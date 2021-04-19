@@ -51,8 +51,9 @@ const Profile = () => {
   if (userQueryLoading) {
     return <CustomLoader />;
   }
-  if (!userQueryLoading && !userQueryData.user) {
+  if (!userQueryLoading && (!userQueryData || !userQueryData.user)) {
     history.push('/');
+    return null;
   }
 
   const submitFollow = async () => {
