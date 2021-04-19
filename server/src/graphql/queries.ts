@@ -1,4 +1,5 @@
 import {
+  GraphQLBoolean,
   GraphQLID,
   GraphQLInt,
   GraphQLList,
@@ -11,6 +12,7 @@ import {commentType, PostPreviewType, PostType, UserType} from './types';
 import User from '../models/user';
 import Post from '../models/post';
 import Comment from '../models/comment';
+import Follow from '../models/follow';
 
 export const queryType = new GraphQLObjectType({
   name: 'Query',
@@ -114,6 +116,18 @@ export const queryType = new GraphQLObjectType({
         const {authorization} = headers;
         jwtValidate(authorization);
         return Comment.findById(args.id);
+      },
+    },
+    isFollowing: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+      args: {follower_id: {type: GraphQLID}, following_id: {type: GraphQLID}},
+      resolve(_parent, args, {headers}) {
+        const {authorization} = headers;
+        jwtValidate(authorization);
+        return Follow.exists({
+          follower: args.follower_id,
+          following: args.following_id,
+        });
       },
     },
   },

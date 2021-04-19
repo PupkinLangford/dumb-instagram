@@ -1,4 +1,4 @@
-import {createPost, createUser} from './utils';
+import {createFollow, createPost, createUser} from './utils';
 import request from 'supertest';
 import app from '../index';
 import {IUser} from '../models/user';
@@ -45,6 +45,10 @@ mutation {
   }
 }
 `;
+
+const queryIsFollowing = (follower_id: string, following_id: string) => `query {
+  isFollowing(follower_id:"${follower_id}" following_id:"${following_id}")
+}`;
 
 let server: request.SuperTest<request.Test>;
 let user: IUser;
@@ -110,6 +114,32 @@ test('can only unfollow followed users', async () => {
       query: mutationUnfollow(post.author.toString()),
     });
   expect(res3.body.errors).not.toBeUndefined();
+});
+
+test('isFollowing returns true correctly', async () => {
+  const [F1] = await createFollow();
+  const res = await server
+    .post('/graphql')
+    .set('Content-type', 'application/json')
+    .set('Authorization', token)
+    .send({
+      query: queryIsFollowing(F1.follower.toString(), F1.following.toString()),
+    });
+  expect(res.body.errors).toBeUndefined();
+  expect(res.body.data.isFollowing).toBe(true);
+});
+
+test('isFollowing returns false correctly', async () => {
+  const [F1] = await createFollow();
+  const res = await server
+    .post('/graphql')
+    .set('Content-type', 'application/json')
+    .set('Authorization', token)
+    .send({
+      query: queryIsFollowing(F1.follower.toString(), user.id.toString()),
+    });
+  expect(res.body.errors).toBeUndefined();
+  expect(res.body.data.isFollowing).toBe(false);
 });
 
 afterAll(() => {
