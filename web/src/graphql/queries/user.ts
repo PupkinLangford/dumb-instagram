@@ -14,7 +14,7 @@ export const query_current_user = gql`
 `;
 
 export const query_user = gql`
-  query User($id: ID!) {
+  query User($id: ID!, $current_user: ID!) {
     user(id: $id) {
       username
       first_name
@@ -22,25 +22,13 @@ export const query_user = gql`
       bio
       posts {
         id
-        comments {
-          id
-        }
-        likes {
-          id
-        }
       }
       posts_count
       following_count
-      followers {
-        follower {
-          id
-          username
-          first_name
-          last_name
-        }
-      }
       followers_count
     }
+
+    isFollowing(follower_id: $current_user, following_id: $id)
   }
 `;
 
@@ -49,6 +37,21 @@ export const query_user_following = gql`
     user(id: $id) {
       following {
         following {
+          id
+          username
+          first_name
+          last_name
+        }
+      }
+    }
+  }
+`;
+
+export const query_user_followers = gql`
+  query User($id: ID!) {
+    user(id: $id) {
+      followers {
+        follower {
           id
           username
           first_name

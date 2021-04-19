@@ -4,7 +4,11 @@ import {useAuth} from '../hooks/use_auth';
 import styles from './Profile.module.css';
 import {useLazyQuery, useMutation, useQuery} from '@apollo/client';
 import ProfilePic from '../components/ProfilePic';
-import {query_user, query_user_following} from '../graphql/queries/user';
+import {
+  query_user,
+  query_user_followers,
+  query_user_following,
+} from '../graphql/queries/user';
 import PostPic from '../components/PostPic';
 import {
   mutation_followUser,
@@ -24,7 +28,7 @@ const Profile = () => {
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const {loading: userQueryLoading, data: userQueryData} = useQuery(
     query_user,
-    {variables: {id}}
+    {variables: {id, current_user: getCurrentUser()}}
   );
 
   const [
@@ -32,8 +36,13 @@ const Profile = () => {
     {loading: followingLoading, data: followingData},
   ] = useLazyQuery(query_user_following);
 
+  const [
+    getFollowers,
+    {loading: followersLoading, data: followersData},
+  ] = useLazyQuery(query_user_followers);
+
   useEffect(() => {
-    if (!followingLoading) console.log(followingData);
+    if (!userQueryLoading) console.log(userQueryData);
   });
   if (!loadingAuth && !auth) {
     history.push('/login');
@@ -45,12 +54,9 @@ const Profile = () => {
   if (!userQueryLoading && !userQueryData.user) {
     history.push('/');
   }
-  const following = userQueryData.user.followers.some(
-    (f: any) => f.follower.id === getCurrentUser()
-  );
 
   const submitFollow = async () => {
-    if (following) {
+    if (userQueryData.isFollowing) {
       return;
     }
     await followUser({variables: {user_id: id}});
@@ -58,14 +64,14 @@ const Profile = () => {
   };
 
   const submitUnfollow = async () => {
-    if (!following) {
+    if (!userQueryData.isFollowing) {
       return;
     }
     await unfollowUser({variables: {user_id: id}});
     history.go(0);
   };
 
-  const followButton = following ? (
+  const followButton = userQueryData.isFollowing ? (
     <button type="button" onClick={() => submitUnfollow()} id={styles.unfollow}>
       Unfollow
     </button>
@@ -106,7 +112,12 @@ const Profile = () => {
             </span>
             <span className={styles.statName}>posts</span>
           </div>
-          <div onClick={() => setShowFollowersModal(true)}>
+          <div
+            onClick={() => {
+              setShowFollowersModal(true);
+              getFollowers({variables: {id}});
+            }}
+          >
             <span className={styles.statCount}>
               {userQueryData.user.followers_count}
             </span>
@@ -132,17 +143,21 @@ const Profile = () => {
           ))}
         </div>
       </main>
-      {showFollowersModal ? (
+      {(showFollowersModal || showFollowingModal) &&
+      (followersLoading || followingLoading) ? (
+        <CustomLoader />
+      ) : null}
+      {showFollowersModal && followersData ? (
         <UsersModal
           closeModal={() => setShowFollowersModal(false)}
-          title="Likes"
-          userList={userQueryData.user.followers.map((f: any) => f.follower)}
+          title="Followers"
+          userList={followersData.user.followers.map((f: any) => f.follower)}
         />
       ) : null}
-      {showFollowingModal && followingData && followingData.user ? (
+      {showFollowingModal && followingData ? (
         <UsersModal
           closeModal={() => setShowFollowingModal(false)}
-          title="Likes"
+          title="Following"
           userList={followingData.user.following.map((f: any) => f.following)}
         />
       ) : null}
