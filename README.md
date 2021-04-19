@@ -16,7 +16,6 @@ A fair use parody of Instagram.
 #### Server
 
 - ## Enable helmet before deployment!
-- explore_posts missing virtual properties of post
 - privacy settings (don't allow users to manipulate url to view private data)
 
 #### Web Client

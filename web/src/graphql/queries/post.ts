@@ -37,9 +37,7 @@ export const query_explore_post = gql`
   query ExplorePost($count: Int!) {
     explore_posts(count: $count) {
       id
-      author {
-        id
-      }
+      author
     }
   }
 `;

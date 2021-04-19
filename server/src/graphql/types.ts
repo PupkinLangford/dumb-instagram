@@ -134,3 +134,11 @@ export const tokenType = new GraphQLObjectType({
     user: {type: UserType},
   }),
 });
+
+export const PostPreviewType = new GraphQLObjectType({
+  name: 'PostPreview',
+  fields: () => ({
+    id: {type: new GraphQLNonNull(GraphQLID)},
+    author: {type: new GraphQLNonNull(GraphQLID)},
+  }),
+});

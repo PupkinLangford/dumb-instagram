@@ -30,7 +30,7 @@ const Explore = () => {
         <div className={styles.posts}>
           {exploreQueryData.explore_posts.map((post: any) => (
             <Link to={'/posts/' + post.id} key={post.id}>
-              <PostPic userID={post.author.id} postID={post.id} />
+              <PostPic userID={post.author} postID={post.id} />
             </Link>
           ))}
         </div>

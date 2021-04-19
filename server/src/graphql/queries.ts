@@ -7,7 +7,7 @@ import {
   GraphQLString,
 } from 'graphql';
 import {jwtValidate} from '../middlewares/jwtValidate';
-import {commentType, PostType, UserType} from './types';
+import {commentType, PostPreviewType, PostType, UserType} from './types';
 import User from '../models/user';
 import Post from '../models/post';
 import Comment from '../models/comment';
@@ -94,7 +94,7 @@ export const queryType = new GraphQLObjectType({
       },
     },
     explore_posts: {
-      type: new GraphQLList(PostType),
+      type: new GraphQLList(PostPreviewType),
       args: {count: {type: GraphQLInt}},
       resolve(_parent, args, {headers}) {
         const {authorization} = headers;
@@ -102,9 +102,6 @@ export const queryType = new GraphQLObjectType({
         return Post.aggregate()
           .project({
             id: {$toString: '$_id'},
-            caption: 1,
-            location: 1,
-            timestamp: 1,
             author: 1,
           })
           .sample(args.count);
