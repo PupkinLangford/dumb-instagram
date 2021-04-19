@@ -20,7 +20,8 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- use comment/like/follower etc. counts. Query full list only when user modals opened.
+- find faster way to check if current user already likes/follows
+- use like/follower counts. Query full list only when user modals opened.
 - re-query of db on every key up for search will likely not scale
 - click on own profile from own post, then click back => null map error. Data being cached. Null checks needed for every property of query data in Post and PostFooter components?
 - error when user id in params doesn't exist

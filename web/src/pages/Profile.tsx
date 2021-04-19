@@ -2,9 +2,9 @@ import React, {useEffect, useState} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Profile.module.css';
-import {useMutation, useQuery} from '@apollo/client';
+import {useLazyQuery, useMutation, useQuery} from '@apollo/client';
 import ProfilePic from '../components/ProfilePic';
-import {query_user} from '../graphql/queries/user';
+import {query_user, query_user_following} from '../graphql/queries/user';
 import PostPic from '../components/PostPic';
 import {
   mutation_followUser,
@@ -27,8 +27,13 @@ const Profile = () => {
     {variables: {id}}
   );
 
+  const [
+    getFollowing,
+    {loading: followingLoading, data: followingData},
+  ] = useLazyQuery(query_user_following);
+
   useEffect(() => {
-    if (!userQueryLoading) console.log(userQueryData);
+    if (!followingLoading) console.log(followingData);
   });
   if (!loadingAuth && !auth) {
     history.push('/login');
@@ -107,7 +112,12 @@ const Profile = () => {
             </span>
             <span className={styles.statName}>followers</span>
           </div>
-          <div onClick={() => setShowFollowingModal(true)}>
+          <div
+            onClick={() => {
+              setShowFollowingModal(true);
+              getFollowing({variables: {id}});
+            }}
+          >
             <span className={styles.statCount}>
               {userQueryData.user.following_count}
             </span>
@@ -129,11 +139,11 @@ const Profile = () => {
           userList={userQueryData.user.followers.map((f: any) => f.follower)}
         />
       ) : null}
-      {showFollowingModal ? (
+      {showFollowingModal && followingData && followingData.user ? (
         <UsersModal
           closeModal={() => setShowFollowingModal(false)}
           title="Likes"
-          userList={userQueryData.user.following.map((f: any) => f.following)}
+          userList={followingData.user.following.map((f: any) => f.following)}
         />
       ) : null}
     </div>
