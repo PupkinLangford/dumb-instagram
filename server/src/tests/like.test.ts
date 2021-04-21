@@ -12,6 +12,9 @@ mutation {
     liker {
         username
     }
+    post {
+      isLiked
+    }
   }
 }
 `;
@@ -21,6 +24,9 @@ mutation {
   unlikePost (post_id: "${post_id}") {
     liker {
         username
+    }
+    post {
+      isLiked
     }
   }
 }
@@ -48,6 +54,7 @@ test('can like post exactly once', async () => {
     });
   expect(res.body.errors).toBeUndefined();
   expect(res.body.data.likePost.liker.username).toBe('testuser');
+  expect(res.body.data.likePost.post.isLiked).toBe(true);
   const res2 = await server
     .post('/graphql')
     .set('Content-type', 'application/json')
@@ -76,6 +83,7 @@ test('can only unlike liked posts', async () => {
     });
   expect(res2.body.errors).toBeUndefined();
   expect(res2.body.data.unlikePost.liker.username).toBe('testuser');
+  expect(res2.body.data.unlikePost.post.isLiked).toBe(false);
   const res3 = await server
     .post('/graphql')
     .set('Content-type', 'application/json')

@@ -1,4 +1,5 @@
 import {
+  GraphQLBoolean,
   GraphQLID,
   GraphQLInt,
   GraphQLList,
@@ -9,6 +10,9 @@ import {
 import {GraphQLDateTime} from 'graphql-iso-date';
 import User from '../models/user';
 import Post from '../models/post';
+import Like from '../models/like';
+import {jwtValidate} from '../middlewares/jwtValidate';
+import {ObjectId} from 'mongoose';
 
 export const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',
@@ -53,6 +57,16 @@ export const PostType: GraphQLObjectType = new GraphQLObjectType({
     last_comments: {type: new GraphQLList(commentType)},
     likes: {type: new GraphQLList(likeType)},
     likes_count: {type: new GraphQLNonNull(GraphQLInt)},
+    isLiked: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+      resolve(parent, _args, context) {
+        return Like.exists({
+          post: parent.id,
+          liker: (jwtValidate(context.headers.authorization)
+            .id as unknown) as ObjectId,
+        });
+      },
+    },
   }),
 });
 
