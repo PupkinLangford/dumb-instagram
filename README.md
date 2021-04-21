@@ -19,7 +19,6 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- re-query of db on every key up for search will likely not scale
 - pass props (existing caption/location) to EditPost; no need to re-query
 - rerun queries after edit/delete post mutations
 - factor modals into separate components

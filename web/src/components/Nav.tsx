@@ -1,4 +1,4 @@
-import {useQuery} from '@apollo/client';
+import {useLazyQuery} from '@apollo/client';
 import React, {ChangeEvent, useEffect, useState} from 'react';
 import {Link, useHistory} from 'react-router-dom';
 import {query_search_users} from '../graphql/queries/user';
@@ -14,10 +14,15 @@ const Nav = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [search, setSearch] = useState('');
   const history = useHistory();
-  const {
-    loading: searchQueryLoading,
-    data: searchQueryData,
-  } = useQuery(query_search_users, {variables: {searchQuery: search}});
+  const [
+    getResults,
+    {loading: searchQueryLoading, data: searchQueryData},
+  ] = useLazyQuery(query_search_users, {
+    onCompleted: () => {
+      console.log(searchQueryData);
+      return;
+    },
+  });
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'search') {
@@ -26,14 +31,23 @@ const Nav = () => {
   };
 
   useEffect(() => {
-    if (!searchQueryLoading && search) console.log(searchQueryData);
-  });
+    if (search) {
+      const timeout_id = setTimeout(
+        () => getResults({variables: {searchQuery: search}}),
+        500
+      );
+      return () => clearTimeout(timeout_id);
+    } else {
+      return;
+    }
+  }, [getResults, search]);
 
-  const usersDropdown = !search ? null : searchQueryLoading ? null : (
-    <div onClick={() => setSearch('')}>
-      <UsersDropdown userList={searchQueryData.search_users} />
-    </div>
-  );
+  const usersDropdown =
+    !search || searchQueryLoading || !searchQueryData ? null : (
+      <div onClick={() => setSearch('')}>
+        <UsersDropdown userList={searchQueryData.search_users} />
+      </div>
+    );
 
   const dropdown = (
     <div className={styles.dropdown} onClick={() => setShowDropdown(false)}>
