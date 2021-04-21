@@ -9,6 +9,7 @@ import Comment from '../components/Comment';
 import PostFooter from '../components/PostFooter';
 import PostHeader from '../components/PostHeader';
 import CustomLoader from '../components/CustomLoader';
+import {IComment} from '../types';
 
 const Post = () => {
   const [auth, loadingAuth] = useAuth();
@@ -51,7 +52,7 @@ const Post = () => {
                 timestamp={postQueryData.post.format_date}
               />
             )}
-            {postQueryData.post.comments.map((comment: any) => (
+            {postQueryData.post.comments.map((comment: IComment) => (
               <Comment
                 key={comment.id}
                 id={comment.id}

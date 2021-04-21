@@ -4,9 +4,10 @@ import PostPic from '../components/PostPic';
 import {Link} from 'react-router-dom';
 import PostHeader from './PostHeader';
 import PostFooter from './PostFooter';
+import {IPost} from '../types';
 
 interface PostPreviewProps {
-  postData: any;
+  postData: IPost;
 }
 
 const PostPreview = (props: PostPreviewProps) => (

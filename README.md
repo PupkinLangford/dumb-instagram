@@ -24,7 +24,6 @@ A fair use parody of Instagram.
 - rerun queries after edit/delete post mutations
 - factor modals into separate components
 - refactor settings forms to separate components
-- fix explicit any typings in arrays of GraphQL data and PostFooterProps
 - add delete account tab to settings
 - profile picture being cached; clear cache when new picture uploaded.
 - prevent modalform parent click event from propagating to children

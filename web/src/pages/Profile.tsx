@@ -17,6 +17,7 @@ import {
 import UsersModal from '../components/UsersModal';
 import CustomLoader from '../components/CustomLoader';
 import {getCurrentUser} from '../utils';
+import {IFollow, IPost} from '../types';
 
 const Profile = () => {
   const [auth, loadingAuth] = useAuth();
@@ -137,7 +138,7 @@ const Profile = () => {
           </div>
         </div>
         <div className={styles.posts}>
-          {userQueryData.user.posts.map((post: any) => (
+          {userQueryData.user.posts.map((post: IPost) => (
             <Link to={'/posts/' + post.id} key={post.id}>
               <PostPic userID={id} postID={post.id} />
             </Link>
@@ -152,14 +153,18 @@ const Profile = () => {
         <UsersModal
           closeModal={() => setShowFollowersModal(false)}
           title="Followers"
-          userList={followersData.user.followers.map((f: any) => f.follower)}
+          userList={followersData.user.followers.map(
+            (f: IFollow) => f.follower
+          )}
         />
       ) : null}
       {showFollowingModal && followingData ? (
         <UsersModal
           closeModal={() => setShowFollowingModal(false)}
           title="Following"
-          userList={followingData.user.following.map((f: any) => f.following)}
+          userList={followingData.user.following.map(
+            (f: IFollow) => f.following
+          )}
         />
       ) : null}
     </div>

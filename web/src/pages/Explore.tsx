@@ -6,6 +6,12 @@ import {useQuery} from '@apollo/client';
 import {query_explore_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';
 import CustomLoader from '../components/CustomLoader';
+import {IPost} from '../types';
+
+interface explorePost {
+  id: string;
+  author: string;
+}
 
 const Explore = () => {
   const [auth, loadingAuth] = useAuth();
@@ -28,7 +34,7 @@ const Explore = () => {
     <div className={`page ${styles.explore}`}>
       <main>
         <div className={styles.posts}>
-          {exploreQueryData.explore_posts.map((post: any) => (
+          {exploreQueryData.explore_posts.map((post: explorePost) => (
             <Link to={'/posts/' + post.id} key={post.id}>
               <PostPic userID={post.author} postID={post.id} />
             </Link>

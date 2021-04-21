@@ -1,7 +1,7 @@
 import UserPreview from './UserPreview';
 import styles from './UsersModal.module.css';
 
-interface IUser {
+interface UserInfo {
   username: string;
   first_name: string;
   last_name: string;
@@ -21,7 +21,7 @@ const UsersModal = (props: UsersModalProps) => (
     <div className={styles.modalBox}>
       <div className={styles.modalForm}>
         <h1>{props.title}</h1>
-        {props.userList.map((user: IUser) => (
+        {props.userList.map((user: UserInfo) => (
           <UserPreview key={user.id} user={user} />
         ))}
       </div>

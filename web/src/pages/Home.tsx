@@ -6,6 +6,7 @@ import styles from './Home.module.css';
 import {useQuery} from '@apollo/client';
 import PostPreview from '../components/PostPreview';
 import CustomLoader from '../components/CustomLoader';
+import {IFollow, IPost} from '../types';
 
 const Home = () => {
   const [auth, loadingAuth] = useAuth();
@@ -25,12 +26,13 @@ const Home = () => {
   return (
     <div className={`page ${styles.home}`}>
       {feedQueryData.current_user.following
-        .flatMap((f: any) => f.posts)
+        .flatMap((f: IFollow) => f.posts)
         .concat(feedQueryData.current_user.posts)
         .sort(
-          (a: any, b: any) => +new Date(b.timestamp) - +new Date(a.timestamp)
+          (a: IPost, b: IPost) =>
+            +new Date(b.timestamp) - +new Date(a.timestamp)
         )
-        .map((post: any) => (
+        .map((post: IPost) => (
           <PostPreview postData={post} key={post.id} />
         ))}
     </div>

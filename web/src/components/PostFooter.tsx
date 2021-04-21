@@ -11,9 +11,10 @@ import {useHistory} from 'react-router';
 import {Link} from 'react-router-dom';
 import {query_post_likes} from '../graphql/queries/post';
 import CustomLoader from './CustomLoader';
+import {ILike, IPost} from '../types';
 
 interface PostFooterProps {
-  postData: any;
+  postData: IPost;
   showCaption?: boolean;
 }
 
@@ -122,7 +123,7 @@ const PostFooter = (props: PostFooterProps) => {
         <UsersModal
           closeModal={() => setShowLikesModal(false)}
           title="Likes"
-          userList={likesData.post.likes.map((like: any) => like.liker)}
+          userList={likesData.post.likes.map((like: ILike) => like.liker)}
         />
       ) : null}
     </footer>

@@ -1,7 +1,7 @@
 import UserPreview from './UserPreview';
 import styles from './UsersDropdown.module.css';
 
-interface IUser {
+interface UserInfo {
   username: string;
   first_name: string;
   last_name: string;
@@ -19,7 +19,7 @@ const UsersDropdown = (props: UsersModalProps) =>
     <div className={styles.cover}>
       <div className={styles.modalBox}>
         <div className={styles.modalForm}>
-          {props.userList.map((user: IUser) => (
+          {props.userList.map((user: UserInfo) => (
             <UserPreview key={user.id} user={user} />
           ))}
         </div>

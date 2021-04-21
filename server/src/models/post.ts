@@ -4,7 +4,6 @@ import Comment from './comment';
 import Like from './like';
 
 export interface IPost extends Document {
-  photo: string;
   caption: string;
   author: Schema.Types.ObjectId;
   location: string;

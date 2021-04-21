@@ -10,7 +10,7 @@ import PostPic from '../components/PostPic';
 import CustomLoader from '../components/CustomLoader';
 import {getCurrentUser} from '../utils';
 
-const NewPost = () => {
+const EditPost = () => {
   const [auth, loadingAuth] = useAuth();
   const history = useHistory();
   const [updatePost] = useMutation(mutation_updatePost);
@@ -87,4 +87,4 @@ const NewPost = () => {
   );
 };
 
-export default NewPost;
+export default EditPost;

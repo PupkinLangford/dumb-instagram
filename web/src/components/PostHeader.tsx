@@ -5,9 +5,10 @@ import {useMutation} from '@apollo/client';
 import ProfilePic from '../components/ProfilePic';
 import {mutation_deletePost} from '../graphql/mutations/post';
 import {getCurrentUser} from '../utils';
+import {IPost} from '../types';
 
 interface PostHeaderProps {
-  postData: any;
+  postData: IPost;
 }
 
 const PostHeader = (props: PostHeaderProps) => {
