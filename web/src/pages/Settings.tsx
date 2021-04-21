@@ -28,6 +28,9 @@ const Settings = () => {
   const fileOnChange = async (files: FileList) => {
     try {
       await changeProfilePic({variables: {picture: files[0]}});
+      window.alert(
+        'Profile Pic successfully updated. Changes should be displayed in a few minutes.'
+      );
     } catch (err) {
       console.log(err);
     }

@@ -14,7 +14,7 @@ const expressPlayground = require('graphql-playground-middleware-express')
 
 connectDb();
 
-//app.use(helmet());
+if (!(process.env.NODE_ENV === 'development')) app.use(helmet());
 
 app.use(cors());
 const schema = new GraphQLSchema({
