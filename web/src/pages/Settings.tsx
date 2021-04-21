@@ -211,6 +211,7 @@ const Settings = () => {
       <input
         type="file"
         id="photoUpload"
+        accept="image/*"
         ref={photoUpload}
         hidden
         onChange={e => fileOnChange(e.target.files!)}

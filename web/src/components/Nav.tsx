@@ -17,12 +17,7 @@ const Nav = () => {
   const [
     getResults,
     {loading: searchQueryLoading, data: searchQueryData},
-  ] = useLazyQuery(query_search_users, {
-    onCompleted: () => {
-      console.log(searchQueryData);
-      return;
-    },
-  });
+  ] = useLazyQuery(query_search_users);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'search') {

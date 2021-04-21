@@ -1,7 +1,10 @@
 {
-  "name": "",
+  "name": "dumb-instagram-server",
   "version": "0.0.0",
   "description": "",
+  "engines": {
+    "node": "14.5.0"
+  },
   "main": "build/src/index.js",
   "types": "build/src/index.d.ts",
   "files": [
@@ -10,7 +13,8 @@
   "license": "Apache-2.0",
   "keywords": [],
   "scripts": {
-    "start": "concurrently --kill-others 'npm run tsc:watch' 'npm run dev'",
+    "start": "node build/src/index.js",
+    "devstart": "concurrently --kill-others 'npm run tsc:watch' 'npm run dev'",
     "dev": "nodemon build/src/index.js",
     "test": "jest src/tests",
     "lint": "gts lint",
