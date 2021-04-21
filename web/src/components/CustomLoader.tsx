@@ -6,9 +6,11 @@ const CustomLoader = (): JSX.Element => {
     <div
       style={{
         position: 'fixed',
+        top: 0,
+        left: 0,
         justifyContent: 'center',
         alignItems: 'center',
-        zIndex: 101,
+        zIndex: 1010,
         width: '100vw',
         height: '100vh',
       }}

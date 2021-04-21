@@ -11,14 +11,7 @@ export const query_post = gql`
         id
         username
       }
-      likes {
-        liker {
-          id
-          username
-          first_name
-          last_name
-        }
-      }
+      isLiked
       likes_count
       comments {
         id
@@ -64,14 +57,7 @@ export const query_feed_posts = gql`
             username
           }
         }
-        likes {
-          liker {
-            id
-            username
-            first_name
-            last_name
-          }
-        }
+        isLiked
       }
       following {
         posts {
@@ -93,14 +79,22 @@ export const query_feed_posts = gql`
               username
             }
           }
-          likes {
-            liker {
-              id
-              username
-              first_name
-              last_name
-            }
-          }
+          isLiked
+        }
+      }
+    }
+  }
+`;
+
+export const query_post_likes = gql`
+  query Post($id: ID!) {
+    post(id: $id) {
+      likes {
+        liker {
+          id
+          username
+          first_name
+          last_name
         }
       }
     }
