@@ -4,7 +4,7 @@ type Config = {
 };
 
 const dev: string = 'http://localhost:5000/graphql';
-const prod: string = 'https://di-server.herokuapp.com/graphql';
+const prod: string = 'https://di-server.herokuapp.com/graphql'; //
 
 const config: Config = {
   serverUrl: process.env.NODE_ENV === 'development' ? dev : prod,
