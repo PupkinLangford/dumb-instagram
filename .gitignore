@@ -1,3 +1,4 @@
 node_modules
 .env
 fetch.txt
+deploy.txt
