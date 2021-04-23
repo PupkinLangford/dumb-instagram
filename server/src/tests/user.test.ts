@@ -210,7 +210,7 @@ describe('signup and login', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .send({
-        query: mutationSignup('ruperttest', '12345', '12345', 'rupe@aol.com'),
+        query: mutationSignup('rupertTest ', '12345', '12345', 'rupe@aol.com'),
       });
     expect(res.body.data.signup.username).toBe('ruperttest');
     expect(res.body.data.signup.id).not.toBeNull();
@@ -238,7 +238,7 @@ describe('signup and login', () => {
     const res = await server
       .post('/graphql')
       .set('Content-type', 'application/json')
-      .send({query: mutationLogin('testuser', '12345')});
+      .send({query: mutationLogin(' tesTuser', '12345')});
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.login.token.length).toBeGreaterThan(0);
     expect(res.body.data.login.user.username).toBe('testuser');

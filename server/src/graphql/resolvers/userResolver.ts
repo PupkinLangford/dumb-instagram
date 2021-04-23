@@ -28,7 +28,7 @@ export async function signup(
     await signUpRules.validate(args);
 
     const user = new User({
-      username: args.username,
+      username: args.username?.trim().toLowerCase(),
       password: args.password,
       email: args.email,
     });
@@ -44,7 +44,7 @@ export async function login(
 ) {
   try {
     await loginRules.validate(args);
-    const username = args.username;
+    const username = args.username?.trim().toLowerCase();
     const user = await User.findOne({username});
 
     if (!user) {

@@ -16,6 +16,7 @@ A fair use parody of Instagram.
 #### Server
 
 - privacy settings (don't allow users to manipulate url to view private data)
+- Notifications
 
 #### Web Client
 
