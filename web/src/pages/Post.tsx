@@ -45,6 +45,7 @@ const Post = () => {
           <div className={styles.commentContainer}>
             {postQueryData.post.caption && (
               <Comment
+                parentID={id}
                 authorID={postQueryData.post.author.id}
                 parentAuthorID={postQueryData.post.author.id}
                 authorUsername={postQueryData.post.author.username}
@@ -55,6 +56,7 @@ const Post = () => {
             {postQueryData.post.comments.map((comment: IComment) => (
               <Comment
                 key={comment.id}
+                parentID={id}
                 id={comment.id}
                 authorID={comment.author.id}
                 parentAuthorID={postQueryData.post.author.id}
@@ -64,7 +66,7 @@ const Post = () => {
               />
             ))}
           </div>
-          <PostFooter postData={postQueryData.post} />
+          <PostFooter postData={postQueryData.post} query={query_post} />
         </div>
       </main>
     </div>

@@ -1,13 +1,12 @@
 import React, {FormEvent, useState} from 'react';
 import styles from './PostFooter.module.css';
-import {useLazyQuery, useMutation} from '@apollo/client';
+import {DocumentNode, useLazyQuery, useMutation} from '@apollo/client';
 import {mutation_createComment} from '../graphql/mutations/comment';
 import {
   mutation_likePost,
   mutation_unlikePost,
 } from '../graphql/mutations/like';
 import UsersModal from '../components/UsersModal';
-import {useHistory} from 'react-router';
 import {Link} from 'react-router-dom';
 import {query_post_likes} from '../graphql/queries/post';
 import CustomLoader from './CustomLoader';
@@ -16,18 +15,24 @@ import {ILike, IPost} from '../types';
 interface PostFooterProps {
   postData: IPost;
   showCaption?: boolean;
+  query: DocumentNode;
 }
 
 const PostFooter = (props: PostFooterProps) => {
   const [newComment, setNewComment] = useState('');
   const [showLikesModal, setShowLikesModal] = useState(false);
-  const [createComment] = useMutation(mutation_createComment);
-  const [likePost] = useMutation(mutation_likePost);
-  const [unlikePost] = useMutation(mutation_unlikePost);
+  const [createComment] = useMutation(mutation_createComment, {
+    refetchQueries: [{query: props.query, variables: {id: props.postData.id}}],
+  });
+  const [likePost] = useMutation(mutation_likePost, {
+    refetchQueries: [{query: props.query, variables: {id: props.postData.id}}],
+  });
+  const [unlikePost] = useMutation(mutation_unlikePost, {
+    refetchQueries: [{query: props.query, variables: {id: props.postData.id}}],
+  });
   const [getLikes, {loading: likesLoading, data: likesData}] = useLazyQuery(
     query_post_likes
   );
-  const history = useHistory();
 
   const submitComment = async (e: FormEvent) => {
     e.preventDefault();
@@ -37,23 +42,21 @@ const PostFooter = (props: PostFooterProps) => {
       await createComment({
         variables: {content: newComment, post_id: props.postData.id},
       });
-      history.go(0);
+      setNewComment('');
     }
   };
-  const submitLike = async () => {
+  const submitLike = () => {
     if (props.postData.isLiked) {
       return;
     }
-    await likePost({variables: {post_id: props.postData.id}});
-    history.go(0);
+    likePost({variables: {post_id: props.postData.id}});
   };
 
-  const submitUnlike = async () => {
+  const submitUnlike = () => {
     if (!props.postData.isLiked) {
       return;
     }
-    await unlikePost({variables: {post_id: props.postData.id}});
-    history.go(0);
+    unlikePost({variables: {post_id: props.postData.id}});
   };
   return (
     <footer className={styles.postFooter}>

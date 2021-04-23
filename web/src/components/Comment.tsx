@@ -1,7 +1,8 @@
 import {useMutation} from '@apollo/client';
 import React, {useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {mutation_deleteComment} from '../graphql/mutations/comment';
+import {query_post} from '../graphql/queries/post';
 import {getCurrentUser} from '../utils';
 import styles from './Comment.module.css';
 import ProfilePic from './ProfilePic';
@@ -9,6 +10,7 @@ import ProfilePic from './ProfilePic';
 interface CommentProps {
   authorID: string;
   parentAuthorID: string;
+  parentID: string;
   authorUsername: string;
   content: string;
   timestamp: Date;
@@ -17,14 +19,14 @@ interface CommentProps {
 
 const Comment = (props: CommentProps) => {
   const [showModal, setShowModal] = useState(false);
-  const [deletePost] = useMutation(mutation_deleteComment);
-  const history = useHistory();
+  const [deleteComment] = useMutation(mutation_deleteComment, {
+    refetchQueries: [{query: query_post, variables: {id: props.parentID}}],
+  });
   const submitDelete = async () => {
     const res = window.confirm('Are you sure you want to delete this comment?');
     if (!res) return;
     try {
-      await deletePost({variables: {comment_id: props.id}});
-      history.go(0);
+      await deleteComment({variables: {comment_id: props.id}});
     } catch (err) {
       console.log(err);
     }

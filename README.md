@@ -20,6 +20,8 @@ A fair use parody of Instagram.
 
 #### Web Client
 
+- handle history.go(0) in PostHeader, Nav, and EditPost
+- pagination on home page/feed
 - pass props (existing caption/location) to EditPost; no need to re-query
 - rerun queries after edit/delete post mutations
 - factor modals into separate components
@@ -27,4 +29,4 @@ A fair use parody of Instagram.
 - add delete account tab to settings
 - profile picture being cached; clear cache when new picture uploaded.
 - prevent modalform parent click event from propagating to children
-- use graphql subscriptions to avoid manual refresh
+- faster refetch of likes/comment queries. Don't refetch all data.

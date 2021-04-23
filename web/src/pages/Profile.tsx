@@ -23,8 +23,16 @@ const Profile = () => {
   const [auth, loadingAuth] = useAuth();
   const {id} = useParams<{id: string}>();
   const history = useHistory();
-  const [followUser] = useMutation(mutation_followUser);
-  const [unfollowUser] = useMutation(mutation_unfollowUser);
+  const [followUser] = useMutation(mutation_followUser, {
+    refetchQueries: [
+      {query: query_user, variables: {id, current_user: getCurrentUser()}},
+    ],
+  });
+  const [unfollowUser] = useMutation(mutation_unfollowUser, {
+    refetchQueries: [
+      {query: query_user, variables: {id, current_user: getCurrentUser()}},
+    ],
+  });
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const {loading: userQueryLoading, data: userQueryData} = useQuery(
@@ -57,20 +65,18 @@ const Profile = () => {
     return null;
   }
 
-  const submitFollow = async () => {
+  const submitFollow = () => {
     if (userQueryData.isFollowing) {
       return;
     }
-    await followUser({variables: {user_id: id}});
-    history.go(0);
+    followUser({variables: {user_id: id}});
   };
 
-  const submitUnfollow = async () => {
+  const submitUnfollow = () => {
     if (!userQueryData.isFollowing) {
       return;
     }
-    await unfollowUser({variables: {user_id: id}});
-    history.go(0);
+    unfollowUser({variables: {user_id: id}});
   };
 
   const followButton = userQueryData.isFollowing ? (
