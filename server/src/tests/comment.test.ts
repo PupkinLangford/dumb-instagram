@@ -48,7 +48,7 @@ const mutationDeleteComment = (comment_id: string) => `
               comment_id: "${comment_id}"
               ) 
               {
-              content
+              id
               }
           }`;
 

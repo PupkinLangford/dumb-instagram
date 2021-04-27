@@ -19,9 +19,7 @@ interface CommentProps {
 
 const Comment = (props: CommentProps) => {
   const [showModal, setShowModal] = useState(false);
-  const [deleteComment] = useMutation(mutation_deleteComment, {
-    refetchQueries: [{query: query_post, variables: {id: props.parentID}}],
-  });
+  const [deleteComment] = useMutation(mutation_deleteComment);
   const submitDelete = async () => {
     const res = window.confirm('Are you sure you want to delete this comment?');
     if (!res) return;

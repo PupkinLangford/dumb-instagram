@@ -29,7 +29,7 @@ export async function followUser(
     } else {
       const follow = new Follow({follower: user.id, following: args.user_id});
       await follow.save();
-      return await foundUser.populate(
+      return foundUser.populate(
         'posts followers following followers_count following_count posts_count'
       );
     }
@@ -58,7 +58,7 @@ export async function unfollowUser(
       return new GraphQLError('Not following this user');
     } else {
       await foundFollow.deleteOne();
-      return await foundUser.populate(
+      return foundUser.populate(
         'posts followers following followers_count following_count posts_count'
       );
     }
