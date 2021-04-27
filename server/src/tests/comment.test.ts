@@ -24,10 +24,10 @@ const mutationCreateComment = (post_id: string, content: string) => `
               content: "${content}"
               ) 
               {
-              content
-              post {
-                  id
-              }
+                comments_count
+                last_comments {
+                  content
+                }
               }
           }`;
 
@@ -85,8 +85,10 @@ test('create comment successful with valid args', async () => {
       query: mutationCreateComment(post._id, 'test comment text'),
     });
   expect(res.body.errors).toBeUndefined();
-  expect(res.body.data.createComment.content).toBe('test comment text');
-  expect(res.body.data.createComment.post.id).toBe(post._id.toString());
+  expect(res.body.data.createComment.last_comments[0].content).toBe(
+    'test comment text'
+  );
+  expect(res.body.data.createComment.comments_count).toBe(1);
 });
 
 test('create comment fails with invalid post id', async () => {

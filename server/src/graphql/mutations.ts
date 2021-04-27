@@ -134,7 +134,7 @@ export const mutation = new GraphQLObjectType({
       resolve: deletePost,
     },
     createComment: {
-      type: commentType,
+      type: PostType,
       args: {
         content: {type: new GraphQLNonNull(GraphQLString)},
         post_id: {type: new GraphQLNonNull(GraphQLID)},
@@ -155,14 +155,14 @@ export const mutation = new GraphQLObjectType({
       resolve: deleteComment,
     },
     likePost: {
-      type: likeType,
+      type: PostType,
       args: {
         post_id: {type: new GraphQLNonNull(GraphQLID)},
       },
       resolve: likePost,
     },
     unlikePost: {
-      type: likeType,
+      type: PostType,
       args: {
         post_id: {type: new GraphQLNonNull(GraphQLID)},
       },

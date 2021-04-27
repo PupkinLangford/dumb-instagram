@@ -4,6 +4,23 @@ export const mutation_createComment = gql`
   mutation CreateComment($content: String!, $post_id: ID!) {
     createComment(content: $content, post_id: $post_id) {
       id
+      comments_count
+      last_comments {
+        content
+        author {
+          id
+          username
+        }
+      }
+      comments {
+        id
+        author {
+          id
+          username
+        }
+        content
+        format_date
+      }
     }
   }
 `;

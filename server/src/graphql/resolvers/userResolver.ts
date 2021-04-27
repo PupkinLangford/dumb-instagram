@@ -54,7 +54,7 @@ export async function login(
     const token = jsonwebtoken.sign(
       {id: user._id, username: user.username},
       config.jwtSecret,
-      {expiresIn: '3d'}
+      {expiresIn: '5d'}
     );
     return {token, user};
   } catch (err) {

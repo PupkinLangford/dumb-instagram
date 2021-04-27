@@ -66,7 +66,7 @@ const Post = () => {
               />
             ))}
           </div>
-          <PostFooter postData={postQueryData.post} query={query_post} />
+          <PostFooter postData={postQueryData.post} />
         </div>
       </main>
     </div>

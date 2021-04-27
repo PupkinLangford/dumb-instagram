@@ -6,7 +6,6 @@ import {useQuery} from '@apollo/client';
 import {query_explore_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';
 import CustomLoader from '../components/CustomLoader';
-import {IPost} from '../types';
 
 interface explorePost {
   id: string;

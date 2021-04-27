@@ -50,7 +50,6 @@ const EditPost = () => {
                 },
               });
               history.push('/posts/' + response.data.updatePost.id);
-              history.go(0);
             } catch (err) {
               console.log(err);
             }

@@ -20,7 +20,10 @@ export async function createComment(
       content: args.content,
       post: args.post_id,
     });
-    return await comment.save();
+    await comment.save();
+    return await Post.findById(args.post_id).populate(
+      'comments likes comments_count last_comments likes_count'
+    );
   } catch (err) {
     return new GraphQLError(err);
   }

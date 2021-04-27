@@ -1,6 +1,6 @@
 import React, {FormEvent, useState} from 'react';
 import styles from './PostFooter.module.css';
-import {DocumentNode, useLazyQuery, useMutation} from '@apollo/client';
+import {useLazyQuery, useMutation} from '@apollo/client';
 import {mutation_createComment} from '../graphql/mutations/comment';
 import {
   mutation_likePost,
@@ -15,21 +15,18 @@ import {ILike, IPost} from '../types';
 interface PostFooterProps {
   postData: IPost;
   showCaption?: boolean;
-  query: DocumentNode;
 }
 
 const PostFooter = (props: PostFooterProps) => {
   const [newComment, setNewComment] = useState('');
   const [showLikesModal, setShowLikesModal] = useState(false);
-  const [createComment] = useMutation(mutation_createComment, {
-    refetchQueries: [{query: props.query, variables: {id: props.postData.id}}],
-  });
-  const [likePost] = useMutation(mutation_likePost, {
-    refetchQueries: [{query: props.query, variables: {id: props.postData.id}}],
-  });
-  const [unlikePost] = useMutation(mutation_unlikePost, {
-    refetchQueries: [{query: props.query, variables: {id: props.postData.id}}],
-  });
+  const [createComment] = useMutation(mutation_createComment);
+  const [likePost, {loading: likeMutationLoading}] = useMutation(
+    mutation_likePost
+  );
+  const [unlikePost, {loading: unlikeMutationLoading}] = useMutation(
+    mutation_unlikePost
+  );
   const [getLikes, {loading: likesLoading, data: likesData}] = useLazyQuery(
     query_post_likes
   );
@@ -46,14 +43,22 @@ const PostFooter = (props: PostFooterProps) => {
     }
   };
   const submitLike = () => {
-    if (props.postData.isLiked) {
+    if (
+      props.postData.isLiked ||
+      likeMutationLoading ||
+      unlikeMutationLoading
+    ) {
       return;
     }
     likePost({variables: {post_id: props.postData.id}});
   };
 
   const submitUnlike = () => {
-    if (!props.postData.isLiked) {
+    if (
+      !props.postData.isLiked ||
+      likeMutationLoading ||
+      unlikeMutationLoading
+    ) {
       return;
     }
     unlikePost({variables: {post_id: props.postData.id}});

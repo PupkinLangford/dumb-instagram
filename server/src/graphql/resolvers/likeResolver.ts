@@ -1,4 +1,5 @@
 import Like from '../../models/like';
+import Post from '../../models/post';
 import {GraphQLError} from 'graphql';
 import {jwtValidate} from '../../middlewares/jwtValidate';
 import {ObjectId} from 'mongoose';
@@ -20,7 +21,10 @@ export async function likePost(
       return new GraphQLError('Post already liked by user');
     } else {
       const like = new Like({liker: user.id, post: args.post_id});
-      return await like.save();
+      await like.save();
+      return await Post.findById(args.post_id).populate(
+        'comments likes comments_count last_comments likes_count'
+      );
     }
   } catch (err) {
     return new GraphQLError(err);
@@ -42,7 +46,10 @@ export async function unlikePost(
     if (!foundLike) {
       return new GraphQLError('Post already liked by user');
     } else {
-      return await Like.findByIdAndDelete(foundLike._id);
+      await Like.findByIdAndDelete(foundLike._id);
+      return await Post.findById(args.post_id).populate(
+        'comments likes comments_count last_comments likes_count'
+      );
     }
   } catch (err) {
     return new GraphQLError(err);
