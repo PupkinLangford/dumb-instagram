@@ -89,6 +89,7 @@ export const query_feed_posts = gql`
 export const query_post_likes = gql`
   query Post($id: ID!) {
     post(id: $id) {
+      id
       likes {
         liker {
           id
