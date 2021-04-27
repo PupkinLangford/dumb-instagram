@@ -25,14 +25,7 @@ import {
   deleteProfilePic,
   changeBio,
 } from './resolvers/userResolver';
-import {
-  UserType,
-  tokenType,
-  PostType,
-  commentType,
-  likeType,
-  followType,
-} from './types';
+import {UserType, tokenType, PostType, commentType} from './types';
 
 export const mutation = new GraphQLObjectType({
   name: 'Mutation',
@@ -97,14 +90,14 @@ export const mutation = new GraphQLObjectType({
     },
     deleteSelf: {type: UserType, resolve: deleteSelf},
     followUser: {
-      type: followType,
+      type: UserType,
       args: {
         user_id: {type: new GraphQLNonNull(GraphQLID)},
       },
       resolve: followUser,
     },
     unfollowUser: {
-      type: followType,
+      type: UserType,
       args: {
         user_id: {type: new GraphQLNonNull(GraphQLID)},
       },

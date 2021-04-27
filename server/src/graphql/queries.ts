@@ -118,7 +118,7 @@ export const queryType = new GraphQLObjectType({
         return Comment.findById(args.id);
       },
     },
-    isFollowing: {
+    AFollowsB: {
       type: new GraphQLNonNull(GraphQLBoolean),
       args: {follower_id: {type: GraphQLID}, following_id: {type: GraphQLID}},
       resolve(_parent, args, {headers}) {

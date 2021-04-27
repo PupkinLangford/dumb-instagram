@@ -9,19 +9,7 @@ import {disconnectDb} from '../db';
 const mutationFollow = (user_id: string) => `
 mutation {
   followUser (user_id: "${user_id}") {
-    following {
-        username
-        followers {
-            follower {
-                username
-            }
-        }
-        following {
-            following {
-                username
-            }
-        }
-    }
+    isFollowing
   }
 }
 `;
@@ -29,25 +17,13 @@ mutation {
 const mutationUnfollow = (user_id: string) => `
 mutation {
   unfollowUser (user_id: "${user_id}") {
-    following {
-        username
-        followers {
-            follower {
-                username
-            }
-        }
-        following {
-            following {
-                username
-            }
-        }
-    }
+    isFollowing
   }
 }
 `;
 
 const queryIsFollowing = (follower_id: string, following_id: string) => `query {
-  isFollowing(follower_id:"${follower_id}" following_id:"${following_id}")
+  AFollowsB(follower_id:"${follower_id}" following_id:"${following_id}")
 }`;
 
 let server: request.SuperTest<request.Test>;
@@ -71,11 +47,7 @@ test('can follow user exactly once', async () => {
       query: mutationFollow(post.author.toString()),
     });
   expect(res.body.errors).toBeUndefined();
-  expect(res.body.data.followUser.following.username).toBe('testposter');
-  expect(
-    res.body.data.followUser.following.followers[0].follower.username
-  ).toBe('testuser');
-  expect(res.body.data.followUser.following.following.length).toBe(0);
+  expect(res.body.data.followUser.isFollowing).toBe(true);
   const res2 = await server
     .post('/graphql')
     .set('Content-type', 'application/json')
@@ -103,9 +75,7 @@ test('can only unfollow followed users', async () => {
       query: mutationUnfollow(post.author.toString()),
     });
   expect(res2.body.errors).toBeUndefined();
-  expect(res2.body.data.unfollowUser.following.username).toBe('testposter');
-  expect(res2.body.data.unfollowUser.following.followers.length).toBe(0);
-  expect(res2.body.data.unfollowUser.following.following.length).toBe(0);
+  expect(res2.body.data.unfollowUser.isFollowing).toBe(false);
   const res3 = await server
     .post('/graphql')
     .set('Content-type', 'application/json')
@@ -116,7 +86,7 @@ test('can only unfollow followed users', async () => {
   expect(res3.body.errors).not.toBeUndefined();
 });
 
-test('isFollowing returns true correctly', async () => {
+test('AFollowsB returns true correctly', async () => {
   const [F1] = await createFollow();
   const res = await server
     .post('/graphql')
@@ -126,10 +96,10 @@ test('isFollowing returns true correctly', async () => {
       query: queryIsFollowing(F1.follower.toString(), F1.following.toString()),
     });
   expect(res.body.errors).toBeUndefined();
-  expect(res.body.data.isFollowing).toBe(true);
+  expect(res.body.data.AFollowsB).toBe(true);
 });
 
-test('isFollowing returns false correctly', async () => {
+test('AFollowsB returns false correctly', async () => {
   const [F1] = await createFollow();
   const res = await server
     .post('/graphql')
@@ -139,7 +109,7 @@ test('isFollowing returns false correctly', async () => {
       query: queryIsFollowing(F1.follower.toString(), user.id.toString()),
     });
   expect(res.body.errors).toBeUndefined();
-  expect(res.body.data.isFollowing).toBe(false);
+  expect(res.body.data.AFollowsB).toBe(false);
 });
 
 afterAll(() => {

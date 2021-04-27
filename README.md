@@ -20,7 +20,6 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- modify follow/unfollow to return data to update cache
 - Delete comment refetches entire query.
 - handle history.go(0) in PostHeader, Nav, and EditPost
 - pagination on home page/feed

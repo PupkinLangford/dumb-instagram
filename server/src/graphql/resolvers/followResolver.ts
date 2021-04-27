@@ -16,7 +16,7 @@ export async function followUser(
     if (user.id === args.user_id!.toString()) {
       return new GraphQLError('User cannot follow self');
     }
-    const foundUser = await User.findById(args.user_id);
+    const foundUser = await User.findById(args.user_id, '-password -email');
     if (!foundUser) {
       return new GraphQLError('User not found');
     }
@@ -28,7 +28,10 @@ export async function followUser(
       return new GraphQLError('Already following this user');
     } else {
       const follow = new Follow({follower: user.id, following: args.user_id});
-      return await follow.save();
+      await follow.save();
+      return await foundUser.populate(
+        'posts followers following followers_count following_count posts_count'
+      );
     }
   } catch (err) {
     return new GraphQLError(err);
@@ -43,7 +46,7 @@ export async function unfollowUser(
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
-    const foundUser = await User.findById(args.user_id);
+    const foundUser = await User.findById(args.user_id, '-password -email');
     if (!foundUser) {
       return new GraphQLError('User not found');
     }
@@ -54,7 +57,10 @@ export async function unfollowUser(
     if (!foundFollow) {
       return new GraphQLError('Not following this user');
     } else {
-      return await foundFollow.deleteOne();
+      await foundFollow.deleteOne();
+      return await foundUser.populate(
+        'posts followers following followers_count following_count posts_count'
+      );
     }
   } catch (err) {
     return new GraphQLError(err);

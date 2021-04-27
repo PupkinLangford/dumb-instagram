@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './Profile.module.css';
@@ -23,21 +23,13 @@ const Profile = () => {
   const [auth, loadingAuth] = useAuth();
   const {id} = useParams<{id: string}>();
   const history = useHistory();
-  const [followUser] = useMutation(mutation_followUser, {
-    refetchQueries: [
-      {query: query_user, variables: {id, current_user: getCurrentUser()}},
-    ],
-  });
-  const [unfollowUser] = useMutation(mutation_unfollowUser, {
-    refetchQueries: [
-      {query: query_user, variables: {id, current_user: getCurrentUser()}},
-    ],
-  });
+  const [followUser] = useMutation(mutation_followUser);
+  const [unfollowUser] = useMutation(mutation_unfollowUser);
   const [showFollowersModal, setShowFollowersModal] = useState(false);
   const [showFollowingModal, setShowFollowingModal] = useState(false);
   const {loading: userQueryLoading, data: userQueryData} = useQuery(
     query_user,
-    {variables: {id, current_user: getCurrentUser()}}
+    {variables: {id}}
   );
 
   const [
@@ -50,9 +42,6 @@ const Profile = () => {
     {loading: followersLoading, data: followersData},
   ] = useLazyQuery(query_user_followers);
 
-  useEffect(() => {
-    if (!userQueryLoading) console.log(userQueryData);
-  });
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
@@ -66,20 +55,20 @@ const Profile = () => {
   }
 
   const submitFollow = () => {
-    if (userQueryData.isFollowing) {
+    if (userQueryData.user.isFollowing) {
       return;
     }
     followUser({variables: {user_id: id}});
   };
 
   const submitUnfollow = () => {
-    if (!userQueryData.isFollowing) {
+    if (!userQueryData.user.isFollowing) {
       return;
     }
     unfollowUser({variables: {user_id: id}});
   };
 
-  const followButton = userQueryData.isFollowing ? (
+  const followButton = userQueryData.user.isFollowing ? (
     <button type="button" onClick={() => submitUnfollow()} id={styles.unfollow}>
       Unfollow
     </button>

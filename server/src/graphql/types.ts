@@ -11,6 +11,7 @@ import {GraphQLDateTime} from 'graphql-iso-date';
 import User from '../models/user';
 import Post from '../models/post';
 import Like from '../models/like';
+import Follow from '../models/follow';
 import {jwtValidate} from '../middlewares/jwtValidate';
 import {ObjectId} from 'mongoose';
 
@@ -33,6 +34,16 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
     following_count: {type: new GraphQLNonNull(GraphQLInt)},
     followers: {type: new GraphQLList(followType)},
     followers_count: {type: new GraphQLNonNull(GraphQLInt)},
+    isFollowing: {
+      type: new GraphQLNonNull(GraphQLBoolean),
+      resolve(parent, _args, context) {
+        return Follow.exists({
+          following: parent.id,
+          follower: (jwtValidate(context.headers.authorization)
+            .id as unknown) as ObjectId,
+        });
+      },
+    },
   }),
 });
 

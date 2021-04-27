@@ -14,8 +14,9 @@ export const query_current_user = gql`
 `;
 
 export const query_user = gql`
-  query User($id: ID!, $current_user: ID!) {
+  query User($id: ID!) {
     user(id: $id) {
+      id
       username
       first_name
       last_name
@@ -26,15 +27,15 @@ export const query_user = gql`
       posts_count
       following_count
       followers_count
+      isFollowing
     }
-
-    isFollowing(follower_id: $current_user, following_id: $id)
   }
 `;
 
 export const query_user_following = gql`
   query User($id: ID!) {
     user(id: $id) {
+      id
       following {
         following {
           id
@@ -50,6 +51,7 @@ export const query_user_following = gql`
 export const query_user_followers = gql`
   query User($id: ID!) {
     user(id: $id) {
+      id
       followers {
         follower {
           id
