@@ -143,7 +143,7 @@ export const mutation = new GraphQLObjectType({
       resolve: updateComment,
     },
     deleteComment: {
-      type: PostType,
+      type: commentType,
       args: {comment_id: {type: new GraphQLNonNull(GraphQLID)}},
       resolve: deleteComment,
     },

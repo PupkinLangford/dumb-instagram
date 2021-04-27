@@ -29,15 +29,18 @@ export const mutation_deleteComment = gql`
   mutation deleteComment($comment_id: ID!) {
     deleteComment(comment_id: $comment_id) {
       id
-      comments_count
-      comments {
+      post {
         id
-        author {
+        comments_count
+        comments {
           id
-          username
+          author {
+            id
+            username
+          }
+          content
+          format_date
         }
-        content
-        format_date
       }
     }
   }

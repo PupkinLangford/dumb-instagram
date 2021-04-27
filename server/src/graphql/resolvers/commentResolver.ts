@@ -69,20 +69,16 @@ export async function deleteComment(
     if (!foundComment) {
       return new GraphQLError('Comment does not exist');
     }
-    const parent_post = await Post.findById(foundComment.post);
-    if (!parent_post) {
-      return new GraphQLError('Parent post does not exist');
+    if (user.id !== foundComment.author.toString()) {
+      const parent_post = await Post.findById(foundComment.post);
+      if (!parent_post) {
+        return new GraphQLError('Parent post does not exist');
+      }
+      if (user.id !== parent_post.author.toString()) {
+        return new GraphQLError("Cannot delete other user's comment");
+      }
     }
-    if (
-      user.id !== foundComment.author.toString() &&
-      user.id !== parent_post.author.toString()
-    ) {
-      return new GraphQLError("Cannot delete other user's comment");
-    }
-    await Comment.findByIdAndDelete(foundComment._id);
-    return parent_post.populate(
-      'comments likes comments_count last_comments likes_count'
-    );
+    return await Comment.findByIdAndDelete(foundComment._id);
   } catch (err) {
     return new GraphQLError(err);
   }

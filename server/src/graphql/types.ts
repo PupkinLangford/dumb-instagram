@@ -95,7 +95,9 @@ export const commentType = new GraphQLObjectType({
     post: {
       type: new GraphQLNonNull(PostType),
       resolve(parent) {
-        return Post.findById(parent.post);
+        return Post.findById(parent.post).populate(
+          'comments likes comments_count last_comments likes_count'
+        );
       },
     },
     timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
@@ -116,7 +118,9 @@ export const likeType = new GraphQLObjectType({
     post: {
       type: new GraphQLNonNull(PostType),
       resolve(parent) {
-        return Post.findById(parent.post);
+        return Post.findById(parent.post).populate(
+          'comments likes comments_count last_comments likes_count'
+        );
       },
     },
     timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},

@@ -20,7 +20,6 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- Delete comment refetches entire query.
 - handle history.go(0) in PostHeader, Nav, and EditPost
 - pagination on home page/feed
 - pass props (existing caption/location) to EditPost; no need to re-query
