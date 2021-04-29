@@ -134,7 +134,13 @@ const Profile = () => {
         </div>
         <div className={styles.posts}>
           {userQueryData.user.posts.map((post: IPost) => (
-            <Link to={'/posts/' + post.id} key={post.id}>
+            <Link
+              to={{
+                pathname: '/posts/' + post.id,
+                state: {referrer: history.location},
+              }}
+              key={post.id}
+            >
               <PostPic userID={id} postID={post.id} />
             </Link>
           ))}

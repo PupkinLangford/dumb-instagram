@@ -4,8 +4,9 @@ import styles from './PostHeader.module.css';
 import {useMutation} from '@apollo/client';
 import ProfilePic from '../components/ProfilePic';
 import {mutation_deletePost} from '../graphql/mutations/post';
-import {getCurrentUser} from '../utils';
+import {getCurrentUser, getReferrer} from '../utils';
 import {IPost} from '../types';
+import {query_user} from '../graphql/queries/user';
 
 interface PostHeaderProps {
   postData: IPost;
@@ -19,9 +20,13 @@ const PostHeader = (props: PostHeaderProps) => {
     const res = window.confirm('Are you sure you want to delete this post?');
     if (!res) return;
     try {
-      await deletePost({variables: {post_id: props.postData.id}});
-      history.goBack();
-      history.go(0);
+      await deletePost({
+        variables: {post_id: props.postData.id},
+        refetchQueries: [
+          {query: query_user, variables: {id: getCurrentUser()}},
+        ],
+      });
+      history.push(getReferrer(history));
     } catch (err) {
       console.log(err);
     }
