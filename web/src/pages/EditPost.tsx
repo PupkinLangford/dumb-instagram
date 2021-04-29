@@ -2,33 +2,23 @@ import React from 'react';
 import {useHistory, useParams} from 'react-router-dom';
 import {useAuth} from '../hooks/use_auth';
 import styles from './NewPost.module.css';
-import {useQuery, useMutation} from '@apollo/client';
+import {useMutation} from '@apollo/client';
 import {Field, Form, Formik} from 'formik';
 import {mutation_updatePost} from '../graphql/mutations/post';
-import {query_post} from '../graphql/queries/post';
 import PostPic from '../components/PostPic';
-import CustomLoader from '../components/CustomLoader';
 import {getCurrentUser} from '../utils';
 
 const EditPost = () => {
   const [auth, loadingAuth] = useAuth();
   const history = useHistory();
+  const postData: any = (history.location && history.location.state) || {};
   const [updatePost] = useMutation(mutation_updatePost);
   const {id} = useParams<{id: string}>();
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
 
-  const {loading: postQueryLoading, data: postQueryData} = useQuery(
-    query_post,
-    {variables: {id}}
-  );
-
-  if (postQueryLoading) {
-    return <CustomLoader />;
-  }
-
-  if (!postQueryLoading && postQueryData.post.author.id !== getCurrentUser()) {
+  if (postData.authorID !== getCurrentUser()) {
     history.push('/');
   }
 
@@ -37,8 +27,8 @@ const EditPost = () => {
       <main>
         <Formik
           initialValues={{
-            caption: postQueryData.post.caption,
-            location: postQueryData.post.location,
+            caption: postData && postData.caption,
+            location: postData.location,
           }}
           onSubmit={async values => {
             try {
@@ -58,7 +48,7 @@ const EditPost = () => {
           <Form className={styles.postForm}>
             <div className={styles.preview}>
               <PostPic
-                userID={postQueryData.post.author.id}
+                userID={postData.authorID}
                 postID={id}
                 style={{height: 'auto', maxWidth: '200px'}}
               />

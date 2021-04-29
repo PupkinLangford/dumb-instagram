@@ -20,9 +20,8 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- use subscriptions for home feed instead of history.go(0) in nav
+- use subscriptions for home feed instead of history.go(0) in nav?
 - pagination on home page/feed
-- pass props (existing caption/location) to EditPost; no need to re-query
 - factor modals into separate components
 - refactor settings forms to separate components
 - add delete account tab to settings

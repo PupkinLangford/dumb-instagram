@@ -38,7 +38,14 @@ const PostHeader = (props: PostHeaderProps) => {
         <div className={styles.modalForm}>
           <div className={styles.modalButtons}>
             <Link
-              to={`/posts/${props.postData.id}/edit`}
+              to={{
+                pathname: `/posts/${props.postData.id}/edit`,
+                state: {
+                  caption: props.postData.caption,
+                  location: props.postData.location,
+                  authorID: props.postData.author.id,
+                },
+              }}
               className={styles.modalLink}
             >
               <button style={{color: '#0095f6'}}>Edit Post</button>
