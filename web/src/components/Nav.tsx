@@ -100,7 +100,7 @@ const Nav = () => {
     return null;
   }
   return (
-    <nav className={styles.navbar}>
+    <nav className={styles.navbar} onClick={() => setShowDropdown(false)}>
       <div className={styles.navContent}>
         <div
           className={styles.logo}
@@ -172,13 +172,16 @@ const Nav = () => {
           </svg>
           <span
             className={styles.profilePic}
-            onClick={() => setShowDropdown(!showDropdown)}
+            onClick={e => {
+              e.stopPropagation();
+              setShowDropdown(!showDropdown);
+            }}
           >
             <ProfilePic source={getCurrentUser()} />
           </span>
-          {showDropdown ? dropdown : null}
         </div>
       </div>
+      {showDropdown ? dropdown : null}
     </nav>
   );
 };
