@@ -19,7 +19,7 @@ const Home = () => {
     query_feed_posts
   );
 
-  if (feedQueryLoading) {
+  if (feedQueryLoading || !feedQueryData) {
     return <CustomLoader />;
   }
 
