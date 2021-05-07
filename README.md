@@ -15,6 +15,7 @@ A fair use parody of Instagram.
 
 #### Server
 
+- feed query tests
 - privacy settings (don't allow users to manipulate url to view private data)
 - Notifications
 

@@ -13,6 +13,7 @@ import User from '../models/user';
 import Post from '../models/post';
 import Comment from '../models/comment';
 import Follow from '../models/follow';
+import {GraphQLDateTime} from 'graphql-iso-date';
 
 export const queryType = new GraphQLObjectType({
   name: 'Query',
@@ -107,6 +108,26 @@ export const queryType = new GraphQLObjectType({
             author: 1,
           })
           .sample(args.count);
+      },
+    },
+    feed: {
+      type: new GraphQLList(PostType),
+      args: {count: {type: GraphQLInt}, offset: {type: GraphQLDateTime}},
+      async resolve(_parent, args, {headers}) {
+        const {authorization} = headers;
+        const user = jwtValidate(authorization);
+        const follows = await Follow.find({
+          follower: user.id as Object,
+        });
+        const following = [...follows.map(f => f.following), user.id];
+        const offset = args.offset || new Date().toISOString();
+        return Post.find({
+          author: following as Object,
+          timestamp: {$lte: offset},
+        })
+          .populate('comments likes comments_count last_comments likes_count')
+          .sort('-timestamp')
+          .limit(args.count);
       },
     },
     comment: {
