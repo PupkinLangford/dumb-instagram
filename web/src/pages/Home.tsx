@@ -6,7 +6,7 @@ import styles from './Home.module.css';
 import {useQuery} from '@apollo/client';
 import PostPreview from '../components/PostPreview';
 import CustomLoader from '../components/CustomLoader';
-import {IFollow, IPost} from '../types';
+import {IPost} from '../types';
 
 const Home = () => {
   const [auth, loadingAuth] = useAuth();
@@ -15,9 +15,11 @@ const Home = () => {
     history.push('/login');
   }
 
-  const {loading: feedQueryLoading, data: feedQueryData} = useQuery(
-    query_feed_posts
-  );
+  const {
+    loading: feedQueryLoading,
+    data: feedQueryData,
+    fetchMore,
+  } = useQuery(query_feed_posts, {variables: {count: 2, offset: null}});
 
   if (feedQueryLoading || !feedQueryData) {
     return <CustomLoader />;
@@ -25,16 +27,27 @@ const Home = () => {
 
   return (
     <div className={`page ${styles.home}`}>
-      {feedQueryData.current_user.following
-        .flatMap((f: IFollow) => f.posts)
-        .concat(feedQueryData.current_user.posts)
-        .sort(
-          (a: IPost, b: IPost) =>
-            +new Date(b.timestamp) - +new Date(a.timestamp)
-        )
-        .map((post: IPost) => (
-          <PostPreview postData={post} key={post.id} />
-        ))}
+      {feedQueryData.feed.map((post: IPost) => (
+        <PostPreview postData={post} key={post.id} />
+      ))}
+      <button
+        onClick={() =>
+          fetchMore({
+            variables: {
+              count: 2,
+              offset: feedQueryData.feed.slice(-1)[0].timestamp,
+            },
+            updateQuery: (prev: any, {fetchMoreResult}: any) => {
+              if (!fetchMoreResult) return prev;
+              return Object.assign({}, prev, {
+                feed: [...prev.feed, ...fetchMoreResult.feed.slice(1)],
+              });
+            },
+          })
+        }
+      >
+        fetch more
+      </button>
     </div>
   );
 };

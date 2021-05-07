@@ -2,7 +2,6 @@ import {useMutation} from '@apollo/client';
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {mutation_deleteComment} from '../graphql/mutations/comment';
-import {query_post} from '../graphql/queries/post';
 import {getCurrentUser} from '../utils';
 import styles from './Comment.module.css';
 import ProfilePic from './ProfilePic';

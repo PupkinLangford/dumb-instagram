@@ -36,6 +36,31 @@ export const query_explore_post = gql`
 `;
 
 export const query_feed_posts = gql`
+  query Feed($count: Int, $offset: DateTime) {
+    feed(count: $count, offset: $offset) {
+      id
+      caption
+      location
+      format_date
+      timestamp
+      author {
+        id
+        username
+      }
+      likes_count
+      isLiked
+      comments_count
+      last_comments {
+        content
+        author {
+          id
+          username
+        }
+      }
+    }
+  }
+`;
+/*export const query_feed_posts = gql`
   query {
     current_user {
       posts {
@@ -84,7 +109,7 @@ export const query_feed_posts = gql`
       }
     }
   }
-`;
+`;*/
 
 export const query_post_likes = gql`
   query Post($id: ID!) {
