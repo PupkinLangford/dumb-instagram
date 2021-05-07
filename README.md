@@ -21,7 +21,6 @@ A fair use parody of Instagram.
 
 #### Web Client
 
-- replace updateQuery with merge
 - use subscriptions for home feed instead of history.go(0) in nav?
 - factor modals into separate components
 - refactor settings forms to separate components

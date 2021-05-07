@@ -123,7 +123,7 @@ export const queryType = new GraphQLObjectType({
         const offset = args.offset || new Date().toISOString();
         return Post.find({
           author: following as Object,
-          timestamp: {$lte: offset},
+          timestamp: {$lt: offset},
         })
           .populate('comments likes comments_count last_comments likes_count')
           .sort('-timestamp')

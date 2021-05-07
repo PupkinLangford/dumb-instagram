@@ -37,12 +37,6 @@ const Home = () => {
               count: 2,
               offset: feedQueryData.feed.slice(-1)[0].timestamp,
             },
-            updateQuery: (prev: any, {fetchMoreResult}: any) => {
-              if (!fetchMoreResult) return prev;
-              return Object.assign({}, prev, {
-                feed: [...prev.feed, ...fetchMoreResult.feed.slice(1)],
-              });
-            },
           })
         }
       >
