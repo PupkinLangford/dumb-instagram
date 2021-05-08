@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useHistory} from 'react-router-dom';
 import {query_feed_posts} from '../graphql/queries/post';
 import {useAuth} from '../hooks/use_auth';
@@ -14,12 +14,31 @@ const Home = () => {
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
-
   const {
     loading: feedQueryLoading,
     data: feedQueryData,
     fetchMore,
   } = useQuery(query_feed_posts, {variables: {count: 2, offset: null}});
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const bottom =
+        Math.ceil(window.innerHeight + window.scrollY) >=
+        document.documentElement.scrollHeight;
+      if (bottom) {
+        fetchMore({
+          variables: {
+            count: 2,
+            offset: feedQueryData.feed.slice(-1)[0].timestamp,
+          },
+        });
+      }
+    };
+    window.addEventListener('scroll', handleScroll, {passive: true});
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [feedQueryData, fetchMore]);
 
   if (feedQueryLoading || !feedQueryData) {
     return <CustomLoader />;
@@ -30,18 +49,6 @@ const Home = () => {
       {feedQueryData.feed.map((post: IPost) => (
         <PostPreview postData={post} key={post.id} />
       ))}
-      <button
-        onClick={() =>
-          fetchMore({
-            variables: {
-              count: 2,
-              offset: feedQueryData.feed.slice(-1)[0].timestamp,
-            },
-          })
-        }
-      >
-        fetch more
-      </button>
     </div>
   );
 };
