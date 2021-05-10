@@ -18,7 +18,7 @@ const Home = () => {
     loading: feedQueryLoading,
     data: feedQueryData,
     fetchMore,
-  } = useQuery(query_feed_posts, {variables: {count: 2, offset: null}});
+  } = useQuery(query_feed_posts, {variables: {count: 5, offset: null}});
 
   useEffect(() => {
     const handleScroll = () => {
@@ -28,8 +28,8 @@ const Home = () => {
       if (bottom) {
         fetchMore({
           variables: {
-            count: 2,
-            offset: feedQueryData.feed.slice(-1)[0].timestamp,
+            count: 5,
+            offset: feedQueryData.feed.slice(-1)[0]?.timestamp,
           },
         });
       }
