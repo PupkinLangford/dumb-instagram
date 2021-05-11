@@ -17,7 +17,7 @@ const NewPost = () => {
   const [auth, loadingAuth] = useAuth();
   const history = useHistory();
   const [fileURL, setFileURL] = useState<string | null>(null);
-  const [createPost] = useMutation(mutation_createPost);
+  const [createPost, {loading}] = useMutation(mutation_createPost);
   if (!loadingAuth && !auth) {
     history.push('/login');
   }
@@ -92,7 +92,7 @@ const NewPost = () => {
                 className={styles.location}
               ></Field>
 
-              <button type="submit" id={styles.submitButton}>
+              <button type="submit" id={styles.submitButton} disabled={loading}>
                 Submit
               </button>
             </Form>

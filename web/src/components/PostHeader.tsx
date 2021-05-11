@@ -26,7 +26,9 @@ const PostHeader = (props: PostHeaderProps) => {
           {query: query_user, variables: {id: getCurrentUser()}},
         ],
       });
-      history.push(getReferrer(history));
+      const last = getReferrer(history);
+      if (last === '/') history.go(0);
+      else history.push(getReferrer(history));
     } catch (err) {
       console.log(err);
     }

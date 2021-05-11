@@ -12,7 +12,7 @@ const EditPost = () => {
   const [auth, loadingAuth] = useAuth();
   const history = useHistory();
   const postData: any = (history.location && history.location.state) || {};
-  const [updatePost] = useMutation(mutation_updatePost);
+  const [updatePost, {loading}] = useMutation(mutation_updatePost);
   const {id} = useParams<{id: string}>();
   if (!loadingAuth && !auth) {
     history.push('/login');
@@ -66,7 +66,7 @@ const EditPost = () => {
               className={styles.location}
             ></Field>
 
-            <button type="submit" id={styles.submitButton}>
+            <button type="submit" id={styles.submitButton} disabled={loading}>
               Submit
             </button>
           </Form>
