@@ -8,13 +8,13 @@ import {
   mutation_changePassword,
   mutation_changeProfilePic,
   mutation_deleteProfilePic,
-  mutation_editProfile,
 } from '../graphql/mutations/user';
 import {query_current_user} from '../graphql/queries/user';
-import {changePasswordRules, editProfileRules} from '../rules/rules';
+import {changePasswordRules} from '../rules/rules';
 import ProfilePic from '../components/ProfilePic';
 import CustomLoader from '../components/CustomLoader';
 import {getCurrentUser} from '../utils';
+import EditProfile from '../components/EditProfile';
 
 const Settings = () => {
   const [auth, loadingAuth] = useAuth();
@@ -23,7 +23,6 @@ const Settings = () => {
   const [changeProfilePic] = useMutation(mutation_changeProfilePic);
   const [deleteProfilePic] = useMutation(mutation_deleteProfilePic);
   const {loading: queryLoading, data: queryData} = useQuery(query_current_user);
-  const [updateProfile] = useMutation(mutation_editProfile);
   const [changePassword] = useMutation(mutation_changePassword);
   const fileOnChange = async (files: FileList) => {
     try {
@@ -74,70 +73,6 @@ const Settings = () => {
         </div>
       </div>
     </div>
-  );
-
-  const editProfileFormik = (
-    <Formik
-      initialValues={{
-        firstName: queryData.current_user.first_name,
-        lastName: queryData.current_user.last_name,
-        bio: queryData.current_user.bio,
-        email: queryData.current_user.email,
-        emailConfirm: queryData.current_user.email,
-      }}
-      validationSchema={editProfileRules}
-      onSubmit={async values => {
-        updateProfile({
-          variables: {
-            first_name: values.firstName,
-            last_name: values.lastName,
-            bio: values.bio,
-            email: values.email,
-            emailConfirm: values.emailConfirm,
-          },
-        });
-        alert('Profile updated');
-      }}
-      key="editProfile"
-    >
-      <Form>
-        <label htmlFor="firstName">First Name</label>
-        <Field name="firstName" type="text"></Field>
-        <ErrorMessage
-          name="firstName"
-          component="div"
-          className={styles.errors}
-        />
-
-        <label htmlFor="lastName">Last Name</label>
-        <Field name="lastName" type="text"></Field>
-        <ErrorMessage
-          name="lastName"
-          component="div"
-          className={styles.errors}
-        />
-
-        <label htmlFor="bio">Bio</label>
-        <Field name="bio" component="textarea"></Field>
-        <ErrorMessage name="bio" component="div" className={styles.errors} />
-
-        <label htmlFor="email">Email</label>
-        <Field name="email" type="email" required></Field>
-        <ErrorMessage name="email" component="div" className={styles.errors} />
-
-        <label htmlFor="emailConfirm">Confirm Email</label>
-        <Field name="emailConfirm" type="text" required></Field>
-        <ErrorMessage
-          name="emailConfirm"
-          component="div"
-          className={styles.errors}
-        />
-
-        <button type="submit" id={styles.submitButton}>
-          Submit
-        </button>
-      </Form>
-    </Formik>
   );
 
   const changePasswordFormik = (
@@ -204,7 +139,11 @@ const Settings = () => {
               </button>
             </div>
           </div>
-          {showChangePassword ? changePasswordFormik : editProfileFormik}
+          {showChangePassword ? (
+            changePasswordFormik
+          ) : (
+            <EditProfile current_user={queryData.current_user} />
+          )}
         </article>
       </main>
       {showModal ? modal : null}
