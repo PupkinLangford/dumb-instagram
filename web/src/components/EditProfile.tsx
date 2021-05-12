@@ -1,6 +1,6 @@
 import React from 'react';
 import {ErrorMessage, Field, Form, Formik} from 'formik';
-import styles from '../pages/Settings.module.css';
+import styles from './SettingsForm.module.css';
 import {useMutation} from '@apollo/client';
 import {mutation_editProfile} from '../graphql/mutations/user';
 import {editProfileRules} from '../rules/rules';
@@ -43,43 +43,49 @@ const EditProfile = (props: EditProfileProps) => {
       }}
       key="editProfile"
     >
-      <Form>
-        <label htmlFor="firstName">First Name</label>
-        <Field name="firstName" type="text"></Field>
-        <ErrorMessage
-          name="firstName"
-          component="div"
-          className={styles.errors}
-        />
+      <div className={styles.settingsForm}>
+        <Form>
+          <label htmlFor="firstName">First Name</label>
+          <Field name="firstName" type="text"></Field>
+          <ErrorMessage
+            name="firstName"
+            component="div"
+            className={styles.errors}
+          />
 
-        <label htmlFor="lastName">Last Name</label>
-        <Field name="lastName" type="text"></Field>
-        <ErrorMessage
-          name="lastName"
-          component="div"
-          className={styles.errors}
-        />
+          <label htmlFor="lastName">Last Name</label>
+          <Field name="lastName" type="text"></Field>
+          <ErrorMessage
+            name="lastName"
+            component="div"
+            className={styles.errors}
+          />
 
-        <label htmlFor="bio">Bio</label>
-        <Field name="bio" component="textarea"></Field>
-        <ErrorMessage name="bio" component="div" className={styles.errors} />
+          <label htmlFor="bio">Bio</label>
+          <Field name="bio" component="textarea"></Field>
+          <ErrorMessage name="bio" component="div" className={styles.errors} />
 
-        <label htmlFor="email">Email</label>
-        <Field name="email" type="email" required></Field>
-        <ErrorMessage name="email" component="div" className={styles.errors} />
+          <label htmlFor="email">Email</label>
+          <Field name="email" type="email" required></Field>
+          <ErrorMessage
+            name="email"
+            component="div"
+            className={styles.errors}
+          />
 
-        <label htmlFor="emailConfirm">Confirm Email</label>
-        <Field name="emailConfirm" type="text" required></Field>
-        <ErrorMessage
-          name="emailConfirm"
-          component="div"
-          className={styles.errors}
-        />
+          <label htmlFor="emailConfirm">Confirm Email</label>
+          <Field name="emailConfirm" type="text" required></Field>
+          <ErrorMessage
+            name="emailConfirm"
+            component="div"
+            className={styles.errors}
+          />
 
-        <button type="submit" id={styles.submitButton}>
-          Submit
-        </button>
-      </Form>
+          <button type="submit" id={styles.submitButton}>
+            Submit
+          </button>
+        </Form>
+      </div>
     </Formik>
   );
 };
