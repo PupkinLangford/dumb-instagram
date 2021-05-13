@@ -88,7 +88,11 @@ export const mutation = new GraphQLObjectType({
       type: GraphQLBoolean,
       resolve: deleteProfilePic,
     },
-    deleteSelf: {type: UserType, resolve: deleteSelf},
+    deleteSelf: {
+      type: UserType,
+      args: {password: {type: new GraphQLNonNull(GraphQLString)}},
+      resolve: deleteSelf,
+    },
     followUser: {
       type: UserType,
       args: {

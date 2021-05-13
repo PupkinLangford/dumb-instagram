@@ -168,14 +168,18 @@ export async function deleteProfilePic(
 
 export async function deleteSelf(
   _parent: unknown,
-  _args: {},
+  args: {password?: string},
   {headers}: Request
 ) {
   try {
     const {authorization} = headers;
     const user = jwtValidate(authorization);
-    deleteFolder(user.id);
     const foundUser = await User.findById(user.id);
+    await loginRules.validate({
+      username: foundUser?.username,
+      password: args.password,
+    });
+    deleteFolder(user.id);
     return await foundUser!.deleteOne();
   } catch (err) {
     return new GraphQLError(err);

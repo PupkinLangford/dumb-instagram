@@ -121,9 +121,9 @@ mutation deleteProfilePic {
 }
 `;
 
-const mutationDeleteSelf = () => `
+const mutationDeleteSelf = (password: string) => `
 mutation {
-    deleteSelf {
+    deleteSelf(password: "${password}") {
         id
     }
 }`;
@@ -406,7 +406,16 @@ describe('user mutations', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .set('Authorization', 'fakewrongtoken2334523452345164')
-      .send({query: mutationDeleteSelf()});
+      .send({query: mutationDeleteSelf('12345')});
+    expect(res.body.errors).not.toBeUndefined();
+  });
+
+  test('deleteSelf fails with wrong password', async () => {
+    const res = await server
+      .post('/graphql')
+      .set('Content-type', 'application/json')
+      .set('Authorization', token)
+      .send({query: mutationDeleteSelf('12345xx3')});
     expect(res.body.errors).not.toBeUndefined();
   });
 
@@ -420,7 +429,7 @@ describe('user mutations', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .set('Authorization', commenterToken)
-      .send({query: mutationDeleteSelf()});
+      .send({query: mutationDeleteSelf('12345')});
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.deleteSelf.id).toBe(id.toString());
 
@@ -438,7 +447,7 @@ describe('user mutations', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .set('Authorization', likerToken)
-      .send({query: mutationDeleteSelf()});
+      .send({query: mutationDeleteSelf('12345')});
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.deleteSelf.id).toBe(id.toString());
 
@@ -456,7 +465,7 @@ describe('user mutations', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .set('Authorization', followerToken)
-      .send({query: mutationDeleteSelf()});
+      .send({query: mutationDeleteSelf('12345')});
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.deleteSelf.id).toBe(id.toString());
 
@@ -474,7 +483,7 @@ describe('user mutations', () => {
       .post('/graphql')
       .set('Content-type', 'application/json')
       .set('Authorization', posterToken)
-      .send({query: mutationDeleteSelf()});
+      .send({query: mutationDeleteSelf('12345')});
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.deleteSelf.id).toBe(id.toString());
 
