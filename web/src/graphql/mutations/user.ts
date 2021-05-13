@@ -70,3 +70,11 @@ export const mutation_changePassword = gql`
     }
   }
 `;
+
+export const mutation_deleteSelf = gql`
+  mutation DeleteSelf {
+    deleteSelf {
+      id
+    }
+  }
+`;

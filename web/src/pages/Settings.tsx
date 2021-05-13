@@ -13,14 +13,20 @@ import CustomLoader from '../components/CustomLoader';
 import {getCurrentUser} from '../utils';
 import EditProfile from '../components/forms/EditProfile';
 import ChangePassword from '../components/forms/ChangePassword';
+import DeleteAccount from '../components/forms/DeleteAccount';
 
 const Settings = () => {
   const [auth, loadingAuth] = useAuth();
   const [showModal, setShowModal] = useState(false);
-  const [showChangePassword, setShowChangePassword] = useState(false);
   const [changeProfilePic] = useMutation(mutation_changeProfilePic);
   const [deleteProfilePic] = useMutation(mutation_deleteProfilePic);
   const {loading: queryLoading, data: queryData} = useQuery(query_current_user);
+  const FormType = {
+    editProfile: <EditProfile current_user={queryData?.current_user} />,
+    changePassword: <ChangePassword />,
+    deleteAccount: <DeleteAccount />,
+  };
+  const [formDisplay, setFormDisplay] = useState(FormType.editProfile);
   const fileOnChange = async (files: FileList) => {
     try {
       await changeProfilePic({variables: {picture: files[0]}});
@@ -76,8 +82,15 @@ const Settings = () => {
     <div className={`page ${styles.settings}`}>
       <main>
         <ul className={styles.optionsList}>
-          <li onClick={() => setShowChangePassword(false)}>Edit Profile</li>
-          <li onClick={() => setShowChangePassword(true)}>Change Password</li>
+          <li onClick={() => setFormDisplay(FormType.editProfile)}>
+            Edit Profile
+          </li>
+          <li onClick={() => setFormDisplay(FormType.changePassword)}>
+            Change Password
+          </li>
+          <li onClick={() => setFormDisplay(FormType.deleteAccount)}>
+            Delete Account
+          </li>
         </ul>
         <article>
           <div className={styles.headline}>
@@ -94,11 +107,7 @@ const Settings = () => {
               </button>
             </div>
           </div>
-          {showChangePassword ? (
-            <ChangePassword />
-          ) : (
-            <EditProfile current_user={queryData.current_user} />
-          )}
+          {formDisplay}
         </article>
       </main>
       {showModal ? modal : null}

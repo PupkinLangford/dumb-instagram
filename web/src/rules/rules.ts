@@ -42,3 +42,14 @@ export const editProfileRules = yup.object().shape({
     .required()
     .oneOf([yup.ref('email'), null], 'Emails do not match'),
 });
+
+export const deleteAccountRules = yup.object().shape({
+  password: yup
+    .string()
+    .required()
+    .min(5, 'Password must be at least 5 characters'),
+  confirmation: yup
+    .string()
+    .required()
+    .oneOf(['1'], "Select 'yes' to confirm intent to delete"),
+});
