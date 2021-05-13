@@ -11,8 +11,8 @@ import {query_current_user} from '../graphql/queries/user';
 import ProfilePic from '../components/ProfilePic';
 import CustomLoader from '../components/CustomLoader';
 import {getCurrentUser} from '../utils';
-import EditProfile from '../components/EditProfile';
-import ChangePassword from '../components/ChangePassword';
+import EditProfile from '../components/forms/EditProfile';
+import ChangePassword from '../components/forms/ChangePassword';
 
 const Settings = () => {
   const [auth, loadingAuth] = useAuth();
