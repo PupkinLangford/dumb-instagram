@@ -6,7 +6,7 @@ import {mutation_deleteSelf} from '../../graphql/mutations/user';
 import {deleteAccountRules} from '../../rules/rules';
 
 const DeleteAccount = () => {
-  const [changePassword] = useMutation(mutation_deleteSelf);
+  const [deleteSelf, {data}] = useMutation(mutation_deleteSelf);
   return (
     <Formik
       initialValues={{
@@ -15,14 +15,21 @@ const DeleteAccount = () => {
       }}
       validationSchema={deleteAccountRules}
       onSubmit={async (values, {resetForm}) => {
-        changePassword({
-          variables: {
-            password: values.password,
-            confirmation: values.confirmation,
-          },
-        });
-        alert('Password changed');
-        resetForm();
+        const result = window.confirm(
+          'Are you sure you want to delete your account? This action cannot be undone!'
+        );
+        if (result) {
+          await deleteSelf({
+            variables: {
+              password: values.password,
+            },
+          });
+          if (data.deleteSelf && data.deleteSelf.id) {
+            localStorage.clear();
+          }
+        } else {
+          resetForm();
+        }
       }}
       key="changePassword"
     >
@@ -38,17 +45,17 @@ const DeleteAccount = () => {
           component="div"
           className={styles.errors}
         />
-        <div role="group">
+        <div role="group" className={styles.radioGroup}>
           <label htmlFor="radiogroup">
             Are you sure you wish to PERMANENTLY delete your account and photos?
           </label>
-          <label>
+          <label className={styles.radioLabel}>
             <Field type="radio" name="confirmation" value="1" />
-            yes
+            Yes
           </label>
-          <label>
+          <label className={styles.radioLabel}>
             <Field type="radio" name="confirmation" value="2" />
-            no
+            No
           </label>
           <ErrorMessage
             name="confirmation"

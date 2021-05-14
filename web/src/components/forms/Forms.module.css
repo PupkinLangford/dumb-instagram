@@ -29,6 +29,11 @@
   max-width: 355px;
 }
 
+.settingsForm input[type='radio'] {
+  height: auto;
+  width: auto;
+}
+
 .settingsForm textarea {
   border: 1px solid #dbdbdb;
   border-radius: 3px;
@@ -40,6 +45,15 @@
   margin: 0 20px;
   width: 100%;
   max-width: 355px;
+}
+
+.settingsForm p {
+  padding: 0 20px;
+}
+
+.radioGroup .radioLabel {
+  font-size: 14px;
+  font-weight: 400;
 }
 
 .settingsForm #submitButton {
