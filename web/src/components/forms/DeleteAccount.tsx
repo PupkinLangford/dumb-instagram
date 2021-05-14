@@ -4,9 +4,14 @@ import styles from './Forms.module.css';
 import {useMutation} from '@apollo/client';
 import {mutation_deleteSelf} from '../../graphql/mutations/user';
 import {deleteAccountRules} from '../../rules/rules';
+import {GraphQLError} from 'graphql';
+import {useHistory} from 'react-router-dom';
 
 const DeleteAccount = () => {
-  const [deleteSelf, {data}] = useMutation(mutation_deleteSelf);
+  const [deleteSelf] = useMutation(mutation_deleteSelf, {
+    errorPolicy: 'all',
+  });
+  const history = useHistory();
   return (
     <Formik
       initialValues={{
@@ -14,18 +19,27 @@ const DeleteAccount = () => {
         confirmation: '2',
       }}
       validationSchema={deleteAccountRules}
-      onSubmit={async (values, {resetForm}) => {
+      onSubmit={async (values, {resetForm, setErrors}) => {
         const result = window.confirm(
           'Are you sure you want to delete your account? This action cannot be undone!'
         );
         if (result) {
-          await deleteSelf({
+          const {data, errors} = await deleteSelf({
             variables: {
               password: values.password,
             },
           });
+          if (errors) {
+            errors.forEach(error => {
+              setErrors({
+                password: ((error.message as unknown) as GraphQLError).message,
+              });
+            });
+            return;
+          }
           if (data.deleteSelf && data.deleteSelf.id) {
             localStorage.clear();
+            history.go(0);
           }
         } else {
           resetForm();
