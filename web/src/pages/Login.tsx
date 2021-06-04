@@ -71,8 +71,15 @@ const Login = () => {
         });
         return;
       } else {
-        window.alert(`Successfully registered as ${data.signup.username}`);
-        setShowLogin(true);
+        const {data: loginData} = await userLogin({
+          variables: {
+            username: data.signup.username,
+            password: values.password,
+          },
+        });
+        localStorage.setItem('token', loginData.login.token);
+        localStorage.setItem('user', JSON.stringify(loginData.login.user));
+        history.push('/');
       }
     },
   });
