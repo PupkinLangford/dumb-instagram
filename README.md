@@ -23,7 +23,7 @@ A fair use parody of Instagram.
 #### Web Client
 
 - use subscriptions for home feed instead of history.go(0) in nav?
-- clean up login screen; forms in separate components. Util function for login (DRY)
+- login forms in separate components.
 - click anywhere outside nav modal to close it
 - factor modals into separate components
 - profile picture being cached; clear cache when new picture uploaded.
