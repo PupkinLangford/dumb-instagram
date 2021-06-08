@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useHistory} from 'react-router-dom';
-import {useFormik} from 'formik';
+import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {useAuth} from '../hooks/use_auth';
 import logo from '../images/logo.png';
 import icon from '../images/di_icon.png';
@@ -17,171 +17,158 @@ const Login = () => {
   const [signUp] = useMutation(mutation_signup, {errorPolicy: 'all'});
   const [userLogin] = useMutation(mutation_login, {errorPolicy: 'all'});
   const history = useHistory();
-  const formikLogin = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-    },
-    validationSchema: loginRules,
-
-    onSubmit: async (values, {setErrors}) => {
-      const {data, errors} = await userLogin({
-        variables: {
-          username: values.username,
-          password: values.password,
-        },
-      });
-      if (errors) {
-        errors.forEach(error => {
-          setErrors({
-            password: ((error.message as unknown) as GraphQLError).message,
-          });
-        });
-        return;
-      } else {
-        localStorage.setItem('token', data.login.token);
-        localStorage.setItem('user', JSON.stringify(data.login.user));
-        history.push('/');
-      }
-    },
-  });
-
-  const formikSignup = useFormik({
-    initialValues: {
-      username: '',
-      password: '',
-      passwordConfirm: '',
-      email: '',
-    },
-    validationSchema: signUpRules,
-    onSubmit: async (values, {setErrors}) => {
-      const {data, errors} = await signUp({
-        variables: {
-          username: values.username,
-          password: values.password,
-          email: values.email,
-          passwordConfirm: values.passwordConfirm,
-        },
-      });
-      if (errors) {
-        errors.forEach(error => {
-          setErrors({
-            username: ((error.message as unknown) as GraphQLError).message,
-          });
-        });
-        return;
-      } else {
-        const {data: loginData} = await userLogin({
-          variables: {
-            username: data.signup.username,
-            password: values.password,
-          },
-        });
-        localStorage.setItem('token', loginData.login.token);
-        localStorage.setItem('user', JSON.stringify(loginData.login.user));
-        history.push('/');
-      }
-    },
-  });
 
   if (!loadingAuth && auth) {
     history.push('/');
   }
 
   const loginForm = (
-    <form onSubmit={formikLogin.handleSubmit} className={styles.loginForm}>
-      <input
-        id="username"
-        name="username"
-        type="text"
-        placeholder="Username"
-        onChange={formikLogin.handleChange}
-        value={formikLogin.values.username}
-      />
-      {formikLogin.touched.username && formikLogin.errors.username ? (
-        <div className={styles.errors}>{formikLogin.errors.username}</div>
-      ) : null}
-      <input
-        id="password"
-        name="password"
-        type="password"
-        placeholder="Password"
-        onChange={formikLogin.handleChange}
-        value={formikLogin.values.password}
-      />
-      {formikLogin.touched.password && formikLogin.errors.password ? (
-        <div className={styles.errors}>{formikLogin.errors.password}</div>
-      ) : null}
-      <button type="submit">Log In</button>
-    </form>
+    <Formik
+      initialValues={{username: '', password: ''}}
+      validationSchema={loginRules}
+      onSubmit={async (values, {setErrors}) => {
+        const {data, errors} = await userLogin({
+          variables: {
+            username: values.username,
+            password: values.password,
+          },
+        });
+        if (errors) {
+          errors.forEach(error => {
+            setErrors({
+              password: ((error.message as unknown) as GraphQLError).message,
+            });
+          });
+          return;
+        } else {
+          localStorage.setItem('token', data.login.token);
+          localStorage.setItem('user', JSON.stringify(data.login.user));
+          history.push('/');
+        }
+      }}
+      key="login"
+    >
+      <Form className={styles.loginForm}>
+        <Field
+          id="username"
+          name="username"
+          type="text"
+          placeholder="Username"
+        />
+        <ErrorMessage
+          name="username"
+          component="div"
+          className={styles.errors}
+        />
+        <Field
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+        />
+        <ErrorMessage
+          name="password"
+          component="div"
+          className={styles.errors}
+        />
+        <button type="submit">Log In</button>
+      </Form>
+    </Formik>
   );
 
   const signupForm = (
-    <form onSubmit={formikSignup.handleSubmit} className={styles.loginForm}>
-      <input
-        id="email"
-        name="email"
-        type="email"
-        placeholder="Email"
-        onChange={formikSignup.handleChange}
-        value={formikSignup.values.email}
-      />
-      {formikSignup.touched.email && formikSignup.errors.email ? (
-        <div className={styles.errors}>{formikSignup.errors.email}</div>
-      ) : null}
-      <input
-        id="username"
-        name="username"
-        type="text"
-        placeholder="Username"
-        onChange={formikSignup.handleChange}
-        value={formikSignup.values.username}
-      />
-      {formikSignup.touched.username && formikSignup.errors.username ? (
-        <div className={styles.errors}>{formikSignup.errors.username}</div>
-      ) : null}
-      <input
-        id="password"
-        name="password"
-        type="password"
-        placeholder="Password"
-        onChange={formikSignup.handleChange}
-        value={formikSignup.values.password}
-      />
-      {formikSignup.touched.password && formikSignup.errors.password ? (
-        <div className={styles.errors}>{formikSignup.errors.password}</div>
-      ) : null}
-      <input
-        id="passwordConfirm"
-        name="passwordConfirm"
-        type="password"
-        placeholder="Confirm Password"
-        onChange={formikSignup.handleChange}
-        value={formikSignup.values.passwordConfirm}
-      />
-      {formikSignup.touched.passwordConfirm &&
-      formikSignup.errors.passwordConfirm ? (
-        <div className={styles.errors}>
-          {formikSignup.errors.passwordConfirm}
-        </div>
-      ) : null}
-      <button type="submit">Sign Up</button>
-      <p className={styles.disclaimer}>
-        By signing up, you agree to our{' '}
-        <abbr title="A series of probably unenforceable rules backed by a binding arbitration clause">
-          Terms
-        </abbr>
-        ,{' '}
-        <abbr title="Any public or private data on any of your devices belongs to us">
-          Data Policy
-        </abbr>{' '}
-        and{' '}
-        <abbr title="User shall not bake any raisin-based cookies">
-          Cookies Policy
-        </abbr>{' '}
-        .
-      </p>
-    </form>
+    <Formik
+      initialValues={{
+        username: '',
+        password: '',
+        passwordConfirm: '',
+        email: '',
+      }}
+      validationSchema={signUpRules}
+      onSubmit={async (values, {setErrors}) => {
+        const {data, errors} = await signUp({
+          variables: {
+            username: values.username,
+            password: values.password,
+            email: values.email,
+            passwordConfirm: values.passwordConfirm,
+          },
+        });
+        if (errors) {
+          errors.forEach(error => {
+            setErrors({
+              username: ((error.message as unknown) as GraphQLError).message,
+            });
+          });
+          return;
+        } else {
+          const {data: loginData} = await userLogin({
+            variables: {
+              username: data.signup.username,
+              password: values.password,
+            },
+          });
+          localStorage.setItem('token', loginData.login.token);
+          localStorage.setItem('user', JSON.stringify(loginData.login.user));
+          history.push('/');
+        }
+      }}
+      key="signUp"
+    >
+      <Form className={styles.loginForm}>
+        <Field id="email" name="email" type="email" placeholder="Email" />
+        <ErrorMessage name="email" component="div" className={styles.errors} />
+        <Field
+          id="username"
+          name="username"
+          type="text"
+          placeholder="Username"
+        />
+        <ErrorMessage
+          name="username"
+          component="div"
+          className={styles.errors}
+        />
+        <Field
+          id="password"
+          name="password"
+          type="password"
+          placeholder="Password"
+        />
+        <ErrorMessage
+          name="password"
+          component="div"
+          className={styles.errors}
+        />
+        <Field
+          id="passwordConfirm"
+          name="passwordConfirm"
+          type="password"
+          placeholder="Confirm Password"
+        />
+        <ErrorMessage
+          name="passwordConfirm"
+          component="div"
+          className={styles.errors}
+        />
+        <button type="submit">Sign Up</button>
+        <p className={styles.disclaimer}>
+          By signing up, you agree to our{' '}
+          <abbr title="A series of probably unenforceable rules backed by a binding arbitration clause">
+            Terms
+          </abbr>
+          ,{' '}
+          <abbr title="Any public or private data on any of your devices belongs to us">
+            Data Policy
+          </abbr>{' '}
+          and{' '}
+          <abbr title="User shall not bake any raisin-based cookies">
+            Cookies Policy
+          </abbr>{' '}
+          .
+        </p>
+      </Form>
+    </Formik>
   );
 
   return (
