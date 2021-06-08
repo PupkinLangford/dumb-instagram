@@ -10,6 +10,7 @@ import styles from './Login.module.css';
 import {useMutation} from '@apollo/client';
 import {mutation_login, mutation_signup} from '../graphql/mutations/user';
 import {GraphQLError} from 'graphql';
+import {setLogin} from '../utils';
 
 const Login = () => {
   const [showLogin, setShowLogin] = useState(true);
@@ -41,8 +42,7 @@ const Login = () => {
           });
           return;
         } else {
-          localStorage.setItem('token', data.login.token);
-          localStorage.setItem('user', JSON.stringify(data.login.user));
+          setLogin(data.login.token, data.login.user);
           history.push('/');
         }
       }}
@@ -108,8 +108,7 @@ const Login = () => {
               password: values.password,
             },
           });
-          localStorage.setItem('token', loginData.login.token);
-          localStorage.setItem('user', JSON.stringify(loginData.login.user));
+          setLogin(loginData.login.token, loginData.login.user);
           history.push('/');
         }
       }}

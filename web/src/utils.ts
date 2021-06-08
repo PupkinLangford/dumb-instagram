@@ -1,5 +1,12 @@
+import {IUser} from './types';
+
 export const getCurrentUser = () =>
   JSON.parse(localStorage.getItem('user')!)?.id;
+
+export const setLogin = (token: string, user: IUser) => {
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(user));
+};
 
 export const getReferrer = (history: any) =>
   (history.location &&
