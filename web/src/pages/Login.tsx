@@ -4,13 +4,14 @@ import {ErrorMessage, Field, Form, Formik} from 'formik';
 import {useAuth} from '../hooks/use_auth';
 import logo from '../images/logo.png';
 import icon from '../images/di_icon.png';
-import {loginRules, signUpRules} from '../rules/rules';
+import {signUpRules} from '../rules/rules';
 import './Login.module.css';
 import styles from './Login.module.css';
 import {useMutation} from '@apollo/client';
 import {mutation_login, mutation_signup} from '../graphql/mutations/user';
 import {GraphQLError} from 'graphql';
 import {setLogin} from '../utils';
+import LoginForm from '../components/forms/LoginForm';
 
 const Login = () => {
   const [showLogin, setShowLogin] = useState(true);
@@ -22,59 +23,6 @@ const Login = () => {
   if (!loadingAuth && auth) {
     history.push('/');
   }
-
-  const loginForm = (
-    <Formik
-      initialValues={{username: '', password: ''}}
-      validationSchema={loginRules}
-      onSubmit={async (values, {setErrors}) => {
-        const {data, errors} = await userLogin({
-          variables: {
-            username: values.username,
-            password: values.password,
-          },
-        });
-        if (errors) {
-          errors.forEach(error => {
-            setErrors({
-              password: ((error.message as unknown) as GraphQLError).message,
-            });
-          });
-          return;
-        } else {
-          setLogin(data.login.token, data.login.user);
-          history.push('/');
-        }
-      }}
-      key="login"
-    >
-      <Form className={styles.loginForm}>
-        <Field
-          id="username"
-          name="username"
-          type="text"
-          placeholder="Username"
-        />
-        <ErrorMessage
-          name="username"
-          component="div"
-          className={styles.errors}
-        />
-        <Field
-          id="password"
-          name="password"
-          type="password"
-          placeholder="Password"
-        />
-        <ErrorMessage
-          name="password"
-          component="div"
-          className={styles.errors}
-        />
-        <button type="submit">Log In</button>
-      </Form>
-    </Formik>
-  );
 
   const signupForm = (
     <Formik
@@ -181,7 +129,7 @@ const Login = () => {
                 id={styles.logo}
                 style={{backgroundImage: `url(${logo})`}}
               ></div>
-              {showLogin ? loginForm : signupForm}
+              {showLogin ? <LoginForm /> : signupForm}
             </div>
             <div className={styles.switch}>
               {showLogin ? (

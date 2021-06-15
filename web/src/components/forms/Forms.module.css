@@ -1,3 +1,18 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  margin-top: 24px;
+  min-width: 350px;
+}
+
+.loginForm input {
+  display: inline-block;
+  padding: 9px 0 7px 8px;
+  font: 400 13.3333px Arial;
+  margin: 0 40px 6px;
+}
+
 .settingsForm {
   align-items: stretch;
   display: flex;
@@ -67,4 +82,8 @@
   margin: 0 20px;
   color: #ed4956;
   font-size: 14px;
+}
+
+.loginForm .errors {
+  text-align: center;
 }
