@@ -9,8 +9,8 @@ import {queryType} from './graphql/queries';
 import {mutation} from './graphql/mutations';
 import {graphqlUploadExpress} from 'graphql-upload';
 const app = express();
-const expressPlayground = require('graphql-playground-middleware-express')
-  .default;
+const expressPlayground =
+  require('graphql-playground-middleware-express').default;
 
 connectDb();
 

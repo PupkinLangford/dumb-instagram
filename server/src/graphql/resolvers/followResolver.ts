@@ -21,7 +21,7 @@ export async function followUser(
       return new GraphQLError('User not found');
     }
     const foundFollow = await Follow.findOne({
-      follower: (user.id as unknown) as ObjectId,
+      follower: user.id as unknown as ObjectId,
       following: args.user_id,
     });
     if (foundFollow) {
@@ -34,7 +34,7 @@ export async function followUser(
       );
     }
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -51,7 +51,7 @@ export async function unfollowUser(
       return new GraphQLError('User not found');
     }
     const foundFollow = await Follow.findOne({
-      follower: (user.id as unknown) as ObjectId,
+      follower: user.id as unknown as ObjectId,
       following: args.user_id,
     });
     if (!foundFollow) {
@@ -63,6 +63,6 @@ export async function unfollowUser(
       );
     }
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }

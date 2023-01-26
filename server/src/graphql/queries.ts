@@ -13,7 +13,7 @@ import User from '../models/user';
 import Post from '../models/post';
 import Comment from '../models/comment';
 import Follow from '../models/follow';
-import {GraphQLDateTime} from 'graphql-iso-date';
+import {DateTimeResolver} from 'graphql-scalars';
 
 export const queryType = new GraphQLObjectType({
   name: 'Query',
@@ -112,7 +112,7 @@ export const queryType = new GraphQLObjectType({
     },
     feed: {
       type: new GraphQLList(PostType),
-      args: {count: {type: GraphQLInt}, offset: {type: GraphQLDateTime}},
+      args: {count: {type: GraphQLInt}, offset: {type: DateTimeResolver}},
       async resolve(_parent, args, {headers}) {
         const {authorization} = headers;
         const user = jwtValidate(authorization);

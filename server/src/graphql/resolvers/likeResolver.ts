@@ -15,7 +15,7 @@ export async function likePost(
     const user = jwtValidate(authorization);
     const foundLike = await Like.findOne({
       post: args.post_id,
-      liker: (user.id as unknown) as ObjectId,
+      liker: user.id as unknown as ObjectId,
     });
     if (foundLike) {
       return new GraphQLError('Post already liked by user');
@@ -27,7 +27,7 @@ export async function likePost(
       );
     }
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -41,7 +41,7 @@ export async function unlikePost(
     const user = jwtValidate(authorization);
     const foundLike = await Like.findOne({
       post: args.post_id,
-      liker: (user.id as unknown) as ObjectId,
+      liker: user.id as unknown as ObjectId,
     });
     if (!foundLike) {
       return new GraphQLError('Post already liked by user');
@@ -52,6 +52,6 @@ export async function unlikePost(
       );
     }
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }

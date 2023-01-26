@@ -7,13 +7,13 @@ import {
   GraphQLObjectType,
   GraphQLString,
 } from 'graphql';
-import {GraphQLDateTime} from 'graphql-iso-date';
 import User from '../models/user';
 import Post from '../models/post';
 import Like from '../models/like';
 import Follow from '../models/follow';
 import {jwtValidate} from '../middlewares/jwtValidate';
 import {ObjectId} from 'mongoose';
+import {DateTimeResolver} from 'graphql-scalars';
 
 export const UserType: GraphQLObjectType = new GraphQLObjectType({
   name: 'User',
@@ -39,8 +39,8 @@ export const UserType: GraphQLObjectType = new GraphQLObjectType({
       resolve(parent, _args, context) {
         return Follow.exists({
           following: parent.id,
-          follower: (jwtValidate(context.headers.authorization)
-            .id as unknown) as ObjectId,
+          follower: jwtValidate(context.headers.authorization)
+            .id as unknown as ObjectId,
         });
       },
     },
@@ -59,7 +59,7 @@ export const PostType: GraphQLObjectType = new GraphQLObjectType({
       },
     },
     location: {type: GraphQLString},
-    timestamp: {type: GraphQLDateTime},
+    timestamp: {type: DateTimeResolver},
     format_date: {type: GraphQLString},
     comments: {
       type: new GraphQLList(commentType),
@@ -73,8 +73,8 @@ export const PostType: GraphQLObjectType = new GraphQLObjectType({
       resolve(parent, _args, context) {
         return Like.exists({
           post: parent.id,
-          liker: (jwtValidate(context.headers.authorization)
-            .id as unknown) as ObjectId,
+          liker: jwtValidate(context.headers.authorization)
+            .id as unknown as ObjectId,
         });
       },
     },
@@ -100,7 +100,7 @@ export const commentType = new GraphQLObjectType({
         );
       },
     },
-    timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
+    timestamp: {type: new GraphQLNonNull(DateTimeResolver)},
     format_date: {type: GraphQLString},
   }),
 });
@@ -123,7 +123,7 @@ export const likeType = new GraphQLObjectType({
         );
       },
     },
-    timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
+    timestamp: {type: new GraphQLNonNull(DateTimeResolver)},
     format_date: {type: GraphQLString},
   }),
 });
@@ -151,7 +151,7 @@ export const followType = new GraphQLObjectType({
     posts: {
       type: new GraphQLList(PostType),
     },
-    timestamp: {type: new GraphQLNonNull(GraphQLDateTime)},
+    timestamp: {type: new GraphQLNonNull(DateTimeResolver)},
     format_date: {type: GraphQLString},
   }),
 });

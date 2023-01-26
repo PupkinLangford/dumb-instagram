@@ -6,7 +6,7 @@ v2.config({
 });
 
 const config = {
-  serverPort: process.env.PORT,
+  serverPort: process.env.PORT || '8080',
   serverDatabase: process.env.DB_URI_PROD,
   jwtSecret: process.env.JWT_SECRET,
 };

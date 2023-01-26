@@ -2,3 +2,5 @@ node_modules
 .env
 fetch.txt
 deploy.txt
+# Local Netlify folder
+.netlify

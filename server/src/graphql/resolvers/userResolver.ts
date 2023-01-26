@@ -34,7 +34,7 @@ export async function signup(
     });
     return await user.save();
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -58,7 +58,7 @@ export async function login(
     );
     return {token, user};
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -78,7 +78,7 @@ export async function changeName(
       {new: true}
     );
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 export async function changeEmail(
@@ -93,7 +93,7 @@ export async function changeEmail(
     const {email} = args;
     return User.findByIdAndUpdate(user.id, {email}, {new: true});
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -108,7 +108,7 @@ export async function changeBio(
     const {bio} = args;
     return User.findByIdAndUpdate(user.id, {bio}, {new: true});
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -124,7 +124,7 @@ export async function changePassword(
     const password = await bcrypt.hash(args.password, 10);
     return User.findByIdAndUpdate(user.id, {password}, {new: true});
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -146,7 +146,7 @@ export async function changeProfilePic(
     }
     return true;
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -162,7 +162,7 @@ export async function deleteProfilePic(
     deleteImage(id + '/profile_pic');
     return true;
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -182,6 +182,6 @@ export async function deleteSelf(
     deleteFolder(user.id);
     return await foundUser!.deleteOne();
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }

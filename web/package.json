@@ -5,11 +5,7 @@
   "dependencies": {
     "@apollo/client": "^3.3.20",
     "@testing-library/jest-dom": "^5.13.0",
-    "@testing-library/react": "^11.2.7",
-    "@testing-library/user-event": "^12.8.3",
     "@types/apollo-upload-client": "^14.1.0",
-    "@types/jest": "^26.0.23",
-    "@types/node": "^12.20.15",
     "@types/react": "^17.0.9",
     "@types/react-dom": "^17.0.6",
     "@types/react-loader-spinner": "^3.1.3",

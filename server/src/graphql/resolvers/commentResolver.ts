@@ -25,7 +25,7 @@ export async function createComment(
       'comments likes comments_count last_comments likes_count'
     );
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -53,7 +53,7 @@ export async function updateComment(
       {new: true}
     );
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -80,6 +80,6 @@ export async function deleteComment(
     }
     return await Comment.findByIdAndDelete(foundComment._id);
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }

@@ -25,7 +25,7 @@ export async function createPost(
     }
     return await post.save();
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -54,7 +54,7 @@ export async function updatePost(
       );
     }
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
 
@@ -76,6 +76,6 @@ export async function deletePost(
     deleteImage(user.id + '/' + args.post_id);
     return await foundPost.deleteOne();
   } catch (err) {
-    return new GraphQLError(err);
+    return new GraphQLError(err as string);
   }
 }
