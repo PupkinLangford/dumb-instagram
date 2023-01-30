@@ -24,7 +24,7 @@
     "compile": "tsc -p .",
     "fix": "gts fix",
     "prepare": "npm run compile",
-    "pretest": "npm run compile",
+    "pretest": "npm run compile && cp src/tests/photo.jpg build/src/tests/photo.jpg",
     "posttest": "npm run lint"
   },
   "devDependencies": {
