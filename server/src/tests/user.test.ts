@@ -346,6 +346,7 @@ describe('user mutations', () => {
   test('change profile pic successful', async () => {
     const uploadSpy = jest.spyOn(imageFunctions, 'uploadImage');
     uploadSpy.mockReturnValue(Promise.resolve('new url'));
+    console.log(__dirname);
     const res = await server
       .post('/graphql')
       .set('Content-type', 'application/json')
