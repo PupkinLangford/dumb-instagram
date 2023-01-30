@@ -10,6 +10,7 @@ on:
 
 env:
   DB_URI_TEST: ${{ secrets.DB_URI_TEST }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
 jobs:
   server_deployment_pipeline:
     runs-on: ubuntu-20.04
