@@ -153,7 +153,7 @@ describe('post mutations', () => {
         JSON.stringify(mutationCreatePost('test content', 'Lima, PE'))
       )
       .field('map', JSON.stringify({photo: ['variables.photo']}))
-      .attach('photo', path.join(__dirname, '/photo.jpg'));
+      .attach('photo', `${__dirname}/photo.jpg`);
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.createPost.caption).toBe('test content');
     expect(res.body.data.createPost.location).toBe('Lima, PE');
@@ -170,7 +170,7 @@ describe('post mutations', () => {
         JSON.stringify(mutationCreatePost('test content', 'Lima, PE'))
       )
       .field('map', JSON.stringify({photo: ['variables.photo']}))
-      .attach('photo', path.join(__dirname, '/photo.jpg'));
+      .attach('photo', `${__dirname}/photo.jpg`);
     expect(res.body.errors).not.toBeUndefined();
   });
 
