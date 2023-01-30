@@ -14,9 +14,6 @@ env:
 jobs:
   server_deployment_pipeline:
     runs-on: ubuntu-20.04
-    defaults:
-      run:
-        working-directory: ./server
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
@@ -25,6 +22,10 @@ jobs:
         with:
           node-version: "16"
       - name: npm install
-        run: npm install
+        run: |
+          cd server
+          npm install
       - name: test
-        run: npm test
+        run: |
+          cd server
+          npm test

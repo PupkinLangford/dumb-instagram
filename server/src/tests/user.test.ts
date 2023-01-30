@@ -352,7 +352,7 @@ describe('user mutations', () => {
       .set('Authorization', token)
       .field('operations', JSON.stringify(mutationChangeProfilePic()))
       .field('map', JSON.stringify({photo: ['variables.picture']}))
-      .attach('picture', `${__dirname}/photo.jpg`);
+      .attach('picture', path.join(__dirname, 'photo.jpg'));
     expect(res.body.errors).toBeUndefined();
     expect(res.body.data.changeProfilePic).toBe(true);
   });
