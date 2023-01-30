@@ -12,6 +12,8 @@ env:
   FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
   DB_URI_TEST: ${{ secrets.DB_URI_TEST }}
   JWT_SECRET: ${{ secrets.JWT_SECRET }}
+  NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+  NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 jobs:
   server_deployment_pipeline:
     runs-on: ubuntu-20.04
@@ -21,7 +23,6 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - uses: actions/checkout@v3
       - uses: superfly/flyctl-actions/setup-flyctl@master
         with:
           node-version: "16"
@@ -30,5 +31,24 @@ jobs:
       - name: test
         run: npm test
       - name: flyio deployment
-        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip')}}
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skipserver')}}
         run: flyctl deploy --remote-only
+  web_deployment_pipeline:
+    if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skipweb')}}
+    needs: [server_deployment_pipeline]
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./web
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - name: npm install
+        run: npm install
+      - name: build
+        run: npm run build
+      - name: deploy to netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: "./web/build"
+          production-deploy: true
