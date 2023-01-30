@@ -3,7 +3,8 @@ name: Deployment Pipeline
 on:
   push:
     branches:
-      - [master, webdeploy]
+      - master
+      - webdeploy
   pull_request:
     branches: [master]
     types: [opened, synchronize]
