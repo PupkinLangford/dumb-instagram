@@ -51,5 +51,5 @@ jobs:
       - name: deploy to netlify
         uses: nwtgck/actions-netlify@v1.2
         with:
-          publish-dir: "./build"
+          publish-dir: "./web/build"
           production-deploy: true
