@@ -1,0 +1,30 @@
+name: Deployment Pipeline
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches: [master, cicd]
+    types: [opened, synchronize]
+
+env:
+  DB_URI_TEST: ${{ secrets.DB_URI_TEST }}
+  JWT_SECRET: ${{ secrets.JWT_SECRET }}
+jobs:
+  server_deployment_pipeline:
+    runs-on: ubuntu-20.04
+    defaults:
+      run:
+        working-directory: ./server
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v3
+      - uses: superfly/flyctl-actions/setup-flyctl@master
+        with:
+          node-version: "16"
+      - name: npm install
+        run: npm install
+      - name: test
+        run: npm test
