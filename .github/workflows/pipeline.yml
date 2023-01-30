@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - webdeploy
   pull_request:
     branches: [master]
     types: [opened, synchronize]
@@ -32,10 +31,10 @@ jobs:
       - name: test
         run: npm test
       - name: flyio deployment
-        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip')}}
+        if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skipserver')}}
         run: flyctl deploy --remote-only
   web_deployment_pipeline:
-    if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skip')}}
+    if: ${{ github.event_name == 'push' && !contains(join(toJson(github.event.commits.*.message)), '#skipweb')}}
     needs: [server_deployment_pipeline]
     runs-on: ubuntu-20.04
     defaults:
