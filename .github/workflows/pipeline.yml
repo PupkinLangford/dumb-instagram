@@ -44,12 +44,12 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3
-      - name: deploy to netlify
-      - uses: nwtgck/actions-netlify@v1.2
-        with:
-          publish-dir: "./build"
-          production-deploy: true
       - name: npm install
         run: npm install
       - name: build
         run: npm build
+      - name: deploy to netlify
+        uses: nwtgck/actions-netlify@v1.2
+        with:
+          publish-dir: "./build"
+          production-deploy: true
