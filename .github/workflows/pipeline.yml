@@ -25,7 +25,10 @@ jobs:
         with:
           node-version: "16"
       - name: npm install
-        run: npm install
+        run: |
+          npm install
+          cd build/src/tests
+          ls
       - name: test
         run: |
           pwd
