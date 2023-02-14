@@ -14,10 +14,8 @@ const Nav = () => {
   const [showDropdown, setShowDropdown] = useState(false);
   const [search, setSearch] = useState('');
   const history = useHistory();
-  const [
-    getResults,
-    {loading: searchQueryLoading, data: searchQueryData},
-  ] = useLazyQuery(query_search_users);
+  const [getResults, {loading: searchQueryLoading, data: searchQueryData}] =
+    useLazyQuery(query_search_users);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.name === 'search') {
